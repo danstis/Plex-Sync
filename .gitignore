@@ -20,12 +20,6 @@ _cgo_export.*
 
 _testmain.go
 
-# Revel related
-test-results/
-tmp/
-routes/
-/conf/app.conf
-
 *.exe
 *.test
 *.prof
