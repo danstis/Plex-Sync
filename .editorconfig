@@ -6,7 +6,7 @@ tab_width = 4
 charset = utf-8
 end_of_line = lf
 
-[*.yml]
+[*.yml;*.toml]
 indent_size = 2
 indent_style = space
 trim_trailing_whitespace = true

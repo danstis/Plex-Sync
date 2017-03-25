@@ -1,4 +1,9 @@
-[myplex]
-token = ""
-username = ""
-password = ""
+[localServer]
+name = "localhost"
+hostname = "Local Plex"
+port = "32400"
+
+[remoteServer]
+name = ""
+hostname = ""
+port = ""
