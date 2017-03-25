@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"testing"
 )
@@ -63,8 +64,10 @@ func TestTokenGeneration(t *testing.T) {
 	// Cleanup the temporary token file.
 	f, err := os.Open(tokenFile)
 	if err != nil {
-		t.Fatal("Unable to remove test token file.")
+		log.Println(err)
 	}
 	f.Close()
-	os.Remove(f.Name())
+	if err := os.Remove(f.Name()); err != nil {
+		log.Printf("Error removing file: %s", err)
+	}
 }

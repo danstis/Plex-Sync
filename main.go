@@ -57,6 +57,7 @@ func token(pr prompter) string {
 			log.Fatalln("Error: Unable to create token file.")
 		}
 		f.WriteString(token)
+		f.Close()
 		return token
 	}
 	log.Println("Using cached token.")
