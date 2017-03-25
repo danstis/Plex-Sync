@@ -1,9 +1,9 @@
 language: go
 matrix:
   include:
-  - go: 1.6
-  - go: 1.7
-  - go: 1.8
+  - go: 1.6.x
+  - go: 1.7.x
+  - go: 1.8.x
 script:
 - go test -race -coverprofile=coverage.txt -covermode=atomic
 - go build main.go
@@ -24,5 +24,5 @@ deploy:
   skip_cleanup: true
   on:
     repo: danstis/Plex-Sync
-    condition: $TRAVIS_GO_VERSION =~ ^1\.8\.[0-9]+$
+    condition: $TRAVIS_GO_VERSION =~ ^1\.8(\.*)?$
     tags: true
