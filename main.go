@@ -20,13 +20,18 @@ type credentials struct {
 	password string
 }
 
+type prompter interface {
+	promptCreds() credentials
+}
+
 var (
 	tokenFile = "token"
 )
 
 func main() {
 
-	token := token()
+	cp := credPrompter{}
+	token := token(cp)
 	log.Printf("Token = %s", token)
 
 	viper.SetConfigName("config")
@@ -38,12 +43,12 @@ func main() {
 	viper.GetString("myplex.token")
 }
 
-func token() string {
+func token(pr prompter) string {
 	token, err := ioutil.ReadFile(tokenFile)
 	if err != nil {
 		// File does not exist. Get credentials and write token to file.
 		log.Println("Cached token does not exist, prompt user for MyPlex credentials.")
-		myplex := promptCreds() // Get the user credentials.
+		myplex := pr.promptCreds() // Get the user credentials.
 		log.Printf("User: %s, Pass: %s", myplex.username, myplex.password)
 		token := "token"
 		// Write token to file.
@@ -58,7 +63,9 @@ func token() string {
 	return string(token)
 }
 
-func promptCreds() credentials {
+type credPrompter struct{}
+
+func (cp credPrompter) promptCreds() credentials {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter your MyPlex Username: ")
 	user, _ := reader.ReadString('\n')
