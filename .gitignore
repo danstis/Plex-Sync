@@ -27,3 +27,5 @@ _testmain.go
 ## Other
 /debug
 /.vscode
+/config/config.toml
+/token
