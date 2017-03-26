@@ -11,8 +11,15 @@ type fakeCredPrompter struct {
 	password string
 }
 
+type fakeTokenRequester struct {
+}
+
 func (fcp fakeCredPrompter) promptCreds() credentials {
 	return credentials{username: fcp.username, password: fcp.password}
+}
+
+func (ftr fakeTokenRequester) tokenRequest(cred credentials) string {
+	return "token"
 }
 
 func TestTokenFileRead(t *testing.T) {
@@ -34,8 +41,11 @@ func TestTokenFileRead(t *testing.T) {
 		password: "TestPass",
 	}
 
+	// Fake the token request.
+	ft := fakeTokenRequester{}
+
 	// Check if the token function returns the value from the test token file.
-	if token(fc) != "testtoken" {
+	if token(fc, ft) != "testtoken" {
 		t.Error("Tokenfile does not contain 'testtoken'")
 	}
 
@@ -56,8 +66,11 @@ func TestTokenGeneration(t *testing.T) {
 		password: "TestPass",
 	}
 
+	// Fake the token request.
+	ft := fakeTokenRequester{}
+
 	// Check if the token function returns the value from the test token file.
-	if token(fc) != "token" {
+	if token(fc, ft) != "token" {
 		t.Error("Generated token does not contain 'token'")
 	}
 
