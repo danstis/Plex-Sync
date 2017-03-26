@@ -6,10 +6,14 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Version contains the version of the app.
+const Version = "0.0.1"
+
 func main() {
 
 	cp := credPrompter{}
-	token := token(cp)
+	r := tokenRequester{}
+	token := token(cp, r)
 	log.Printf("Token = %s", token)
 
 	viper.SetConfigName("config")
