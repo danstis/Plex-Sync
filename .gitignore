@@ -29,3 +29,4 @@ _testmain.go
 /.vscode
 /config/config.toml
 /token
+/exec.ps1
