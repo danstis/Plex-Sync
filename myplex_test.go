@@ -28,16 +28,6 @@ func (ftr fakeTokenRequester) tokenRequest(cred credentials) string {
 	}
 }
 
-// Test the failure to create a token file.
-func TestInvalidTokenFile(t *testing.T) {
-	// Replace the tokenfile path for the duration of this test.
-	oldtokenfile := tokenFile
-	tokenFile = "zzz:/invalidPath/tokenfile"
-	defer func() { tokenFile = oldtokenfile }()
-
-	// TODO: Test the os create file failure.
-}
-
 // Test reading of the token from a temporary token file.
 func TestTokenFileRead(t *testing.T) {
 	// Replace the tokenfile path for the duration of this test.
