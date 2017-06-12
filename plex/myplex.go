@@ -1,4 +1,4 @@
-package main
+package plex
 
 import (
 	"bufio"
@@ -33,7 +33,8 @@ var (
 	tokenFile = "token"
 )
 
-func token(pr prompter, r requester) string {
+// Token requests a MyPlex authentication token from cache or from MyPlex.
+func Token(pr prompter, r requester) string {
 	token, err := ioutil.ReadFile(tokenFile)
 	if err != nil {
 		// File does not exist. Get credentials and write token to file.
@@ -53,9 +54,10 @@ func token(pr prompter, r requester) string {
 	return string(token)
 }
 
-type credPrompter struct{}
+// CredPrompter is an interface enabling the prompting of credentials
+type CredPrompter struct{}
 
-func (cp credPrompter) promptCreds() credentials {
+func (cp CredPrompter) promptCreds() credentials {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter your MyPlex Username: ")
 	user, _ := reader.ReadString('\n')
@@ -68,9 +70,10 @@ func (cp credPrompter) promptCreds() credentials {
 	return credentials{username: strings.TrimSpace(user), password: strings.TrimSpace(pass)}
 }
 
-type tokenRequester struct{}
+// TokenRequester is an interace to enable the token request to the MyPlex servers
+type TokenRequester struct{}
 
-func (tr tokenRequester) tokenRequest(cred credentials) string {
+func (tr TokenRequester) tokenRequest(cred credentials) string {
 	type XMLUser struct {
 		Email               string `xml:"email"`
 		Username            string `xml:"username"`
