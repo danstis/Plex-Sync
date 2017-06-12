@@ -3,17 +3,15 @@ package main
 import (
 	"log"
 
+	"github.com/danstis/Plex-Sync/plex"
 	"github.com/spf13/viper"
 )
 
-// Version contains the version of the app.
-const Version = "0.0.1"
-
 func main() {
 
-	cp := credPrompter{}
-	r := tokenRequester{}
-	token := token(cp, r)
+	cp := plex.CredPrompter{}
+	r := plex.TokenRequester{}
+	token := plex.Token(cp, r)
 	log.Printf("Token = %s", token)
 
 	viper.SetConfigName("config")
@@ -22,5 +20,17 @@ func main() {
 	if err != nil {
 		log.Println("No configuration file loaded - using defaults")
 	}
-	viper.GetString("myplex.token")
+	localserver := localserver{
+		name:     viper.GetString("localServer.name"),
+		hostname: viper.GetString("localServer.hostname"),
+		port:     viper.GetInt("localServer.port"),
+	}
+
+	log.Println("Local server details:", localserver)
+}
+
+type localserver struct {
+	name     string
+	hostname string
+	port     int
 }
