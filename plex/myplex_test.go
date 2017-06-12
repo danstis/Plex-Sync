@@ -52,7 +52,7 @@ func TestTokenFileRead(t *testing.T) {
 	ft := fakeTokenRequester{}
 
 	// Check if the token function returns the value from the test token file.
-	if token(fc, ft) != "ValidToken" {
+	if Token(fc, ft) != "ValidToken" {
 		t.Error("Tokenfile does not contain 'ValidToken'")
 	}
 
@@ -78,7 +78,7 @@ func TestTokenGeneration(t *testing.T) {
 	ft := fakeTokenRequester{}
 
 	// Check if the token function returns the value from the test token file.
-	if token(fc, ft) != "ValidToken" {
+	if Token(fc, ft) != "ValidToken" {
 		t.Error("Generated token does not contain 'ValidToken'")
 	}
 
