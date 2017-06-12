@@ -26,7 +26,7 @@ type prompter interface {
 }
 
 type requester interface {
-	tokenRequest(cred credentials) string
+	tokenRequest(cred credentials) (string, error)
 }
 
 var (
@@ -34,24 +34,27 @@ var (
 )
 
 // Token requests a MyPlex authentication token from cache or from MyPlex.
-func Token(pr prompter, r requester) string {
+func Token(pr prompter, r requester) (string, error) {
 	token, err := ioutil.ReadFile(tokenFile)
 	if err != nil {
 		// File does not exist. Get credentials and write token to file.
 		log.Println("Cached token does not exist, prompt user for MyPlex credentials.")
 		myplex := pr.promptCreds() // Get the user credentials.
-		token := r.tokenRequest(myplex)
+		token, err := r.tokenRequest(myplex)
+		if err != nil {
+			return "", fmt.Errorf("error getting token: %v", err)
+		}
 		// Write token to file.
 		f, err := os.Create(tokenFile)
 		if err != nil {
-			log.Fatalln("Error: Unable to create token file.")
+			return "", fmt.Errorf("unable to create token file")
 		}
 		f.WriteString(token)
 		f.Close()
-		return token
+		return token, nil
 	}
 	log.Println("Using cached token.")
-	return string(token)
+	return string(token), nil
 }
 
 // CredPrompter is an interface enabling the prompting of credentials
@@ -73,7 +76,7 @@ func (cp CredPrompter) promptCreds() credentials {
 // TokenRequester is an interace to enable the token request to the MyPlex servers
 type TokenRequester struct{}
 
-func (tr TokenRequester) tokenRequest(cred credentials) string {
+func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
 	type XMLUser struct {
 		Email               string `xml:"email"`
 		Username            string `xml:"username"`
@@ -86,7 +89,7 @@ func (tr TokenRequester) tokenRequest(cred credentials) string {
 	// Create a new reqest object.
 	req, err := http.NewRequest("POST", uri, nil)
 	if err != nil {
-		log.Fatal("NewRequest: ", err)
+		return "", fmt.Errorf("failed to create new request")
 	}
 	// Configure the authentication and headers of the request.
 	req.SetBasicAuth(cred.username, cred.password)
@@ -103,9 +106,13 @@ func (tr TokenRequester) tokenRequest(cred credentials) string {
 	log.Println("Requesting token from MyPlex servers.")
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal("Do: ", err)
+		return "", fmt.Errorf("failed request to MyPlex servers")
 	}
 	defer resp.Body.Close() // Close the connection once reading is complete.
+
+	if resp.StatusCode == http.StatusUnauthorized {
+		return "", fmt.Errorf(string(http.StatusUnauthorized))
+	}
 
 	var record XMLUser
 
@@ -120,5 +127,5 @@ func (tr TokenRequester) tokenRequest(cred credentials) string {
 	}
 	log.Println("Token received.")
 
-	return record.AuthenticationToken
+	return record.AuthenticationToken, nil
 }

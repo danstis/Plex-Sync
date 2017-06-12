@@ -11,12 +11,15 @@ func main() {
 
 	cp := plex.CredPrompter{}
 	r := plex.TokenRequester{}
-	token := plex.Token(cp, r)
+	token, err := plex.Token(cp, r)
+	if err != nil {
+		log.Printf("Error: %v", err)
+	}
 	log.Printf("Token = %s", token)
 
 	viper.SetConfigName("config")
 	viper.AddConfigPath("./config")
-	err := viper.ReadInConfig()
+	err = viper.ReadInConfig()
 	if err != nil {
 		log.Println("No configuration file loaded - using defaults")
 	}
