@@ -1,6 +1,7 @@
 package plex
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"testing"
@@ -18,14 +19,24 @@ func (fcp fakeCredPrompter) promptCreds() credentials {
 	return credentials{username: fcp.username, password: fcp.password}
 }
 
-func (ftr fakeTokenRequester) tokenRequest(cred credentials) string {
+func (ftr fakeTokenRequester) tokenRequest(cred credentials) (string, error) {
 	if cred.username == "ValidUser" {
-		return "ValidToken"
+		return "ValidToken", nil
 	} else if cred.username == "BadUser" {
-		return "BadToken"
+		return "BadToken", fmt.Errorf("badtoken")
 	} else {
-		return "token"
+		return "", fmt.Errorf("unknown")
 	}
+}
+
+// Test the failure to create a token file.
+func TestInvalidTokenFile(t *testing.T) {
+	// Replace the tokenfile path for the duration of this test.
+	oldtokenfile := tokenFile
+	tokenFile = "zzz:/invalidPath/tokenfile"
+	defer func() { tokenFile = oldtokenfile }()
+
+	// TODO: Test the os create file failure.
 }
 
 // Test reading of the token from a temporary token file.
@@ -52,7 +63,8 @@ func TestTokenFileRead(t *testing.T) {
 	ft := fakeTokenRequester{}
 
 	// Check if the token function returns the value from the test token file.
-	if token(fc, ft) != "ValidToken" {
+	token, _ := Token(fc, ft)
+	if token != "ValidToken" {
 		t.Error("Tokenfile does not contain 'ValidToken'")
 	}
 
@@ -78,7 +90,8 @@ func TestTokenGeneration(t *testing.T) {
 	ft := fakeTokenRequester{}
 
 	// Check if the token function returns the value from the test token file.
-	if token(fc, ft) != "ValidToken" {
+	token, _ := Token(fc, ft)
+	if token != "ValidToken" {
 		t.Error("Generated token does not contain 'ValidToken'")
 	}
 
@@ -93,7 +106,27 @@ func TestTokenGeneration(t *testing.T) {
 	}
 }
 
-// TODO: Add test for invalid username/password.
+// Test for invalid username/password.
+func TestInvalidCredentials(t *testing.T) {
+	// Replace the tokenfile path for the duration of this test.
+	oldtokenfile := tokenFile
+	tokenFile = "testTokenFile"
+	defer func() { tokenFile = oldtokenfile }()
+
+	// Fake the credentials returned.
+	fc := fakeCredPrompter{
+		username: "Invalid",
+		password: "Invalid",
+	}
+
+	tr := TokenRequester{}
+
+	// Check if the token function returns the value from the test token file.
+	_, err := Token(fc, tr)
+	if err == nil {
+		t.Error("Invalid credentials did not cause error")
+	}
+}
 
 // TODO: Add test for blank token from token file.
 
