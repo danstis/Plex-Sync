@@ -77,17 +77,14 @@ func (cp CredPrompter) promptCreds() credentials {
 type TokenRequester struct{}
 
 func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
-	type XMLUser struct {
+	type xmlUser struct {
 		Email               string `xml:"email"`
 		Username            string `xml:"username"`
 		AuthenticationToken string `xml:"authentication-token"`
 	}
 
-	// The MyPlex API URL for performing signin.
-	uri := "https://plex.tv/users/sign_in.xml"
-
 	// Create a new reqest object.
-	req, err := http.NewRequest("POST", uri, nil)
+	req, err := http.NewRequest("POST", "https://plex.tv/users/sign_in.xml", nil)
 	if err != nil {
 		return "", fmt.Errorf("failed to create new request")
 	}
@@ -108,22 +105,21 @@ func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed request to MyPlex servers")
 	}
-	defer resp.Body.Close() // Close the connection once reading is complete.
+	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusUnauthorized {
 		return "", fmt.Errorf(string(http.StatusUnauthorized))
 	}
 
-	var record XMLUser
+	var record xmlUser
 
-	if body, readerr := ioutil.ReadAll(resp.Body); readerr == nil {
-		//load object xml
-		if xmlerr := xml.Unmarshal(body, &record); xmlerr != nil {
-			log.Println(xmlerr)
-		}
-	} else {
-		//return read error
-		log.Println(readerr)
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("error reading response: %v", err)
+	}
+	err = xml.Unmarshal(body, &record)
+	if err != nil {
+		return "", fmt.Errorf("error parsing xml response: %v", err)
 	}
 	log.Println("Token received.")
 
