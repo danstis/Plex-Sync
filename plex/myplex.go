@@ -57,7 +57,7 @@ func Token(pr prompter, r requester) (string, error) {
 	return string(token), nil
 }
 
-// CredPrompter is an interface enabling the prompting of credentials
+// CredPrompter is the method reciever for promptCreds
 type CredPrompter struct{}
 
 func (cp CredPrompter) promptCreds() credentials {
@@ -73,7 +73,7 @@ func (cp CredPrompter) promptCreds() credentials {
 	return credentials{username: strings.TrimSpace(user), password: strings.TrimSpace(pass)}
 }
 
-// TokenRequester is an interace to enable the token request to the MyPlex servers
+// TokenRequester is the method reciever for tokenRequest
 type TokenRequester struct{}
 
 func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
