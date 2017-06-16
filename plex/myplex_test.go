@@ -36,7 +36,20 @@ func TestInvalidTokenFile(t *testing.T) {
 	tokenFile = "zzz:/invalidPath/tokenfile"
 	defer func() { tokenFile = oldtokenfile }()
 
-	// TODO: Test the os create file failure.
+	// Fake the credentials returned.
+	fc := fakeCredPrompter{
+		username: "TestUser",
+		password: "TestPass",
+	}
+
+	// Fake the token request.
+	ft := fakeTokenRequester{}
+
+	// Check if the token function returns the value from the test token file.
+	_, err := Token(fc, ft)
+	if err == nil {
+		t.Error("Was able to create invalid token file")
+	}
 }
 
 // Test reading of the token from a temporary token file.
