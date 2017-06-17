@@ -5,14 +5,12 @@ matrix:
   - go: 1.7.x
   - go: 1.8.x
 script:
-- npm install -g codeclimate-test-reporter
 - go test -race -coverprofile=coverage.txt -covermode=atomic
 - go build
 - GOOS=windows GOARCH=386 go build
 - ls .
 after_success:
 - bash <(curl -s https://codecov.io/bash)
-- CODECLIMATE_API_HOST=https://codebeat.co/webhooks/code_coverage codeclimate-test-reporter < coverage.txt
 notifications:
   slack:
     secure: Pb8gB6Pgch3WFxxEHnDcGznqe5rumfrC+3VjVNLU0tf00HmKuO/GfBCyxj47ZEnK+3nn5gsXxAQFMN1z65rIZJUJ+zI9i98BJpnIOFNFScm9q03H2/qzadwgMY2gWQhE+uHOjQU5kSnZMFrUJQlaNKB+yDeb0whKlCyd/ibRzSY3qwNqDVdhuXag4IwzMoFaBDY/Qznx/vRjOyLifEAOVlv96x+KkjVuU4Lj1D/s+SuxdhARo7rBZ6tw+6nTAI0t8wYweK3Q2pgXOpHpiNL0pjFgY4R8H2E1g81dfwV7jhDcwxPc3X3HrmzglNl4nXD3xnhCb3zxDBubre1H0f85BNJM5WIibNufOs6xOqTVhoMF5FgLdCzsTUddT1nCASABBLvKeEZ8ZO+FA1vPNju9V9fJsZGxm0DjCoS/HPtl+AkXijPLEUArM7EOp4DdypZiYKtPbPCLq8likT7/DA2aA0wHRosByrRAkLKqqUlIexunHEPOsMbp11NmpMeaAg625LcGpmoJCWf3TnZeF2dM0WyZ4Jk05FIa3IUh/qzPf+z47LbirBWn4IacbrYuYLhX0kf7HXv/gc9+dVm9mV1EnNXv53ldnT3zXQe/3ktN7M2IigBD38Dlu9FG81O63qV0HY1WK30cBlAZ/GhulcrUB30GFoiXCt7w3hYxAiuMcQQ=
