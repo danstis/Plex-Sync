@@ -1,6 +1,6 @@
 [localServer]
-name = "localhost"
-hostname = "Local Plex"
+name = "Local Plex"
+hostname = "localhost"
 port = "32400"
 
 [remoteServer]
