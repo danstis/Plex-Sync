@@ -90,11 +90,7 @@ func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
 	}
 	// Configure the authentication and headers of the request.
 	req.SetBasicAuth(cred.username, cred.password)
-	req.Header.Add("X-Plex-Client-Identifier", "0bc797da-2ddd-4ce5-946e-5b13e48f17bb")
-	req.Header.Add("X-Plex-Product", "Plex-Sync")
-	req.Header.Add("X-Plex-Device", "Plex-Sync")
-	req.Header.Add("X-Plex-Version", Version)
-	req.Header.Add("X-Plex-Provides", "controller")
+	addHeaders(*req)
 
 	// Create the HTTP Client
 	client := &http.Client{}
@@ -124,4 +120,67 @@ func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
 	log.Println("Token received.")
 
 	return record.AuthenticationToken, nil
+}
+
+func addHeaders(r http.Request) {
+	r.Header.Add("X-Plex-Client-Identifier", "0bc797da-2ddd-4ce5-946e-5b13e48f17bb")
+	r.Header.Add("X-Plex-Product", "Plex-Sync")
+	r.Header.Add("X-Plex-Device", "Plex-Sync")
+	r.Header.Add("X-Plex-Version", Version)
+	r.Header.Add("X-Plex-Provides", "controller")
+}
+
+// ServerAccessToken requests the AccessToken from MyPlex for the named server
+func ServerAccessToken(t string, name string) (string, error) {
+	// Create a new reqest object.
+	req, err := http.NewRequest("GET", "https://plex.tv/pms/servers.xml?X-Plex-Token="+t, nil)
+	if err != nil {
+		return "", fmt.Errorf("failed to create new request, %v", err)
+	}
+
+	addHeaders(*req)
+
+	// Create the HTTP Client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("failed request to MyPlex servers, %v", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf(string(resp.Status))
+	}
+
+	var record plexServer
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("error reading response: %v", err)
+	}
+	err = xml.Unmarshal(body, &record)
+	if err != nil {
+		return "", fmt.Errorf("error parsing xml response: %v", err)
+	}
+	for _, x := range record.Server {
+		if x.Name == name {
+			return x.AccessToken, nil
+		}
+	}
+	return "", fmt.Errorf("no server found matching name %q", name)
+}
+
+type plexServer struct {
+	Server []struct {
+		AccessToken    string `xml:"accessToken,attr"`
+		Name           string `xml:"name,attr"`
+		Address        string `xml:"address,attr"`
+		Port           string `xml:"port,attr"`
+		Version        string `xml:"version,attr"`
+		Scheme         string `xml:"scheme,attr"`
+		Host           string `xml:"host,attr"`
+		LocalAddresses string `xml:"localAddresses,attr"`
+		Owned          string `xml:"owned,attr"`
+		Synced         string `xml:"synced,attr"`
+	}
 }
