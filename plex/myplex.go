@@ -58,7 +58,7 @@ func Token(pr prompter, r requester) (string, error) {
 	return string(token), nil
 }
 
-// CredPrompter is the method reciever for promptCreds
+// CredPrompter is the method receiver for promptCreds
 type CredPrompter struct{}
 
 func (cp CredPrompter) promptCreds() credentials {
@@ -74,7 +74,7 @@ func (cp CredPrompter) promptCreds() credentials {
 	return credentials{username: strings.TrimSpace(user), password: strings.TrimSpace(pass)}
 }
 
-// TokenRequester is the method reciever for tokenRequest
+// TokenRequester is the method receiver for tokenRequest
 type TokenRequester struct{}
 
 func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
