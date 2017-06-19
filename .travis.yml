@@ -10,6 +10,7 @@ matrix:
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
+  - go get github.com/axw/gocov/gocov
 script:
   - go test -race -coverprofile=coverage.txt -covermode=atomic
   - go build
