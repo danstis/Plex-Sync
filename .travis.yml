@@ -13,7 +13,7 @@ before_script:
 - chmod +x ./cc-test-reporter
 - go get github.com/axw/gocov/gocov
 script:
-- go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+- go test -race -cover -covermode=atomic ./...
 - go build
 - GOOS=windows GOARCH=386 go build
 - ls .
