@@ -1,16 +1,26 @@
+env:
+  global:
+  - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct;else git log -1 --skip 1 --pretty=format:%ct; fi)
+  - secure: pcAAEHf8P0zuLY8OUI8YJYYgJmWsCaO9uEBny+Mj+ReyAzzx/64KbA3F5i7YtHEnxHuoBJ7+ZGszesw9R3BV9HsCWBCis0hbcljhMojkY4Y3eyxPVhaO/cWa+uhykusOcbGqawqLALgSGcVFYccJW2WzXGTy5yWScc/boAb9g0LiQO+Ejy6jovvDBiJPAKcCxW7tVW8de11iVH4zYmisAAU25BIHvqP8hA1GcD0uROCPKPbQrrV91cnJ3/iG4uYYDZ+D2AzFFd2WelP6WVHPYYBJO4LgIvAJChehI4SbyY63FhsC3shEkzTKmre/xjov2JOo+lcNvmSOGSs5NowyJ6aJaVTD5gvHEoMnIsdjd5socuKRoYcv5h7bS1DRHWyFDx4YbTEpN5u7xtresvPaQ6F2BUuYPi2V8hOesAOyKUUjPR7zYjlZHDhghZxiPFLmLKU546suJihm+dBr1/93NSKZQSufWVdQXdBvORFEUHmIr4mqO2yjRHcLBMpT5hnNXBIEFlOB/s4+gFHhI91crlr1xiXlq6aAjcKEOXDXEcjLA7NiOERz3jVh8vabC+tjb6ma8bSIhPINqwtqhfteXHGO8jtQbIDjljWORQbN04mGbakpM3pAxZFYjIZl6PPpTtKT19IHFEDfhfTIkzOk3AJQurW6mj4PVRn5QcQnN38=
 language: go
 matrix:
   include:
   - go: 1.6.x
   - go: 1.7.x
   - go: 1.8.x
+before_script:
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- chmod +x ./gotest.sh
+- go get github.com/axw/gocov/gocov
 script:
-- go test -race -coverprofile=coverage.txt -covermode=atomic
-- go build
+- ./gotest.sh
+- go build -race
 - GOOS=windows GOARCH=386 go build
 - ls .
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 notifications:
   slack:
     secure: Pb8gB6Pgch3WFxxEHnDcGznqe5rumfrC+3VjVNLU0tf00HmKuO/GfBCyxj47ZEnK+3nn5gsXxAQFMN1z65rIZJUJ+zI9i98BJpnIOFNFScm9q03H2/qzadwgMY2gWQhE+uHOjQU5kSnZMFrUJQlaNKB+yDeb0whKlCyd/ibRzSY3qwNqDVdhuXag4IwzMoFaBDY/Qznx/vRjOyLifEAOVlv96x+KkjVuU4Lj1D/s+SuxdhARo7rBZ6tw+6nTAI0t8wYweK3Q2pgXOpHpiNL0pjFgY4R8H2E1g81dfwV7jhDcwxPc3X3HrmzglNl4nXD3xnhCb3zxDBubre1H0f85BNJM5WIibNufOs6xOqTVhoMF5FgLdCzsTUddT1nCASABBLvKeEZ8ZO+FA1vPNju9V9fJsZGxm0DjCoS/HPtl+AkXijPLEUArM7EOp4DdypZiYKtPbPCLq8likT7/DA2aA0wHRosByrRAkLKqqUlIexunHEPOsMbp11NmpMeaAg625LcGpmoJCWf3TnZeF2dM0WyZ4Jk05FIa3IUh/qzPf+z47LbirBWn4IacbrYuYLhX0kf7HXv/gc9+dVm9mV1EnNXv53ldnT3zXQe/3ktN7M2IigBD38Dlu9FG81O63qV0HY1WK30cBlAZ/GhulcrUB30GFoiXCt7w3hYxAiuMcQQ=
@@ -23,5 +33,5 @@ deploy:
   skip_cleanup: true
   on:
     repo: danstis/Plex-Sync
-    condition: $TRAVIS_GO_VERSION =~ ^1\.8(\.*)?$
+    condition: "$TRAVIS_GO_VERSION =~ ^1\\.8(\\.*)?$"
     tags: true
