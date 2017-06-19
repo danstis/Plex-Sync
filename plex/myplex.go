@@ -3,6 +3,7 @@ package plex
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -131,25 +132,13 @@ func addHeaders(r http.Request) {
 }
 
 // ServerAccessToken requests the AccessToken from MyPlex for the named server
-func ServerAccessToken(t string, name string) (string, error) {
+func ServerAccessToken(t, name string) (string, error) {
 	// Create a new reqest object.
-	req, err := http.NewRequest("GET", "https://plex.tv/pms/servers.xml?X-Plex-Token="+t, nil)
-	if err != nil {
-		return "", fmt.Errorf("failed to create new request, %v", err)
-	}
-
-	addHeaders(*req)
-
-	// Create the HTTP Client
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return "", fmt.Errorf("failed request to MyPlex servers, %v", err)
-	}
+	resp, err := apiRequest("GET", "https://plex.tv/pms/servers.xml?X-Plex-Token="+t, nil)
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf(string(resp.Status))
+		return "", fmt.Errorf(resp.Status)
 	}
 
 	var record plexServer
@@ -183,4 +172,20 @@ type plexServer struct {
 		Owned          string `xml:"owned,attr"`
 		Synced         string `xml:"synced,attr"`
 	}
+}
+
+func apiRequest(method, url string, body io.Reader) (*http.Response, error) {
+	req, err := http.NewRequest(method, url, body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create new request, %v", err)
+	}
+	addHeaders(*req)
+
+	// Create the HTTP Client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed request to MyPlex servers, %v", err)
+	}
+	return resp, nil
 }
