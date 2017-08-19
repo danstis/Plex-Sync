@@ -198,6 +198,7 @@ func CreateURI(server PlexServer, path, token string) string {
 	return fmt.Sprintf("http://%v:%v/%v?X-Plex-Token=%v", server.hostname, server.port, path, token)
 }
 
+// PlexServer defines the data to be stored for server objects
 type PlexServer struct {
 	name     string
 	hostname string
