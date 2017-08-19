@@ -27,5 +27,5 @@ Describe the feature and how it should work in detail.
 
 What are the minimum requirements to close this issue?
 
-  * Item 1
-  * Item 2
+- Item 1
+- Item 2
