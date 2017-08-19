@@ -27,6 +27,8 @@ func main() {
 	http.Handle("/settings", r)
 	r.HandleFunc("/settings/token", tokenHandler)
 	http.Handle("/settings/token", r)
+	r.HandleFunc("/token/request", tokenRequestHandler)
+	http.Handle("/token/request", r)
 
 	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
 	go http.ListenAndServe(":80", loggedRouter)
@@ -76,5 +78,10 @@ func settingsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func tokenHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, path.Join("templates", "settings", "promptCredentials.html"))
+}
+
+func tokenRequestHandler(w http.ResponseWriter, r *http.Request) {
+	// request new token using credentials passed in form
 	http.ServeFile(w, r, path.Join("templates", "settings", "promptCredentials.html"))
 }
