@@ -191,9 +191,16 @@ func apiRequest(method, url string, body io.Reader) (*http.Response, error) {
 }
 
 // CreateURI assembles the URI for an API request
-func CreateURI(ssl bool, server, path, token string, port int) string {
-	if ssl {
-		return fmt.Sprintf("https://%v:%v/%v?X-Plex-Token=%v", server, port, path, token)
+func CreateURI(server PlexServer, path, token string) string {
+	if server.ssl {
+		return fmt.Sprintf("https://%v:%v/%v?X-Plex-Token=%v", server.hostname, server.port, path, token)
 	}
-	return fmt.Sprintf("http://%v:%v/%v?X-Plex-Token=%v", server, port, path, token)
+	return fmt.Sprintf("http://%v:%v/%v?X-Plex-Token=%v", server.hostname, server.port, path, token)
+}
+
+type PlexServer struct {
+	name     string
+	hostname string
+	port     int
+	ssl      bool
 }
