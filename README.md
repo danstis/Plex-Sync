@@ -29,6 +29,6 @@ To fix a bug or add an enhancement:
 
 ### Bug / Feature Request
 
-If you find a bug, or want this tool to do something that it currently does not, please raise an issue here.
+If you find a bug, or want this tool to do something that it currently does not, please raise an issue [here](https://github.com/danstis/Plex-Sync/issues).
 
 Please be detailed in the issue body.
