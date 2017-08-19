@@ -26,11 +26,13 @@ func main() {
 		name:     viper.GetString("localServer.name"),
 		hostname: viper.GetString("localServer.hostname"),
 		port:     viper.GetInt("localServer.port"),
+		ssl:      viper.GetBool("usessl"),
 	}
 	remoteServer := plexServer{
 		name:     viper.GetString("remoteServer.name"),
 		hostname: viper.GetString("remoteServer.hostname"),
 		port:     viper.GetInt("remoteServer.port"),
+		ssl:      viper.GetBool("usessl"),
 	}
 
 	log.Println("Local server details:", localServer)
@@ -47,4 +49,5 @@ type plexServer struct {
 	name     string
 	hostname string
 	port     int
+	ssl      bool
 }
