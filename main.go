@@ -20,9 +20,11 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", rootHandler)
-	s := http.StripPrefix("/", http.FileServer(http.Dir("./static/")))
-	r.PathPrefix("/").Handler(s)
+	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
+	r.PathPrefix("/static/").Handler(s)
 	http.Handle("/", r)
+	r.HandleFunc("/settings", settingsHandler)
+	http.Handle("/settings", r)
 	r.HandleFunc("/settings/token", tokenHandler)
 	http.Handle("/settings/token", r)
 
@@ -67,6 +69,10 @@ type localserver struct {
 // RootHandler returns the default page.
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, path.Join("templates", "index.html"))
+}
+
+func settingsHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, path.Join("templates", "settings", "settings.html"))
 }
 
 func tokenHandler(w http.ResponseWriter, r *http.Request) {
