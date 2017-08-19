@@ -22,23 +22,23 @@ func main() {
 	if err != nil {
 		log.Println("No configuration file loaded - using defaults")
 	}
-	localServer := plex.PlexServer{
-		name:     viper.GetString("localServer.name"),
-		hostname: viper.GetString("localServer.hostname"),
-		port:     viper.GetInt("localServer.port"),
-		ssl:      viper.GetBool("usessl"),
+	localServer := plex.Host{
+		Name:     viper.GetString("localServer.name"),
+		Hostname: viper.GetString("localServer.hostname"),
+		Port:     viper.GetInt("localServer.port"),
+		Ssl:      viper.GetBool("usessl"),
 	}
-	remoteServer := plex.PlexServer{
-		name:     viper.GetString("remoteServer.name"),
-		hostname: viper.GetString("remoteServer.hostname"),
-		port:     viper.GetInt("remoteServer.port"),
-		ssl:      viper.GetBool("usessl"),
+	remoteServer := plex.Host{
+		Name:     viper.GetString("remoteServer.name"),
+		Hostname: viper.GetString("remoteServer.hostname"),
+		Port:     viper.GetInt("remoteServer.port"),
+		Ssl:      viper.GetBool("usessl"),
 	}
 
 	log.Println("Local server details:", localServer)
 	log.Println("Remote server details:", remoteServer)
 
-	at, err := plex.ServerAccessToken(token, remoteServer.name)
+	at, err := plex.ServerAccessToken(token, remoteServer.Name)
 	if err != nil {
 		log.Printf("error getting access token %v", err)
 	}

@@ -141,7 +141,7 @@ func ServerAccessToken(t, name string) (string, error) {
 		return "", fmt.Errorf(resp.Status)
 	}
 
-	var record plexServer
+	var record myPlexServer
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -159,7 +159,7 @@ func ServerAccessToken(t, name string) (string, error) {
 	return "", fmt.Errorf("no server found matching name %q", name)
 }
 
-type plexServer struct {
+type myPlexServer struct {
 	Server []struct {
 		AccessToken    string `xml:"accessToken,attr"`
 		Name           string `xml:"name,attr"`
@@ -191,17 +191,17 @@ func apiRequest(method, url string, body io.Reader) (*http.Response, error) {
 }
 
 // CreateURI assembles the URI for an API request
-func CreateURI(server PlexServer, path, token string) string {
-	if server.ssl {
-		return fmt.Sprintf("https://%v:%v/%v?X-Plex-Token=%v", server.hostname, server.port, path, token)
+func CreateURI(server Host, path, token string) string {
+	if server.Ssl {
+		return fmt.Sprintf("https://%v:%v/%v?X-Plex-Token=%v", server.Hostname, server.Port, path, token)
 	}
-	return fmt.Sprintf("http://%v:%v/%v?X-Plex-Token=%v", server.hostname, server.port, path, token)
+	return fmt.Sprintf("http://%v:%v/%v?X-Plex-Token=%v", server.Hostname, server.Port, path, token)
 }
 
-// PlexServer defines the data to be stored for server objects
-type PlexServer struct {
-	name     string
-	hostname string
-	port     int
-	ssl      bool
+// Host defines the data to be stored for server objects
+type Host struct {
+	Name     string
+	Hostname string
+	Port     int
+	Ssl      bool
 }
