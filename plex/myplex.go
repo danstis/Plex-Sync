@@ -189,3 +189,11 @@ func apiRequest(method, url string, body io.Reader) (*http.Response, error) {
 	}
 	return resp, nil
 }
+
+// CreateURI assembles the URI for an API request
+func CreateURI(ssl bool, server, path, token string, port int) string {
+	if ssl {
+		return fmt.Sprintf("https://%v:%v/%v?X-Plex-Token=%v", server, port, path, token)
+	}
+	return fmt.Sprintf("http://%v:%v/%v?X-Plex-Token=%v", server, port, path, token)
+}
