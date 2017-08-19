@@ -20,8 +20,8 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", rootHandler)
-	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
-	r.PathPrefix("/static/").Handler(s)
+	s := http.StripPrefix("/", http.FileServer(http.Dir("./static/")))
+	r.PathPrefix("/").Handler(s)
 	http.Handle("/", r)
 	r.HandleFunc("/settings/token", tokenHandler)
 	http.Handle("/settings/token", r)
