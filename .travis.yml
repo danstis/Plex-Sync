@@ -9,8 +9,8 @@ matrix:
   - go: 1.7.x
   - go: 1.8.x
 before_script:
-- go get github.com/schrej/godacy
-- go get -u github.com/haya14busa/goverage
+- go get github.com/schrej/godacov
+- go get github.com/haya14busa/goverage
 script:
 - goverage -v -coverprofile=coverage.out ./...
 - go build -race
