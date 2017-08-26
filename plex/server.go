@@ -25,7 +25,7 @@ func CreateURI(server Host, path string) string {
 
 // Episodes returns all episodes for a given TV Show
 func Episodes(server Host, title string) (string, error) {
-	uri := CreateURI(server, "search?type=2&query="+title)
+	uri := CreateURI(server, fmt.Sprintf("search?type=2&query=%v", title))
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
 		return "", fmt.Errorf("Failed to get episodes for show %q from server %q", title, server.Name)
