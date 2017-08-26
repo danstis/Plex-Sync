@@ -14,7 +14,6 @@ func main() {
 	if err != nil {
 		log.Printf("Error: %v", err)
 	}
-	log.Printf("Token = %s", token)
 
 	viper.SetConfigName("config")
 	viper.AddConfigPath("./config")
@@ -37,9 +36,6 @@ func main() {
 
 	localServer.GetToken(token)
 	remoteServer.GetToken(token)
-
-	log.Println("Local server details:", localServer)
-	log.Println("Remote server details:", remoteServer)
 
 	output, err := plex.SearchShow(localServer, "Cops")
 	if err != nil {
