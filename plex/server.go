@@ -1,6 +1,7 @@
 package plex
 
 import (
+	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -24,21 +25,47 @@ func CreateURI(server Host, path string) string {
 }
 
 // Search returns all episodes for a given TV Show
-func Search(server Host, title string) (string, error) {
+func Search(server Host, title string) (Show, error) {
+
 	uri := CreateURI(server, fmt.Sprintf("search?type=2&query=%v", title))
+	// log.Printf("Performing REST request to %q", uri)
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
-		return "", fmt.Errorf("Failed to get episodes for show %q from server %q", title, server.Name)
+		return Show{}, fmt.Errorf("error getting episodes for show %q from server %q", title, server.Name)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("Failed with HTTP Response %q", resp.Status)
+		return Show{}, fmt.Errorf("unexpected HTTP Response %q", resp.Status)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("Failed to read body content")
+		return Show{}, fmt.Errorf("error reading response %v", err)
 	}
 
-	return string(body), nil
+	results := SR{}
+
+	err = xml.Unmarshal(body, &results)
+	if err != nil {
+		return Show{}, fmt.Errorf("error parsing xml response: %v", err)
+	}
+	for _, x := range results.Directories {
+		if x.Name == title {
+			return x, nil
+		}
+	}
+	return Show{}, fmt.Errorf("no show found matching name %q", title)
+}
+
+//SR contains search results
+type SR struct {
+	XMLName     xml.Name `xml:"MediaContainer"`
+	Directories []Show   `xml:"Directory"`
+}
+
+//Show defines the structure of a Plex TV Show
+type Show struct {
+	ID           int    `xml:"ratingKey,attr"`
+	Name         string `xml:"title,attr"`
+	EpisodeCount int    `xml:"leafCount,attr"`
 }
