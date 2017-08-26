@@ -41,4 +41,10 @@ func main() {
 	log.Println("Local server details:", localServer)
 	log.Println("Remote server details:", remoteServer)
 
+	output, err := plex.Episodes(localServer, "Cops")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println(output)
 }
