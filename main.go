@@ -26,13 +26,13 @@ func main() {
 		Name:     viper.GetString("localServer.name"),
 		Hostname: viper.GetString("localServer.hostname"),
 		Port:     viper.GetInt("localServer.port"),
-		Ssl:      viper.GetBool("usessl"),
+		Ssl:      viper.GetBool("localServer.usessl"),
 	}
 	remoteServer := plex.Host{
 		Name:     viper.GetString("remoteServer.name"),
 		Hostname: viper.GetString("remoteServer.hostname"),
 		Port:     viper.GetInt("remoteServer.port"),
-		Ssl:      viper.GetBool("usessl"),
+		Ssl:      viper.GetBool("remoteServer.usessl"),
 	}
 
 	localServer.GetToken(token)
