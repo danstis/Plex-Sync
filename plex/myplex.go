@@ -131,32 +131,33 @@ func addHeaders(r http.Request) {
 	r.Header.Add("X-Plex-Provides", "controller")
 }
 
-// ServerAccessToken requests the AccessToken from MyPlex for the named server
-func ServerAccessToken(t, name string) (string, error) {
+// GetToken requests the AccessToken from MyPlex for the named server
+func (h *Host) GetToken(t string) error {
 	// Create a new reqest object.
 	resp, err := apiRequest("GET", "https://plex.tv/pms/servers.xml?X-Plex-Token="+t, nil)
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf(resp.Status)
+		return fmt.Errorf(resp.Status)
 	}
 
 	var record myPlexServer
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("error reading response: %v", err)
+		return fmt.Errorf("error reading response: %v", err)
 	}
 	err = xml.Unmarshal(body, &record)
 	if err != nil {
-		return "", fmt.Errorf("error parsing xml response: %v", err)
+		return fmt.Errorf("error parsing xml response: %v", err)
 	}
 	for _, x := range record.Server {
-		if x.Name == name {
-			return x.AccessToken, nil
+		if x.Name == h.Name {
+			h.Token = x.AccessToken
+			return nil
 		}
 	}
-	return "", fmt.Errorf("no server found matching name %q", name)
+	return fmt.Errorf("no server found matching name %q", h.Name)
 }
 
 type myPlexServer struct {

@@ -35,18 +35,10 @@ func main() {
 		Ssl:      viper.GetBool("usessl"),
 	}
 
+	localServer.GetToken(token)
+	remoteServer.GetToken(token)
+
 	log.Println("Local server details:", localServer)
 	log.Println("Remote server details:", remoteServer)
 
-	at, err := plex.ServerAccessToken(token, remoteServer.Name)
-	if err != nil {
-		log.Printf("error getting access token %v", err)
-	}
-	log.Printf("Remote Access Token %q", at)
-
-	at2, err := plex.ServerAccessToken(token, localServer.Name)
-	if err != nil {
-		log.Printf("error getting access token %v", err)
-	}
-	log.Printf("Local Access Token %q", at2)
 }
