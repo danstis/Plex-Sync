@@ -24,9 +24,9 @@ func CreateURI(server Host, path string) string {
 	return fmt.Sprintf("http://%v:%v/%v", server.Hostname, server.Port, path)
 }
 
-// Search returns all episodes for a given TV Show
-func Search(server Host, title string) (Show, error) {
-
+// SearchShow returns all episodes for a given TV Show
+func SearchShow(server Host, title string) (Show, error) {
+	//TODO: Update this to handle types
 	uri := CreateURI(server, fmt.Sprintf("search?type=2&query=%v", title))
 	// log.Printf("Performing REST request to %q", uri)
 	resp, err := apiRequest("GET", uri, server.Token, nil)
