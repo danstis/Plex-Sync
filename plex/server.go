@@ -23,8 +23,8 @@ func CreateURI(server Host, path string) string {
 	return fmt.Sprintf("http://%v:%v/%v", server.Hostname, server.Port, path)
 }
 
-// Episodes returns all episodes for a given TV Show
-func Episodes(server Host, title string) (string, error) {
+// Search returns all episodes for a given TV Show
+func Search(server Host, title string) (string, error) {
 	uri := CreateURI(server, fmt.Sprintf("search?type=2&query=%v", title))
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
