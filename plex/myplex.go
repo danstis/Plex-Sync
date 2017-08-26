@@ -91,7 +91,7 @@ func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
 	}
 	// Configure the authentication and headers of the request.
 	req.SetBasicAuth(cred.username, cred.password)
-	addHeaders(*req)
+	addHeaders(*req, "")
 
 	// Create the HTTP Client
 	client := &http.Client{}
@@ -123,18 +123,21 @@ func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
 	return record.AuthenticationToken, nil
 }
 
-func addHeaders(r http.Request) {
+func addHeaders(r http.Request, token string) {
 	r.Header.Add("X-Plex-Client-Identifier", "0bc797da-2ddd-4ce5-946e-5b13e48f17bb")
 	r.Header.Add("X-Plex-Product", "Plex-Sync")
 	r.Header.Add("X-Plex-Device", "Plex-Sync")
 	r.Header.Add("X-Plex-Version", Version)
 	r.Header.Add("X-Plex-Provides", "controller")
+	if token != "" {
+		r.Header.Add("X-Plex-Token", token)
+	}
 }
 
 // GetToken requests the AccessToken from MyPlex for the named server
 func (h *Host) GetToken(t string) error {
 	// Create a new reqest object.
-	resp, err := apiRequest("GET", "https://plex.tv/pms/servers.xml?X-Plex-Token="+t, nil)
+	resp, err := apiRequest("GET", "https://plex.tv/pms/servers.xml", t, nil)
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
@@ -175,12 +178,12 @@ type myPlexServer struct {
 	}
 }
 
-func apiRequest(method, url string, body io.Reader) (*http.Response, error) {
+func apiRequest(method, url, token string, body io.Reader) (*http.Response, error) {
 	req, err := http.NewRequest(method, url, body)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create new request, %v", err)
 	}
-	addHeaders(*req)
+	addHeaders(*req, token)
 
 	// Create the HTTP Client
 	client := &http.Client{}
