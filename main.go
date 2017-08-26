@@ -43,4 +43,10 @@ func main() {
 		log.Printf("error getting access token %v", err)
 	}
 	log.Printf("Remote Access Token %q", at)
+
+	at2, err := plex.ServerAccessToken(token, localServer.Name)
+	if err != nil {
+		log.Printf("error getting access token %v", err)
+	}
+	log.Printf("Local Access Token %q", at2)
 }
