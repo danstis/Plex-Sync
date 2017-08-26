@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -68,4 +69,13 @@ type Show struct {
 	ID           int    `xml:"ratingKey,attr"`
 	Name         string `xml:"title,attr"`
 	EpisodeCount int    `xml:"leafCount,attr"`
+}
+
+//SyncWatchedTv synchronises the watched TV Shows
+func SyncWatchedTv(source, destination Host) {
+	log.Printf("Syncing watched Tv Shows from %q to %q", source.Name, destination.Name)
+	// output, err := plex.SearchShow(localServer, "Cops")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 }
