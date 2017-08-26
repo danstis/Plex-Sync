@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/spf13/viper"
@@ -21,6 +22,7 @@ func main() {
 	if err != nil {
 		log.Println("No configuration file loaded - using defaults")
 	}
+	sleepInterval := viper.GetDuration("general.interval")
 	localServer := plex.Host{
 		Name:     viper.GetString("localServer.name"),
 		Hostname: viper.GetString("localServer.hostname"),
@@ -37,10 +39,9 @@ func main() {
 	localServer.GetToken(token)
 	remoteServer.GetToken(token)
 
-	output, err := plex.SearchShow(localServer, "Cops")
-	if err != nil {
-		log.Fatal(err)
+	for {
+		plex.SyncWatchedTv(localServer, remoteServer)
+		log.Printf("Sleeping for %v...", (sleepInterval * time.Second))
+		time.Sleep(sleepInterval * time.Second)
 	}
-
-	log.Println(output)
 }
