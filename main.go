@@ -2,20 +2,19 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/spf13/viper"
 )
 
 func main() {
-
 	cp := plex.CredPrompter{}
 	r := plex.TokenRequester{}
 	token, err := plex.Token(cp, r)
 	if err != nil {
 		log.Printf("Error: %v", err)
 	}
-	log.Printf("Token = %s", token)
 
 	viper.SetConfigName("config")
 	viper.AddConfigPath("./config")
@@ -23,17 +22,28 @@ func main() {
 	if err != nil {
 		log.Println("No configuration file loaded - using defaults")
 	}
-	localserver := localserver{
-		name:     viper.GetString("localServer.name"),
-		hostname: viper.GetString("localServer.hostname"),
-		port:     viper.GetInt("localServer.port"),
+	sleepInterval := viper.GetDuration("general.interval")
+	localServer := plex.Host{
+		Name:      viper.GetString("localServer.name"),
+		Hostname:  viper.GetString("localServer.hostname"),
+		Port:      viper.GetInt("localServer.port"),
+		Ssl:       viper.GetBool("localServer.usessl"),
+		TvSection: viper.GetInt("localServer.tvsection"),
+	}
+	remoteServer := plex.Host{
+		Name:      viper.GetString("remoteServer.name"),
+		Hostname:  viper.GetString("remoteServer.hostname"),
+		Port:      viper.GetInt("remoteServer.port"),
+		Ssl:       viper.GetBool("remoteServer.usessl"),
+		TvSection: viper.GetInt("remoteServer.tvsection"),
 	}
 
-	log.Println("Local server details:", localserver)
-}
+	localServer.GetToken(token)
+	remoteServer.GetToken(token)
 
-type localserver struct {
-	name     string
-	hostname string
-	port     int
+	for {
+		plex.SyncWatchedTv(localServer, remoteServer)
+		log.Printf("Sleeping for %v...", (sleepInterval * time.Second))
+		time.Sleep(sleepInterval * time.Second)
+	}
 }
