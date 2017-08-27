@@ -1,9 +1,16 @@
+[general]
+interval = 600
+
 [localServer]
 name = "Local Plex"
 hostname = "localhost"
-port = "32400"
+port = 32400
+usessl = false
+tvsection = 1
 
 [remoteServer]
 name = ""
 hostname = ""
-port = ""
+port = 32400
+usessl = true
+tvsection = 1

@@ -5,8 +5,6 @@ env:
 language: go
 matrix:
   include:
-  - go: 1.6.x
-  - go: 1.7.x
   - go: 1.8.x
 before_script:
 - go get github.com/schrej/godacov
@@ -15,9 +13,13 @@ script:
 - goverage -v -coverprofile=coverage.out ./...
 - go build -race
 - GOOS=windows GOARCH=386 go build
-- ls .
 after_success:
 - godacov -t $CODACY_TOKEN -r ./coverage.out -c $TRAVIS_COMMIT
+before_deploy:
+- mv ./config/config.toml.default ./config/config.toml
+- mv ./tvshows.txt.default ./tvshows.txt
+- rm coverage.out *.go plex .editorconfig .travis.yml Plex-Sync -rf
+- zip -r --exclude='.git*' Plex-Sync.zip ./
 notifications:
   slack:
     secure: Pb8gB6Pgch3WFxxEHnDcGznqe5rumfrC+3VjVNLU0tf00HmKuO/GfBCyxj47ZEnK+3nn5gsXxAQFMN1z65rIZJUJ+zI9i98BJpnIOFNFScm9q03H2/qzadwgMY2gWQhE+uHOjQU5kSnZMFrUJQlaNKB+yDeb0whKlCyd/ibRzSY3qwNqDVdhuXag4IwzMoFaBDY/Qznx/vRjOyLifEAOVlv96x+KkjVuU4Lj1D/s+SuxdhARo7rBZ6tw+6nTAI0t8wYweK3Q2pgXOpHpiNL0pjFgY4R8H2E1g81dfwV7jhDcwxPc3X3HrmzglNl4nXD3xnhCb3zxDBubre1H0f85BNJM5WIibNufOs6xOqTVhoMF5FgLdCzsTUddT1nCASABBLvKeEZ8ZO+FA1vPNju9V9fJsZGxm0DjCoS/HPtl+AkXijPLEUArM7EOp4DdypZiYKtPbPCLq8likT7/DA2aA0wHRosByrRAkLKqqUlIexunHEPOsMbp11NmpMeaAg625LcGpmoJCWf3TnZeF2dM0WyZ4Jk05FIa3IUh/qzPf+z47LbirBWn4IacbrYuYLhX0kf7HXv/gc9+dVm9mV1EnNXv53ldnT3zXQe/3ktN7M2IigBD38Dlu9FG81O63qV0HY1WK30cBlAZ/GhulcrUB30GFoiXCt7w3hYxAiuMcQQ=
@@ -26,9 +28,9 @@ deploy:
   api_key:
     secure: Y4OYfl2ckClWmbdBduWbZEgpY6jDt5czdfHVknNcT1DAWyqbnktlD/Xbqk7/CzdEPXkxNYX03EmcH2B4GcDID2EoKEeIWMjTgZtYYb6E7ZmZuS3CaRMQQzwxRwdRxDsMloWv4DkUrftjEOr5NOVBuWRPnjGhTudpmdzdcHrqcTt+hObDHcAtHFCXFrxissGrhOwV4GAm2nr+0EJCM6UYH1osVdEvgjnYS6Z2rOM1AqoFhVBNPLB7NdoFJ4ieLPTGP1mcByf2JFzw1Asluepotn/aI5xOVrqPtvsCzSSks+MOmkL31ojjPOy3eeBRWYdRdJ/YFXt0CoC4Du4olUHfRzccJfp8NRaepg8ea+pS3UoVpsq/AYdue7QJuLuXd0C+GxM+G44838nJEsy4oc2RA3jDVVccUsEgDinVx+TBawDveWVGQZ3sb894plN3c/i6jigXmpRxqp2fKi9czBQVtqQv/SGUzbAQzk3zsjM5iTayfMFiV/VIoOjrh2SNaS+sN60XahNES1GlbWFEMBx/wNG1D0WLiv9H60iEOvBj2B3imFRXavDcbHs1SKxdYUszeEs5rwYkvUkrHh/rbOJABnXv3Zh1iYuc+7BMb2oKw4iIftcIpz3HjfNBMSZpgbO1jlCr3QXUqZxxC0vnXNhbgnpySzCrUPRmx/hJ/5yPioA=
   file:
-  - Plex-Sync.exe
+  - Plex-Sync.zip
   skip_cleanup: true
   on:
     repo: danstis/Plex-Sync
-    condition: "$TRAVIS_GO_VERSION =~ ^1\\.8(\\.*)?$"
+    condition: "$TRAVIS_GO_VERSION =~ ^1\\.8(\\..*)?$"
     tags: true
