@@ -15,7 +15,9 @@ script:
 - go build -race
 - GOOS=windows GOARCH=386 go build
 - ls .
-- echo Travis_Go_Version = $TRAVIS_GO_VERSION
+- mv ./config/config.toml.default ./config/config.toml
+- mv ./tvshows.txt.default ./tvshows.txt
+- zip -r --exclude='.git*' Plex-Sync.zip ./
 after_success:
 - godacov -t $CODACY_TOKEN -r ./coverage.out -c $TRAVIS_COMMIT
 notifications:
@@ -26,7 +28,7 @@ deploy:
   api_key:
     secure: Y4OYfl2ckClWmbdBduWbZEgpY6jDt5czdfHVknNcT1DAWyqbnktlD/Xbqk7/CzdEPXkxNYX03EmcH2B4GcDID2EoKEeIWMjTgZtYYb6E7ZmZuS3CaRMQQzwxRwdRxDsMloWv4DkUrftjEOr5NOVBuWRPnjGhTudpmdzdcHrqcTt+hObDHcAtHFCXFrxissGrhOwV4GAm2nr+0EJCM6UYH1osVdEvgjnYS6Z2rOM1AqoFhVBNPLB7NdoFJ4ieLPTGP1mcByf2JFzw1Asluepotn/aI5xOVrqPtvsCzSSks+MOmkL31ojjPOy3eeBRWYdRdJ/YFXt0CoC4Du4olUHfRzccJfp8NRaepg8ea+pS3UoVpsq/AYdue7QJuLuXd0C+GxM+G44838nJEsy4oc2RA3jDVVccUsEgDinVx+TBawDveWVGQZ3sb894plN3c/i6jigXmpRxqp2fKi9czBQVtqQv/SGUzbAQzk3zsjM5iTayfMFiV/VIoOjrh2SNaS+sN60XahNES1GlbWFEMBx/wNG1D0WLiv9H60iEOvBj2B3imFRXavDcbHs1SKxdYUszeEs5rwYkvUkrHh/rbOJABnXv3Zh1iYuc+7BMb2oKw4iIftcIpz3HjfNBMSZpgbO1jlCr3QXUqZxxC0vnXNhbgnpySzCrUPRmx/hJ/5yPioA=
   file:
-  - Plex-Sync.exe
+  - Plex-Sync.zip
   skip_cleanup: true
   on:
     repo: danstis/Plex-Sync
