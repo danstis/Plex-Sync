@@ -15,6 +15,7 @@ script:
 - go build -race
 - GOOS=windows GOARCH=386 go build
 - ls .
+- echo Travis_Go_Version = $TRAVIS_GO_VERSION
 after_success:
 - godacov -t $CODACY_TOKEN -r ./coverage.out -c $TRAVIS_COMMIT
 notifications:
