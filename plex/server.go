@@ -10,11 +10,12 @@ import (
 
 // Host defines the data to be stored for server objects
 type Host struct {
-	Name     string
-	Hostname string
-	Port     int
-	Ssl      bool
-	Token    string
+	Name      string
+	Hostname  string
+	Port      int
+	Ssl       bool
+	Token     string
+	TvSection int
 }
 
 // CreateURI assembles the URI for an API request
@@ -74,8 +75,13 @@ type Show struct {
 //SyncWatchedTv synchronises the watched TV Shows
 func SyncWatchedTv(source, destination Host) {
 	log.Printf("Syncing watched Tv Shows from %q to %q", source.Name, destination.Name)
-	// output, err := plex.SearchShow(localServer, "Cops")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+
+	// Return all shows on the source server
+
+	// For each show on the source server, enumerate all episodes
+
+	// If the local show is marked as watched check if the remote episode is watched
+
+	// Scrobble the episode on the remote server
+
 }
