@@ -13,7 +13,7 @@ func main() {
 	r := plex.TokenRequester{}
 	token, err := plex.Token(cp, r)
 	if err != nil {
-		log.Printf("Error: %v", err)
+		log.Fatalf("Error: %v", err)
 	}
 
 	viper.SetConfigName("config")

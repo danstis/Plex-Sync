@@ -105,7 +105,7 @@ func (tr TokenRequester) tokenRequest(cred credentials) (string, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusUnauthorized {
-		return "", fmt.Errorf(string(http.StatusUnauthorized))
+		return "", fmt.Errorf(resp.Status)
 	}
 
 	var record xmlUser
