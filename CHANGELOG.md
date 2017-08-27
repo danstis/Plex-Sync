@@ -8,11 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [v0.1.0]
 ### Added
-- Cache token in local token file.
-- Support for MyPlex Account.
 - Add Readme.
-- Enable syncing of Show watched status from a local server to a remote server.
 - Add usage instructions to the Readme file.
+- Cache token in local token file.
+- Enable syncing of Show watched status from a local server to a remote server.
+- Support for MyPlex Account.
 
 ### Fixed
 - App would attempt to sync even if a token was not obtained.
