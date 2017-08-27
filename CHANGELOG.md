@@ -6,11 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 0.0.1
+## v0.0.1
 ### Added
 - Cache token in local token file.
 - Support for MyPlex Account.
 - Add Readme.
 - Enable syncing of Show watched status from a local server to a remote server.
 
-[Unreleased]: https://github.com/danstis/Plex-Sync/compare/0.0.1...HEAD
+[Unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.0.1...HEAD
