@@ -3,13 +3,10 @@ package main
 import (
 	"log"
 	"os"
+	"path"
 	"time"
 
 	"net/http"
-
-	"time"
-
-	"path"
 
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/gorilla/handlers"
