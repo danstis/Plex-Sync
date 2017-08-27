@@ -1,12 +1,41 @@
 # Plex-Sync
 
 [![Build Status](https://travis-ci.org/danstis/Plex-Sync.svg?branch=master)](https://travis-ci.org/danstis/Plex-Sync)
-[![codebeat badge](https://codebeat.co/badges/039b2c58-e237-41f6-a34f-63217e69a54f)](https://codebeat.co/projects/github-com-danstis-plex-sync-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/544fa06319c1471c8d6b0ef5589e4f30)](https://www.codacy.com/app/danstis/Plex-Sync?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=danstis/Plex-Sync&amp;utm_campaign=Badge_Grade)
 
 Plex-Sync is a synchronisation tool for Plex. It syncs media and watched status between a remote and a local plex server.
 
 MyPlex is used to enable communication with the Plex servers.
+
+## Usage Instructions
+
+1. Download the package from the releases section [here](https://github.com/danstis/Plex-Sync/releases).
+1. Extract to a local folder.
+1. Update the .\config\config.toml file with the details of your servers:
+
+	```
+	[general]
+	interval = 600 			# Interval in seconds to perform sync cycle.
+
+	[localServer]
+	name = "MyServer"		# Name of your local server, this is the value from MyPlex.
+	hostname = "localhost"		# The DNS Hostname or IP Address of your local Plex server.
+	port = 32400			# Port used to connect to your local Plex server.
+	usessl = false			# Defines if SSL should be used to connect to the local server.
+
+	[remoteServer]
+	name = "MyRemote"		# Name of your remote server, this is the value from MyPlex.
+	hostname = "server.domain.com"	# The DNS Hostname or IP Address of your remote Plex server.
+	port = 32400 			# Port used to connect to your remote Plex server.
+	usessl = true			# Defines if SSL should be used to connect to the remote server.
+
+	```
+1. Populate the tvshows.txt file with a list of shows to sync watched status for. The titles should match what is listed in Plex, for example:
+	```
+	Cops
+	The Americans (2013)
+	```
+1. Run the Plex-Sync.exe file. *NOTE: If running on newer versions of Windows, you will need to allow the file to run when Smart Screen blocks it.*
 
 ## Development
 
