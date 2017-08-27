@@ -30,5 +30,5 @@ deploy:
   skip_cleanup: true
   on:
     repo: danstis/Plex-Sync
-    condition: "$TRAVIS_GO_VERSION =~ ^1\\.8(\\.*)?$"
+    condition: "$TRAVIS_GO_VERSION =~ ^1\.8(\..*)?$"
     tags: true
