@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [v0.0.2]
 ### Fixed
 - App would attempt to sync even if a token was not obtained.
 
@@ -15,4 +17,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add Readme.
 - Enable syncing of Show watched status from a local server to a remote server.
 
-[Unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.0.1...HEAD
+[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.0.2...HEAD
+[v0.0.2]: https://github.com/danstis/Plex-Sync/compare/v0.0.1...v0.0.2
