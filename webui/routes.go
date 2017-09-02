@@ -55,7 +55,7 @@ var uiroutes = routes{
 	},
 	route{
 		"TokenRequest",
-		"GET",
+		"POST",
 		"/token/request",
 		tokenRequestHandler,
 	},
