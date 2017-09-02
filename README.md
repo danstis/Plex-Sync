@@ -16,6 +16,7 @@ MyPlex is used to enable communication with the Plex servers.
 	```
 	[general]
 	interval = 600 			# Interval in seconds to perform sync cycle.
+	webserverport = 80		# Port for the Web Interface to listen on.
 
 	[localServer]
 	name = "MyServer"		# Name of your local server, this is the value from MyPlex.
