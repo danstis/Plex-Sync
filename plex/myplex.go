@@ -96,6 +96,14 @@ func cacheToken(token string) error {
 	return nil
 }
 
+// RemoveCachedToken removes the cached tokenfile
+func RemoveCachedToken() error {
+	if err := os.Remove(tokenFile); err != nil {
+		return err
+	}
+	return nil
+}
+
 func addHeaders(r http.Request, token string) {
 	r.Header.Add("X-Plex-Client-Identifier", "0bc797da-2ddd-4ce5-946e-5b13e48f17bb")
 	r.Header.Add("X-Plex-Product", "Plex-Sync")

@@ -6,9 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Ability to remove a cached token from the web interface.
 - Web interface for management of the application.
 
 ### Changed
+- After token generation direct user to the settings page.
 - Moved generation of token file into web interface.
 
 ## [v0.1.0]
