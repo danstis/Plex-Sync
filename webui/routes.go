@@ -59,4 +59,10 @@ var uiroutes = routes{
 		"/token/request",
 		tokenRequestHandler,
 	},
+	route{
+		"TokenRemove",
+		"GET",
+		"/token/remove",
+		tokenRemoveHandler,
+	},
 }

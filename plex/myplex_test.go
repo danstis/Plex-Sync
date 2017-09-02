@@ -73,3 +73,23 @@ func TestTokenGeneration(t *testing.T) {
 		log.Printf("Error removing file: %s", err)
 	}
 }
+
+// Test removing a new token file.
+func TestTokenRemoval(t *testing.T) {
+	// Replace the tokenfile path for the duration of this test.
+	oldtokenfile := tokenFile
+	tokenFile = "testTokenFile"
+	defer func() { tokenFile = oldtokenfile }()
+
+	// Create a new temporary token file containing "ValidToken".
+	f, err := os.Create(tokenFile)
+	if err != nil {
+		t.Fatal("Unable to create token file.")
+	}
+	f.WriteString("ValidToken")
+	f.Close()
+
+	if err := RemoveCachedToken(); err != nil {
+		t.Error("Error removing token file")
+	}
+}

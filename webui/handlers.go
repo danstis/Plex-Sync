@@ -34,5 +34,14 @@ func tokenRequestHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.ServeFile(w, r, path.Join("webui", "templates", "settings", "promptCredentials.html"))
+	http.Redirect(w, r, "/", http.StatusFound) // redirect user to homepage
+}
+
+func tokenRemoveHandler(w http.ResponseWriter, r *http.Request) {
+	err := plex.RemoveCachedToken()
+	if err != nil {
+		panic(err)
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound) // redirect user to homepage
 }
