@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path"
 	"time"
 
 	"net/http"
 
 	"github.com/danstis/Plex-Sync/plex"
+	"github.com/danstis/Plex-Sync/webui"
 	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
 )
 
@@ -39,17 +38,7 @@ func main() {
 		TvSection: viper.GetInt("remoteServer.tvsection"),
 	}
 
-	r := mux.NewRouter()
-	r.HandleFunc("/", rootHandler)
-	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
-	r.PathPrefix("/static/").Handler(s)
-	http.Handle("/", r)
-	r.HandleFunc("/settings", settingsHandler)
-	http.Handle("/settings", r)
-	r.HandleFunc("/settings/token", tokenHandler)
-	http.Handle("/settings/token", r)
-	r.HandleFunc("/token/request", tokenRequestHandler)
-	http.Handle("/token/request", r)
+	r := webui.NewRouter()
 
 	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
 	go http.ListenAndServe(fmt.Sprintf(":%v", listeningPort), loggedRouter)
@@ -70,22 +59,4 @@ func main() {
 		log.Printf("Sleeping for %v...", (sleepInterval * time.Second))
 		time.Sleep(sleepInterval * time.Second)
 	}
-}
-
-// RootHandler returns the default page.
-func rootHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, path.Join("templates", "index.html"))
-}
-
-func settingsHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, path.Join("templates", "settings", "settings.html"))
-}
-
-func tokenHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, path.Join("templates", "settings", "promptCredentials.html"))
-}
-
-func tokenRequestHandler(w http.ResponseWriter, r *http.Request) {
-	// request new token using credentials passed in form
-	http.ServeFile(w, r, path.Join("templates", "settings", "promptCredentials.html"))
 }
