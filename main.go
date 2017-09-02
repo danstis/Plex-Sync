@@ -44,17 +44,17 @@ func main() {
 	go http.ListenAndServe(fmt.Sprintf(":%v", listeningPort), loggedRouter)
 	log.Printf("Started webserver http://localhost:%v", listeningPort)
 
-	cp := plex.CredPrompter{}
-	tr := plex.TokenRequester{}
-	token, err := plex.Token(cp, tr)
-	if err != nil {
-		log.Fatalf("Error: %v", err)
-	}
-
-	localServer.GetToken(token)
-	remoteServer.GetToken(token)
-
 	for {
+		cp := plex.CredPrompter{}
+		tr := plex.TokenRequester{}
+		token, err := plex.Token(cp, tr)
+		if err != nil {
+			log.Fatalf("Error: %v", err)
+		}
+
+		localServer.GetToken(token)
+		remoteServer.GetToken(token)
+
 		plex.SyncWatchedTv(localServer, remoteServer)
 		log.Printf("Sleeping for %v...", (sleepInterval * time.Second))
 		time.Sleep(sleepInterval * time.Second)
