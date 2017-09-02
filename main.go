@@ -45,17 +45,13 @@ func main() {
 	log.Printf("Started webserver http://localhost:%v", listeningPort)
 
 	for {
-		cp := plex.CredPrompter{}
-		tr := plex.TokenRequester{}
-		token, err := plex.Token(cp, tr)
-		if err != nil {
-			log.Fatalf("Error: %v", err)
+		token := plex.Token()
+		if token != "" {
+			localServer.GetToken(token)
+			remoteServer.GetToken(token)
+
+			plex.SyncWatchedTv(localServer, remoteServer)
 		}
-
-		localServer.GetToken(token)
-		remoteServer.GetToken(token)
-
-		plex.SyncWatchedTv(localServer, remoteServer)
 		log.Printf("Sleeping for %v...", (sleepInterval * time.Second))
 		time.Sleep(sleepInterval * time.Second)
 	}
