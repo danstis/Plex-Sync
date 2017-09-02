@@ -1,28 +1,28 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"time"
 
+	"net/http"
+
 	"github.com/danstis/Plex-Sync/plex"
+	"github.com/danstis/Plex-Sync/webui"
+	"github.com/gorilla/handlers"
 	"github.com/spf13/viper"
 )
 
 func main() {
-	cp := plex.CredPrompter{}
-	r := plex.TokenRequester{}
-	token, err := plex.Token(cp, r)
-	if err != nil {
-		log.Fatalf("Error: %v", err)
-	}
-
 	viper.SetConfigName("config")
 	viper.AddConfigPath("./config")
-	err = viper.ReadInConfig()
+	err := viper.ReadInConfig()
 	if err != nil {
 		log.Println("No configuration file loaded - using defaults")
 	}
 	sleepInterval := viper.GetDuration("general.interval")
+	listeningPort := viper.GetInt("general.webserverport")
 	localServer := plex.Host{
 		Name:      viper.GetString("localServer.name"),
 		Hostname:  viper.GetString("localServer.hostname"),
@@ -38,11 +38,20 @@ func main() {
 		TvSection: viper.GetInt("remoteServer.tvsection"),
 	}
 
-	localServer.GetToken(token)
-	remoteServer.GetToken(token)
+	r := webui.NewRouter()
+
+	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
+	go http.ListenAndServe(fmt.Sprintf(":%v", listeningPort), loggedRouter)
+	log.Printf("Started webserver http://localhost:%v", listeningPort)
 
 	for {
-		plex.SyncWatchedTv(localServer, remoteServer)
+		token := plex.Token()
+		if token != "" {
+			localServer.GetToken(token)
+			remoteServer.GetToken(token)
+
+			plex.SyncWatchedTv(localServer, remoteServer)
+		}
 		log.Printf("Sleeping for %v...", (sleepInterval * time.Second))
 		time.Sleep(sleepInterval * time.Second)
 	}

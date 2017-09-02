@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Web interface for management of the application.
+
+### Changed
+- Moved generation of token file into web interface.
 
 ## [v0.1.0]
 ### Added

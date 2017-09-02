@@ -1,5 +1,6 @@
 [general]
 interval = 600
+webserverport = 80
 
 [localServer]
 name = "Local Plex"
