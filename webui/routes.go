@@ -28,7 +28,7 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(route.HandlerFunc)
 	}
-	static := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
+	static := http.StripPrefix("/static/", http.FileServer(http.Dir("./webui/static/")))
 	router.PathPrefix("/static/").Handler(static)
 
 	return router
