@@ -18,7 +18,6 @@ type Host struct {
 	Port      int
 	Ssl       bool
 	Token     string
-	TvSection int
 }
 
 var (

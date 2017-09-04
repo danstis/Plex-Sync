@@ -24,18 +24,16 @@ func main() {
 	sleepInterval := viper.GetDuration("general.interval")
 	listeningPort := viper.GetInt("general.webserverport")
 	localServer := plex.Host{
-		Name:      viper.GetString("localServer.name"),
-		Hostname:  viper.GetString("localServer.hostname"),
-		Port:      viper.GetInt("localServer.port"),
-		Ssl:       viper.GetBool("localServer.usessl"),
-		TvSection: viper.GetInt("localServer.tvsection"),
+		Name:     viper.GetString("localServer.name"),
+		Hostname: viper.GetString("localServer.hostname"),
+		Port:     viper.GetInt("localServer.port"),
+		Ssl:      viper.GetBool("localServer.usessl"),
 	}
 	remoteServer := plex.Host{
-		Name:      viper.GetString("remoteServer.name"),
-		Hostname:  viper.GetString("remoteServer.hostname"),
-		Port:      viper.GetInt("remoteServer.port"),
-		Ssl:       viper.GetBool("remoteServer.usessl"),
-		TvSection: viper.GetInt("remoteServer.tvsection"),
+		Name:     viper.GetString("remoteServer.name"),
+		Hostname: viper.GetString("remoteServer.hostname"),
+		Port:     viper.GetInt("remoteServer.port"),
+		Ssl:      viper.GetBool("remoteServer.usessl"),
 	}
 
 	r := webui.NewRouter()
