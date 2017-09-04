@@ -7,11 +7,9 @@ name = "Local Plex"
 hostname = "localhost"
 port = 32400
 usessl = false
-tvsection = 1
 
 [remoteServer]
 name = ""
 hostname = ""
 port = 32400
 usessl = true
-tvsection = 1
