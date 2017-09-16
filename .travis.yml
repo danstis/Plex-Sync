@@ -18,7 +18,8 @@ after_success:
 before_deploy:
 - mv ./config/config.toml.default ./config/config.toml
 - mv ./tvshows.txt.default ./tvshows.txt
-- rm coverage.out *.go plex .editorconfig .travis.yml Plex-Sync -rf
+- rm coverage.out plex .editorconfig .travis.yml Plex-Sync -rf
+- find . -type f -name '*.go' -exec rm {} +
 - zip -r --exclude='.git*' Plex-Sync.zip ./
 notifications:
   slack:
