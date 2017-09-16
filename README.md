@@ -17,6 +17,11 @@ MyPlex is used to enable communication with the Plex servers.
 	[general]
 	interval = 600 			# Interval in seconds to perform sync cycle.
 	webserverport = 80		# Port for the Web Interface to listen on.
+	logfile = "logs/plex-sync.log" 	# Logfile for sync operations
+	webserverlogfile = "logs/plex-sync-webserver.log" 	#Logfile for the webserver
+	maxlogsize = 20 		# Max logfile Size in MB
+	maxlogcount = 5 		# Max number of log backups
+	maxlogage = 1 			# Max age of each logfile
 
 	[localServer]
 	name = "MyServer"		# Name of your local server, this is the value from MyPlex.
