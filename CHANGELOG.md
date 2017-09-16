@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Ability to remove a cached token from the web interface.
+- Logging to file.
 - Web interface for management of the application.
 
 ### Changed
