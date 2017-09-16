@@ -31,3 +31,4 @@ _testmain.go
 /token
 /exec.ps1
 /tvshows.txt
+*.log
