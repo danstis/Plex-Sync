@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 	"time"
 
 	"net/http"
@@ -59,10 +60,10 @@ func main() {
 }
 
 func createLogger(filename string) io.Writer {
-	return &lumberjack.Logger{
+	return io.MultiWriter(&lumberjack.Logger{
 		Filename:   filename,
 		MaxSize:    viper.GetInt("general.maxlogsize"), // megabytes
 		MaxBackups: viper.GetInt("general.maxlogcount"),
 		MaxAge:     viper.GetInt("general.maxlogage"), //days
-	}
+	}, os.Stdout)
 }
