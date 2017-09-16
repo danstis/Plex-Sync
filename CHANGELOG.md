@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - After token generation direct user to the settings page.
 - Moved generation of token file into web interface.
+- Update release to remove all .go files from subdirectories.
 
 ## [v0.1.0]
 ### Added
