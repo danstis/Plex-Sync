@@ -1,6 +1,11 @@
 [general]
 interval = 600
 webserverport = 80
+logfile = "logs/plex-sync.log"
+webserverlogfile = "logs/plex-sync-webserver.log"
+maxlogsize = 20
+maxlogcount = 5
+maxlogage = 1
 
 [localServer]
 name = "Local Plex"
