@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
-	"os"
 	"time"
 
 	"net/http"
@@ -12,6 +12,7 @@ import (
 	"github.com/danstis/Plex-Sync/webui"
 	"github.com/gorilla/handlers"
 	"github.com/spf13/viper"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func main() {
@@ -21,6 +22,7 @@ func main() {
 	if err != nil {
 		log.Println("No configuration file loaded - using defaults")
 	}
+
 	sleepInterval := viper.GetDuration("general.interval")
 	listeningPort := viper.GetInt("general.webserverport")
 	localServer := plex.Host{
@@ -38,9 +40,10 @@ func main() {
 
 	r := webui.NewRouter()
 
-	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
+	loggedRouter := handlers.LoggingHandler(createLogger(viper.GetString("general.webserverlogfile")), r)
 	go http.ListenAndServe(fmt.Sprintf(":%v", listeningPort), loggedRouter)
 	log.Printf("Started webserver http://localhost:%v", listeningPort)
+	log.SetOutput(createLogger(viper.GetString("general.logfile")))
 
 	for {
 		token := plex.Token()
@@ -52,5 +55,14 @@ func main() {
 		}
 		log.Printf("Sleeping for %v...", (sleepInterval * time.Second))
 		time.Sleep(sleepInterval * time.Second)
+	}
+}
+
+func createLogger(filename string) io.Writer {
+	return &lumberjack.Logger{
+		Filename:   filename,
+		MaxSize:    viper.GetInt("general.maxlogsize"), // megabytes
+		MaxBackups: viper.GetInt("general.maxlogcount"),
+		MaxAge:     viper.GetInt("general.maxlogage"), //days
 	}
 }
