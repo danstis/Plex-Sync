@@ -20,6 +20,7 @@ before_deploy:
 - mv ./tvshows.txt.default ./tvshows.txt
 - rm coverage.out plex .editorconfig .travis.yml Plex-Sync -rf
 - find . -type f -name '*.go' -exec rm {} +
+- find . -type f -name '_template.html' -exec rm {} +
 - zip -r --exclude='.git*' Plex-Sync.zip ./
 notifications:
   slack:
