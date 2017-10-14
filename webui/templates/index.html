@@ -55,8 +55,12 @@
     <div class="container">
 
         <div>
-            <h1>Plex-Sync</h1>
-            <p class="lead">Some text in here...</p>
+            <h2>Welcome to Plex-Sync</h2>
+            {{if .Shows}}
+            <p class="lead">Selected Shows:</p>
+            {{range .Shows}}
+            <p>{{.}}</p>
+            {{end}} {{end}}
         </div>
 
     </div>

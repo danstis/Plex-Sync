@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v0.3.0]
+### Added
+- Show selected shows on home page.
+- Version to WebUI pages.
 
 ## [v0.2.0]
 ### Added
@@ -32,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - App would attempt to sync even if a token was not obtained.
 - Spaces in TV Show names cause errors.
 
-[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.2.0...HEAD
+[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.3.0...HEAD
+[v0.3.0]: https://github.com/danstis/Plex-Sync/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/danstis/Plex-Sync/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/danstis/Plex-Sync/compare/v0.0.1...v0.1.0

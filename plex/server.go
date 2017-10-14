@@ -13,11 +13,11 @@ import (
 
 // Host defines the data to be stored for server objects
 type Host struct {
-	Name      string
-	Hostname  string
-	Port      int
-	Ssl       bool
-	Token     string
+	Name     string
+	Hostname string
+	Port     int
+	Ssl      bool
+	Token    string
 }
 
 var (
@@ -99,7 +99,7 @@ func SyncWatchedTv(source, destination Host) error {
 	log.Printf("Syncing watched Tv Shows from %q to %q", source.Name, destination.Name)
 
 	// Return all selected shows
-	ss, err := selectedShows()
+	ss, err := SelectedShows()
 	if err != nil {
 		return err
 	}
@@ -151,8 +151,8 @@ func SyncWatchedTv(source, destination Host) error {
 	return nil
 }
 
-// selectedShows returns the selected tv shows from the tvShowsFile
-func selectedShows() ([]string, error) {
+// SelectedShows returns the selected tv shows from the tvShowsFile
+func SelectedShows() ([]string, error) {
 	file, err := os.Open(tvShowFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open tvshows file %q", tvShowFile)

@@ -13,12 +13,17 @@ import (
 	"github.com/danstis/Plex-Sync/plex"
 )
 
-// VersionInfo defines a struct to store the current version information.
-type VersionInfo struct {
+// PageData defines a struct to store the current version information.
+type PageData struct {
 	Version string
+	Shows   []string
 }
 
-var v = VersionInfo{Version: plex.Version}
+var ss, _ = plex.SelectedShows()
+var v = PageData{
+	Version: plex.Version,
+	Shows:   ss,
+}
 
 // RootHandler returns the default page.
 func rootHandler(w http.ResponseWriter, r *http.Request) {
