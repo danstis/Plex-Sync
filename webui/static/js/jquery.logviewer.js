@@ -65,18 +65,20 @@
 
         return {
             init: function(options) {
-                if (!options) var options = {};
-                if (options.logUrl === undefined) {
+                if (!options) {
+                    var options = {};
+                }
+                if (options.logUrl === null) {
                     alert("Log URL missing");
                     return false;
                 }
-                if (options.refreshtimeout === undefined) {
+                if (options.refreshtimeout === null) {
                     options.refreshtimeout = "2000";
                 }
-                if (options.readBytes === undefined) {
+                if (options.readBytes === null) {
                     options.readBytes = 10000;
                 }
-                if (options.callback === undefined) {
+                if (options.callback === null) {
                     options.callback = function(data) {
                         return data;
                     };
