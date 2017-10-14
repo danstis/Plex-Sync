@@ -85,7 +85,7 @@ func Test_selectedShows(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := selectedShows()
+			got, err := SelectedShows()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("selectedShows() error = %v, wantErr %v", err, tt.wantErr)
 				return

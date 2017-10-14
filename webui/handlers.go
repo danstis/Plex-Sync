@@ -2,6 +2,7 @@ package webui
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -12,21 +13,37 @@ import (
 	"github.com/danstis/Plex-Sync/plex"
 )
 
+// PageData defines a struct to store the current version information.
+type PageData struct {
+	Version string
+	Shows   []string
+}
+
+var ss, _ = plex.SelectedShows()
+var v = PageData{
+	Version: plex.Version,
+	Shows:   ss,
+}
+
 // RootHandler returns the default page.
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, path.Join("webui", "templates", "index.html"))
+	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "index.html")))
+	tmpl.Execute(w, v)
 }
 
 func settingsHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, path.Join("webui", "templates", "settings", "settings.html"))
+	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "settings", "settings.html")))
+	tmpl.Execute(w, v)
 }
 
 func tokenHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, path.Join("webui", "templates", "settings", "promptCredentials.html"))
+	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "settings", "promptCredentials.html")))
+	tmpl.Execute(w, v)
 }
 
 func logsHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, path.Join("webui", "templates", "logs.html"))
+	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "logs.html")))
+	tmpl.Execute(w, v)
 }
 
 func generalLogHeadHandler(w http.ResponseWriter, r *http.Request) {
