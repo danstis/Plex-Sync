@@ -65,4 +65,22 @@ var uiroutes = routes{
 		"/token/remove",
 		tokenRemoveHandler,
 	},
+	route{
+		"Logs",
+		"GET",
+		"/logs",
+		logsHandler,
+	},
+	route{
+		"GeneralLogHead",
+		"HEAD",
+		"/logs/{logfile}",
+		generalLogHeadHandler,
+	},
+	route{
+		"GeneralLog",
+		"GET",
+		"/logs/{logfile}",
+		generalLogHandler,
+	},
 }
