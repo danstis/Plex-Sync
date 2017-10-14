@@ -12,8 +12,8 @@
           }
         }
       });
-    }),
-      (function checkLVLength(newLength) {
+    },
+      function checkLVLength(newLength) {
         if (logViewer.curLength != newLength) {
           if (logViewer.curLength > newLength) {
             logViewer.curLength = 0;
@@ -45,14 +45,14 @@
         }
         logViewer.curLength = newLength;
         setMyTimeOut();
-      }),
-      (function setMyTimeOut() {
+      },
+      function setMyTimeOut() {
         if (logViewer.timeoutID > 0) {
           window.clearTimeout(logViewer.timeoutID);
         }
         logViewer.timeoutID = window.setTimeout(doLVHead, logViewer.options.refreshtimeout);
-      }),
-      (function cleanLVtags(html) {
+      },
+      function cleanLVtags(html) {
         if (typeof html == "string") {
           return html
             .replace(/&/g, "&amp;")
@@ -90,8 +90,8 @@
         doLVHead();
       }
     };
-  }());
+  })();
   jQuery.fn.extend({
     logViewer: logViewer.init
   });
-}(jQuery));
+})(jQuery);
