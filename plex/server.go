@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"sort"
 )
 
 // Host defines the data to be stored for server objects
@@ -165,7 +166,7 @@ func SelectedShows() ([]string, error) {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-
+	sort.Strings(lines)
 	return lines, scanner.Err()
 }
 

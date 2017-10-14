@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v0.3.1]
+### Fixed
+- Sort selected shows on Home page.
+
 ## [v0.3.0]
 ### Added
 - Show selected shows on home page.
