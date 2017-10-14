@@ -14,7 +14,7 @@
       });
     },
       function checkLVLength(newLength) {
-        if (logViewer.curLength != newLength) {
+        if (logViewer.curLength !== newLength) {
           if (logViewer.curLength > newLength) {
             logViewer.curLength = 0;
             jQuery("#" + logViewer.options.targetObjectID).append("\nReseting ... \n");
@@ -22,7 +22,7 @@
           var getBytes = logViewer.curLength;
           var readBytes = parseInt(logViewer.options.readBytes);
 
-          if (logViewer.curLength == 0 && newLength > readBytes) {
+          if (logViewer.curLength === 0 && newLength > readBytes) {
             getBytes = newLength - readBytes;
           } else if (logViewer.curLength > 0) {
             getBytes--;
@@ -53,7 +53,7 @@
         logViewer.timeoutID = window.setTimeout(doLVHead, logViewer.options.refreshtimeout);
       },
       function cleanLVtags(html) {
-        if (typeof html == "string") {
+        if (typeof html === "string") {
           return html
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
@@ -66,17 +66,17 @@
     return {
       init: function(options) {
         if (!options) var options = {};
-        if (options.logUrl == undefined) {
+        if (options.logUrl === undefined) {
           alert("Log URL missing");
           return false;
         }
-        if (options.refreshtimeout == undefined) {
+        if (options.refreshtimeout === undefined) {
           options.refreshtimeout = "2000";
         }
-        if (options.readBytes == undefined) {
+        if (options.readBytes === undefined) {
           options.readBytes = 10000;
         }
-        if (options.callback == undefined) {
+        if (options.callback === undefined) {
           options.callback = function(data) {
             return data;
           };
