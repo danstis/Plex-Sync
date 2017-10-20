@@ -1,4 +1,4 @@
-﻿package plex
+package plex
 
 // Version contains the version of the app.
-const Version = "0.3.2-gitversion.7"
+const Version = "0.3.2-gitversion.8"
