@@ -27,4 +27,4 @@ test_script:
 after_test:
   - echo %APPVEYOR_REPO_COMMIT%
   - go get -u github.com/schrej/godacov
-  - godacov -t %CODACY_TOKEN% -r ./coverage.out -c %APPVEYOR_REPO_COMMIT%
+  - godacov -t "%CODACY_TOKEN%" -r ./coverage.out -c "%APPVEYOR_REPO_COMMIT%"
