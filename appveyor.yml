@@ -1,11 +1,15 @@
 install:
   - choco install gitversion.portable -pre -y
-  - echo %PATH%
-  - echo %GOPATH%
   - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
   - go version
-  - go env
+  - go get github.com/schrej/godacov
+  - go get github.com/haya14busa/goverage
 
 before_build:
   - ps: gitversion /l console /output buildserver
   - ps: .\generateVersion.ps1
+
+build_script:
+  - goverage -v -coverprofile=coverage.out ./...
+  - go build -race
+  - GOOS=windows GOARCH=386 go build
