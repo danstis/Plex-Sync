@@ -4,8 +4,6 @@ environment:
   GOPATH: c:\gopath
   CODACY_TOKEN:
     secure: yrLZn0Ij30M2DLejKY+7ulU3d86KrrOxl/+vaBXmFPCPotquPtTWyRWUE7yIhez3
-  GITHUB_TOKEN:
-    secure: Yl/4x5Z5ys7ZvWZayu3S2Sh6rj5GMF/IKtXeuYIlfjdojJJC5sp3S8s35Dnzdcca
 
 install:
   - choco install gitversion.portable -pre -y
@@ -39,3 +37,16 @@ after_build:
 artifacts:
   - path: Plex-Sync.zip
     name: Plex-Sync
+
+deploy:
+  release: Plex-Sync-v$(GitVersion_SemVer)
+  description: 'Release notes TBA'
+  provider: GitHub
+  auth_token:
+    secure: Yl/4x5Z5ys7ZvWZayu3S2Sh6rj5GMF/IKtXeuYIlfjdojJJC5sp3S8s35Dnzdcca # GitHub Token
+  artifact: Plex-Sync
+  draft: true
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
