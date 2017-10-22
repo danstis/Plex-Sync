@@ -16,6 +16,6 @@ before_build:
   - ps: .\generateVersion.ps1
 
 build_script:
-  - ps: goverage -v -coverprofile=coverage.out ./...
+  - ps: goverage -v .\...
   - ps: go build -race
   - ps: dir
