@@ -1,0 +1,11 @@
+install:
+  - choco install gitversion.portable -pre -y
+  - echo %PATH%
+  - echo %GOPATH%
+  - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
+  - go version
+  - go env
+
+before_build:
+  - ps: gitversion /l console /output buildserver
+  - ps: .\generateVersion.ps1
