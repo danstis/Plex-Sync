@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Script to bump version using GitVersion.
+- Go generate script to update version.
+
+### Changed
+- Moved builds from TravisCI to Appveyor.
 
 ## [v0.3.1]
 ### Fixed
