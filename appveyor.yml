@@ -22,7 +22,9 @@ build_script:
 
 test_script:
   - go get -u github.com/haya14busa/goverage
+  - go test -v .\...
   - goverage -v .\...
+  - go tool cover -func coverage.out
 
 after_test:
   - echo %APPVEYOR_REPO_COMMIT%
