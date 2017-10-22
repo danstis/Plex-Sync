@@ -1,8 +1,11 @@
-# If GitVersion is not installed:
-#   choco install GitVersion.Portable
+param(
+	# Source Folder of the project
+	[string]
+	$SourceFolder = ".\"
+)
 
 $Version = Gitversion.exe | ConvertFrom-Json
-$VersionFile = "plex\version.go"
+$VersionFile = "$SourceFolder\plex\version.go"
 
 Write-Host ("Updateing version to {0}" -f $Version.SemVer)
 $Content = (Get-Content $VersionFile) -replace '(?<=Version = ").*?(?=")', $Version.SemVer 
