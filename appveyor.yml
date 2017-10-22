@@ -1,8 +1,11 @@
+environment:
+  GOPATH: c:\gopath
+
 install:
   - choco install gitversion.portable -pre -y
   - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
-  - echo %PATH%
   - echo %GOPATH%
+  - echo %PATH%
   - go version
   - go get github.com/schrej/godacov
   - go get github.com/haya14busa/goverage
