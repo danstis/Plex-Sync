@@ -31,8 +31,8 @@ build_script:
 after_build:
   - ps: mv ./config/config.toml.default ./config/config.toml
   - ps: mv ./tvshows.txt.default ./tvshows.txt
-  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | %{Remove-Item $_ -Force}
-  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | %{Remove-Item $_ -Force}
+  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | %{rm $_ -Force}
+  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | %{rm $_ -Force}
   - ps: dir -Recurse
 
 artifacts:
