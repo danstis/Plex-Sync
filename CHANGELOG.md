@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Go generate script to update version.
 
 ### Changed
-- Moved builds from TravisCI to Appveyor
+- Moved builds from TravisCI to Appveyor.
 
 ## [v0.3.1]
 ### Fixed
