@@ -38,7 +38,7 @@ artifacts:
     name: Plex-Sync
 
 deploy:
-  release: Plex-Sync-v$(GitVersion_SemVer)
+  release: v$(GitVersion_SemVer)
   description: 'Release notes TBA'
   provider: GitHub
   auth_token:
