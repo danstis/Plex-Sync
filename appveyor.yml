@@ -17,6 +17,6 @@ before_build:
   - ps: .\generateVersion.ps1
 
 build_script:
-  - goverage -v -coverprofile=coverage.out ./...
-  - go build -race
-  - GOOS=windows GOARCH=386 go build
+  - ps: goverage -v -coverprofile=coverage.out ./...
+  - ps: go build -race
+  - ps: dir
