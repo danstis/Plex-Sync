@@ -7,10 +7,10 @@ install:
   - choco install gitversion.portable -pre -y
   - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
   - echo %GOPATH%
-  - echo %PATH%
+  - pwd
   - go version
-  - go get github.com/schrej/godacov
-  - go get github.com/haya14busa/goverage
+  - go get -u github.com/schrej/godacov
+  - go get -u github.com/haya14busa/goverage
 
 before_build:
   - ps: gitversion /l console /output buildserver
