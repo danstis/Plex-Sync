@@ -14,6 +14,16 @@ install:
   - go version
   - go get -v -t -d .\...
 
+test_script:
+  - go get -u github.com/haya14busa/goverage
+  - goverage -v .\...
+  - go tool cover -func coverage.out
+
+after_test:
+  - echo %APPVEYOR_REPO_COMMIT%
+  - go get -u github.com/schrej/godacov
+  - godacov -t %CODACY_TOKEN% -r ./coverage.out -c %APPVEYOR_REPO_COMMIT%
+
 before_build:
   - gitversion /l console /output buildserver
   - ps: (Get-Content .\plex\version.go) -replace '(?<=Version = ").*?(?=")', $env:GitVersion_SemVer | Set-Content -Path .\plex\version.go -Encoding UTF8
@@ -25,21 +35,11 @@ build_script:
 after_build:
   - ps: mv ./config/config.toml.default ./config/config.toml
   - ps: mv ./tvshows.txt.default ./tvshows.txt
-  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Remove-Item -Force
-  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Remove-Item -Force
+  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | %{Remove-Item $_ -Force}
+  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | %{Remove-Item $_ -Force}
   - dir
 
 artifacts:
   - path: .\
     name: Plex-Sync
     type: zip
-
-test_script:
-  - go get -u github.com/haya14busa/goverage
-  - goverage -v .\...
-  - go tool cover -func coverage.out
-
-after_test:
-  - echo %APPVEYOR_REPO_COMMIT%
-  - go get -u github.com/schrej/godacov
-  - godacov -t %CODACY_TOKEN% -r ./coverage.out -c %APPVEYOR_REPO_COMMIT%
