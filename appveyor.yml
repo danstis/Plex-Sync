@@ -10,8 +10,7 @@ install:
   - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
   - echo %GOPATH%
   - go version
-  - go get -u github.com/schrej/godacov
-  - go get -u github.com/haya14busa/goverage
+  - go get -v -t -d .\...
 
 before_build:
   - ps: gitversion /l console /output buildserver
@@ -22,8 +21,10 @@ build_script:
   - ps: dir
 
 test_script:
+  - go get -u github.com/haya14busa/goverage
   - goverage -v .\...
 
 after_test:
   - echo %APPVEYOR_REPO_COMMIT%
+  - go get -u github.com/schrej/godacov
   - godacov -t %CODACY_TOKEN% -r ./coverage.out -c %APPVEYOR_REPO_COMMIT%
