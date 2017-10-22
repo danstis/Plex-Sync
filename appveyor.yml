@@ -4,6 +4,8 @@ environment:
   GOPATH: c:\gopath
   CODACY_TOKEN:
     secure: yrLZn0Ij30M2DLejKY+7ulU3d86KrrOxl/+vaBXmFPCPotquPtTWyRWUE7yIhez3
+  GITHUB_TOKEN:
+    secure: Yl/4x5Z5ys7ZvWZayu3S2Sh6rj5GMF/IKtXeuYIlfjdojJJC5sp3S8s35Dnzdcca
 
 install:
   - choco install gitversion.portable -pre -y
@@ -19,6 +21,18 @@ before_build:
 build_script:
   - go build -race
   - dir
+
+after_build:
+  - ps: mv ./config/config.toml.default ./config/config.toml
+  - ps: mv ./tvshows.txt.default ./tvshows.txt
+  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Remove-Item -Force
+  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Remove-Item -Force
+  - dir
+
+artifacts:
+  - path: .\
+    name: Plex-Sync
+    type: zip
 
 test_script:
   - go get -u github.com/haya14busa/goverage
