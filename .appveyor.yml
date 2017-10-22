@@ -33,9 +33,9 @@ after_build:
   - ps: mv ./tvshows.txt.default ./tvshows.txt
   - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | %{rm $_ -Force}
   - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | %{rm $_ -Force}
+  - 7z a Plex-Sync.zip %APPVEYOR_BUILD_FOLDER%
   - ps: dir -Recurse
 
 artifacts:
-  - path: '%APPVEYOR_BUILD_FOLDER%'
+  - path: Plex-Sync.zip
     name: Plex-Sync
-    type: zip
