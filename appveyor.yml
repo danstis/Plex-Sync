@@ -2,6 +2,8 @@ clone_folder: c:\gopath\src\github.com\danstis\Plex-Sync
 
 environment:
   GOPATH: c:\gopath
+  CODACY_TOKEN:
+    secure: Yl/4x5Z5ys7ZvWZayu3S2Sh6rj5GMF/IKtXeuYIlfjdojJJC5sp3S8s35Dnzdcca
 
 install:
   - choco install gitversion.portable -pre -y
@@ -16,7 +18,12 @@ before_build:
   - ps: (Get-Content .\plex\version.go) -replace '(?<=Version = ").*?(?=")', $env:GitVersion_SemVer | Set-Content -Path .\plex\version.go -Encoding UTF8
 
 build_script:
-  - ps: dir
-  - ps: goverage -v .\...
   - ps: go build -race
   - ps: dir
+
+test_script:
+  - goverage -v .\...
+
+after_test:
+  - echo %APPVEYOR_REPO_COMMIT%
+  - godacov -t %CODACY_TOKEN% -r ./coverage.out -c %APPVEYOR_REPO_COMMIT%
