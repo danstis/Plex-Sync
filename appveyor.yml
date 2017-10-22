@@ -16,6 +16,7 @@ before_build:
   - ps: .\generateVersion.ps1
 
 build_script:
+  - ps: dir
   - ps: goverage -v .\...
   - ps: go build -race
   - ps: dir
