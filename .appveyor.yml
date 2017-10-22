@@ -36,6 +36,6 @@ after_build:
   - ps: dir -Recurse
 
 artifacts:
-  - path: .\
+  - path: '%APPVEYOR_BUILD_FOLDER%'
     name: Plex-Sync
     type: zip
