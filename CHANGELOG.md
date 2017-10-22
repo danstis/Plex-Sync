@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Script to bump version using GitVersion.
 
+### Changed
+- Moved builds from TravisCI to Appveyor
+
 ## [v0.3.1]
 ### Fixed
 - Sort selected shows on Home page.
