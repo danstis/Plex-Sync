@@ -25,9 +25,19 @@ var v = PageData{
 	Shows:   ss,
 }
 
+// refreshShows updates the PageData with the latest shows.
+func refreshShows() {
+	ss, _ = plex.SelectedShows()
+	v = PageData{
+		Version: plex.Version,
+		Shows:   ss,
+	}
+}
+
 // RootHandler returns the default page.
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "index.html")))
+	refreshShows()
 	tmpl.Execute(w, v)
 }
 
