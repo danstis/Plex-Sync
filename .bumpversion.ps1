@@ -11,3 +11,4 @@ if (!(Get-Command GitVersion)) {
 $Version = GitVersion.exe | ConvertFrom-Json
 $FilePath = ".\plex\version.go"
 (Get-Content $FilePath) -replace '(?<=Version = ").*?(?=")', $Version.SemVer | Set-Content -Path $FilePath -Encoding UTF8
+Write-Output $Version.SemVer
