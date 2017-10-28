@@ -18,9 +18,10 @@ before_build:
   - gitversion /l console /output buildserver
   - ps: (Get-Content .\plex\version.go) -replace '(?<=Version = ").*?(?=")', $env:GitVersion_SemVer | Set-Content -Path .\plex\version.go -Encoding UTF8
   - goverage -v .\...
-  - go tool cover -func coverage.out
+  - dir *.out
   - echo %APPVEYOR_REPO_COMMIT%
-  - godacov -t %CODACY_TOKEN% -r ./coverage.out -c %APPVEYOR_REPO_COMMIT%
+  - godacov -t %CODACY_TOKEN% -r coverage.out -c %APPVEYOR_REPO_COMMIT%
+  - go tool cover -func coverage.out
 
 build_script:
   - go build -race

@@ -1,6 +1,6 @@
 # Plex-Sync
 
-[![Build status](https://ci.appveyor.com/api/projects/status/bkv4g7crykq7ibc2?svg=true)](https://ci.appveyor.com/project/danstis/plex-sync)
+[![Build status](https://ci.appveyor.com/api/projects/status/bkv4g7crykq7ibc2/branch/master?svg=true)](https://ci.appveyor.com/project/danstis/plex-sync/branch/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/544fa06319c1471c8d6b0ef5589e4f30)](https://www.codacy.com/app/danstis/Plex-Sync?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=danstis/Plex-Sync&amp;utm_campaign=Badge_Grade)
 
 Plex-Sync is a synchronisation tool for Plex. It syncs watched status (and media in future) between a remote and a local plex server.
