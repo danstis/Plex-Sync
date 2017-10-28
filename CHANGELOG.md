@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - ([#50](https://github.com/danstis/Plex-Sync/issues/50)) Refresh shows when reloading the WebUI homepage.
 - ([#55](https://github.com/danstis/Plex-Sync/issues/55)) Ignore pre-release tags on header of web interface.
+- ([#54](https://github.com/danstis/Plex-Sync/issues/54)) Move full version number into the settings page.
 
 ## [v0.3.3]
 ### Added
