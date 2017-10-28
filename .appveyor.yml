@@ -20,7 +20,7 @@ before_build:
   - goverage -v .\...
   - dir *.out
   - echo %APPVEYOR_REPO_COMMIT%
-  - godacov -t %CODACY_TOKEN% -r coverage.out -c %APPVEYOR_REPO_COMMIT%
+  - ps: Invoke-Expression -Command "godacov -t $env:CODACY_TOKEN -r coverage.out -c $env:APPVEYOR_REPO_COMMIT" -ErrorAction "SilentlyContinue"
   - go tool cover -func coverage.out
 
 build_script:
