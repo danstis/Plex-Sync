@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -15,23 +16,21 @@ import (
 
 // PageData defines a struct to store the current version information.
 type PageData struct {
-	Version string
-	Shows   []string
+	Version     string
+	FullVersion string
+	Shows       []string
 }
 
 var ss, _ = plex.SelectedShows()
 var v = PageData{
-	Version: plex.Version,
-	Shows:   ss,
+	Version:     strings.Split(plex.Version, "-")[0],
+	FullVersion: plex.Version,
+	Shows:       ss,
 }
 
 // refreshShows updates the PageData with the latest shows.
 func refreshShows() {
-	ss, _ = plex.SelectedShows()
-	v = PageData{
-		Version: plex.Version,
-		Shows:   ss,
-	}
+	v.Shows, _ = plex.SelectedShows()
 }
 
 // RootHandler returns the default page.
