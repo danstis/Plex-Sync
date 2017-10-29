@@ -51,9 +51,12 @@ func main() {
 	for {
 		token := plex.Token()
 		if token != "" {
-			localServer.GetToken(token)
-			remoteServer.GetToken(token)
-
+			if err = localServer.GetToken(token); err != nil {
+				log.Printf("ERROR: %v", err)
+			}
+			if err = remoteServer.GetToken(token); err != nil {
+				log.Printf("ERROR: %v", err)
+			}
 			plex.SyncWatchedTv(localServer, remoteServer)
 		}
 		log.Printf("Sleeping for %v...", (sleepInterval * time.Second))
