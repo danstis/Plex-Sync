@@ -77,6 +77,8 @@ type Show struct {
 	ID           int    `xml:"ratingKey,attr"`
 	Name         string `xml:"title,attr"`
 	EpisodeCount int    `xml:"leafCount,attr"`
+	Thumbnail    string `xml:"thumb,attr"`
+	Banner       string `xml:"banner,attr"`
 }
 
 // ER contais episode results
