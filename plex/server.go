@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"sort"
 )
 
@@ -125,6 +126,10 @@ func SyncWatchedTv(source, destination Host) error {
 			log.Println(err)
 			continue
 		}
+		err = cacheImages(destination, destShow)
+		if err != nil {
+			log.Println(err)
+		}
 		dEps, err := allEpisodes(destination, destShow.ID)
 		if err != nil {
 			log.Println(err)
@@ -170,23 +175,6 @@ func SelectedShows() ([]string, error) {
 	}
 	sort.Strings(lines)
 	return lines, scanner.Err()
-}
-
-// SelectedShowDetail returns a slice of shows containing the details of the selected shows
-func SelectedShowDetail(source Host) ([]Show, error) {
-	ss, err := SelectedShows()
-	if err != nil {
-		return []Show{}, fmt.Errorf("failed to get selected shows %q", err)
-	}
-	var result []Show
-	for _, i := range ss {
-		ssd, err := SearchShow(source, i)
-		if err != nil {
-			return []Show{}, fmt.Errorf("failed to get details for %q from server %q: %q", i, source.Name, err)
-		}
-		result = append(result, ssd)
-	}
-	return result, nil
 }
 
 // allEpisodes returns all child episodes of a tv show regardless of the season they belong to
@@ -239,5 +227,31 @@ func scrobble(server Host, eID int) error {
 		return fmt.Errorf("unexpected HTTP Response %q", resp.Status)
 	}
 
+	return nil
+}
+
+// cacheImage downloads an image from the specified server to the cache location
+func cacheImages(server Host, show Show) error {
+	path := filepath.Join(os.TempDir(), "Plex-Sync", "cache", "show")
+	itemname := show.Name + "_banner.jpg"
+	fullpath := filepath.Join(path, itemname)
+	uri := CreateURI(server, show.Banner)
+	resp, err := apiRequest("GET", uri, server.Token, nil)
+	if err != nil {
+		return err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return fmt.Errorf("error reading response %v", err)
+	}
+	err = os.MkdirAll(path, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile(fullpath, body, 777)
+	if err != nil {
+		return err
+	}
+	log.Printf("- Cached banner image to path %q", fullpath)
 	return nil
 }
