@@ -172,6 +172,23 @@ func SelectedShows() ([]string, error) {
 	return lines, scanner.Err()
 }
 
+// SelectedShowDetail returns a slice of shows containing the details of the selected shows
+func SelectedShowDetail(source Host) ([]Show, error) {
+	ss, err := SelectedShows()
+	if err != nil {
+		return []Show{}, fmt.Errorf("failed to get selected shows %q", err)
+	}
+	var result []Show
+	for _, i := range ss {
+		ssd, err := SearchShow(source, i)
+		if err != nil {
+			return []Show{}, fmt.Errorf("failed to get details for %q from server %q: ", i, source, err)
+		}
+		result = append(result, ssd)
+	}
+	return result, nil
+}
+
 // allEpisodes returns all child episodes of a tv show regardless of the season they belong to
 func allEpisodes(server Host, sID int) ([]Episode, error) {
 	uri := CreateURI(server, fmt.Sprintf("library/metadata/%v/allLeaves", sID))
