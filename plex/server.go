@@ -182,7 +182,7 @@ func SelectedShowDetail(source Host) ([]Show, error) {
 	for _, i := range ss {
 		ssd, err := SearchShow(source, i)
 		if err != nil {
-			return []Show{}, fmt.Errorf("failed to get details for %q from server %q: ", i, source, err)
+			return []Show{}, fmt.Errorf("failed to get details for %q from server %q: %q", i, source.Name, err)
 		}
 		result = append(result, ssd)
 	}
