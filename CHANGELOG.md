@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v0.4.1]
+### Fixed
+- ([#59](https://github.com/danstis/Plex-Sync/issues/59)) Handle returned errors for the GetToken method.
 
 ## [v0.4.0]
 ### Changed
@@ -55,7 +58,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - App would attempt to sync even if a token was not obtained.
 - Spaces in TV Show names cause errors.
 
-[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.4.0...HEAD
+[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.4.1...HEAD
+[v0.4.1]: https://github.com/danstis/Plex-Sync/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/danstis/Plex-Sync/compare/v0.3.4...v0.4.0
 [v0.3.4]: https://github.com/danstis/Plex-Sync/compare/v0.3.1...v0.3.4
 [v0.3.1]: https://github.com/danstis/Plex-Sync/compare/v0.3.0...v0.3.1
