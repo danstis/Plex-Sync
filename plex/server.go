@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 )
 
 // Host defines the data to be stored for server objects
@@ -233,9 +234,9 @@ func scrobble(server Host, eID int) error {
 // cacheImage downloads an image from the specified server to the cache location
 func cacheImages(server Host, show Show) error {
 	path := filepath.Join(os.TempDir(), "Plex-Sync", "cache", "show")
-	itemname := show.Name + "_banner.jpg"
+	itemname := fmt.Sprintf("%s_banner.jpg", show.Name)
 	fullpath := filepath.Join(path, itemname)
-	uri := CreateURI(server, show.Banner)
+	uri := CreateURI(server, strings.TrimPrefix(show.Banner, "/"))
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
 		return err
