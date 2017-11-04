@@ -14,6 +14,8 @@ import (
 	"strings"
 )
 
+var cachePath = filepath.Join(os.TempDir(), "Plex-Sync", "cache", "show")
+
 // Host defines the data to be stored for server objects
 type Host struct {
 	Name     string
@@ -233,9 +235,8 @@ func scrobble(server Host, eID int) error {
 
 // cacheImage downloads an image from the specified server to the cache location
 func cacheImages(server Host, show Show) error {
-	path := filepath.Join(os.TempDir(), "Plex-Sync", "cache", "show")
 	itemname := fmt.Sprintf("%s_banner.jpg", show.Name)
-	fullpath := filepath.Join(path, itemname)
+	fullpath := filepath.Join(cachePath, itemname)
 	uri := CreateURI(server, strings.TrimPrefix(show.Banner, "/"))
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
@@ -245,7 +246,7 @@ func cacheImages(server Host, show Show) error {
 	if err != nil {
 		return fmt.Errorf("error reading response %v", err)
 	}
-	err = os.MkdirAll(path, os.ModePerm)
+	err = os.MkdirAll(cachePath, os.ModePerm)
 	if err != nil {
 		return err
 	}
