@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-var cachePath = filepath.Join(os.TempDir(), "Plex-Sync", "cache", "show")
+var cachePath = filepath.Join(".cache", "show")
 
 // Host defines the data to be stored for server objects
 type Host struct {
