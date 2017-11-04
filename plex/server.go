@@ -237,19 +237,28 @@ func scrobble(server Host, eID int) error {
 func cacheImages(server Host, show Show) error {
 	itemname := fmt.Sprintf("%s_banner.jpg", show.Name)
 	fullpath := filepath.Join(cachePath, itemname)
+
+	// Check if file is already cached
+	if _, err := os.Stat(fullpath); !os.IsNotExist(err) {
+		return nil
+	}
+
 	uri := CreateURI(server, strings.TrimPrefix(show.Banner, "/"))
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
 		return err
 	}
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("error reading response %v", err)
 	}
+
 	err = os.MkdirAll(cachePath, os.ModePerm)
 	if err != nil {
 		return err
 	}
+
 	err = ioutil.WriteFile(fullpath, body, 777)
 	if err != nil {
 		return err
