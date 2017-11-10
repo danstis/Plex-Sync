@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- ([#61](https://github.com/danstis/Plex-Sync/issues/61)) Modify build to control versioning.
 
 ## [v0.4.1]
 ### Fixed
