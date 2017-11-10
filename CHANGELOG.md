@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Changed
 - ([#61](https://github.com/danstis/Plex-Sync/issues/61)) Modify build to control versioning.
+- ([#63](https://github.com/danstis/Plex-Sync/issues/63)) Add version number to console on startup.
 
 ## [v0.4.1]
 ### Fixed
