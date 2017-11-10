@@ -19,6 +19,7 @@ import (
 )
 
 func main() {
+	log.Printf("Plex-Sync v%v", plex.Version)
 	viper.SetConfigName("config")
 	viper.AddConfigPath("./config")
 	err := viper.ReadInConfig()
