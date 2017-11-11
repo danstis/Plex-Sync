@@ -1,7 +1,5 @@
 package main
 
-//go:generate PowerShell -File .\.bumpversion.ps1
-
 import (
 	"fmt"
 	"io"
