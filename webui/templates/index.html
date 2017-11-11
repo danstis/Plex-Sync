@@ -60,7 +60,10 @@
             <p class="lead">Selected Shows:</p>
             {{range .Shows}}
             <div class="showItem">
-                <img class="showThumb" src="/cache/show/{{.}}_thumb.jpg" alt="{{.}}">
+                <object class="showThumb" data="/cache/show/{{.}}_thumb.jpg" type="image/jpg">
+                    <div class="showThumb missingThumb">{{.}}</div>
+                </object>
+                <!-- <img class="showThumb" src="/cache/show/{{.}}_thumb.jpg" alt="{{.}}"> -->
             </div>
             {{end}} {{end}}
         </div>
