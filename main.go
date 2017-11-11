@@ -40,6 +40,7 @@ func main() {
 		Ssl:      viper.GetBool("remoteServer.usessl"),
 	}
 
+	plex.CacheLifetime = viper.GetInt("webui.cacheLifetime") * -1
 	r := webui.NewRouter()
 
 	loggedRouter := handlers.LoggingHandler(createLogger(viper.GetString("general.webserverlogfile")), r)

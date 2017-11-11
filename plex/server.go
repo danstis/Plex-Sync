@@ -12,7 +12,11 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"time"
 )
+
+// CacheLifetime controls when a cached image will be refreshed in days
+var CacheLifetime int
 
 var cachePath = filepath.Join(".cache", "show")
 
@@ -129,7 +133,7 @@ func SyncWatchedTv(source, destination Host) error {
 			log.Println(err)
 			continue
 		}
-		err = cacheImages(destination, destShow)
+		err = destShow.cacheImages(destination)
 		if err != nil {
 			log.Println(err)
 		}
@@ -234,16 +238,19 @@ func scrobble(server Host, eID int) error {
 }
 
 // cacheImage downloads an image from the specified server to the cache location
-func cacheImages(server Host, show Show) error {
-	itemname := fmt.Sprintf("%s_banner.jpg", show.Name)
+func (s Show) cacheImages(server Host) error {
+	itemname := fmt.Sprintf("%s_thumb.jpg", s.Name)
 	fullpath := filepath.Join(cachePath, itemname)
 
 	// Check if file is already cached
-	if _, err := os.Stat(fullpath); !os.IsNotExist(err) {
-		return nil
+	if fs, err := os.Stat(fullpath); !os.IsNotExist(err) {
+		if expired(fs) == false {
+			return nil
+		}
+		log.Println("Cached image is expired, will refresh")
 	}
 
-	uri := CreateURI(server, strings.TrimPrefix(show.Banner, "/"))
+	uri := CreateURI(server, strings.TrimPrefix(s.Thumbnail, "/"))
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
 		return err
@@ -265,4 +272,12 @@ func cacheImages(server Host, show Show) error {
 	}
 	log.Printf("- Cached banner image to path %q", fullpath)
 	return nil
+}
+
+func expired(fs os.FileInfo) bool {
+	log.Printf("DEBUG: File time %q, cache cutoff %q, cacheLifetime %v", fs.ModTime(), time.Now().AddDate(0, 0, CacheLifetime), CacheLifetime)
+	if fs.ModTime().After(time.Now().AddDate(0, 0, CacheLifetime)) {
+		return false
+	}
+	return true
 }
