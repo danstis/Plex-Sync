@@ -118,16 +118,6 @@ func SyncWatchedTv(source, destination Host) error {
 	// For each show, enumerate all source and destination episodes
 	for _, s := range ss {
 		log.Printf("Processing show %q", s)
-		srcShow, err := SearchShow(source, s)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-		sEps, err := allEpisodes(source, srcShow.ID)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
 		destShow, err := SearchShow(destination, s)
 		if err != nil {
 			log.Println(err)
@@ -142,6 +132,17 @@ func SyncWatchedTv(source, destination Host) error {
 			log.Println(err)
 			continue
 		}
+		srcShow, err := SearchShow(source, s)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+		sEps, err := allEpisodes(source, srcShow.ID)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
 		for _, e := range sEps {
 			// If the local show is marked as watched check if the remote episode is watched
 			log.Printf("- Checking %v - Season %v, Episode %v", srcShow.Name, e.Season, e.Episode)
