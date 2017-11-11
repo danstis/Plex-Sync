@@ -9,8 +9,16 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"sort"
+	"strings"
+	"time"
 )
+
+// CacheLifetime controls when a cached image will be refreshed in days
+var CacheLifetime int
+
+var cachePath = filepath.Join(".cache", "show")
 
 // Host defines the data to be stored for server objects
 type Host struct {
@@ -77,6 +85,8 @@ type Show struct {
 	ID           int    `xml:"ratingKey,attr"`
 	Name         string `xml:"title,attr"`
 	EpisodeCount int    `xml:"leafCount,attr"`
+	Thumbnail    string `xml:"thumb,attr"`
+	Banner       string `xml:"banner,attr"`
 }
 
 // ER contais episode results
@@ -108,6 +118,20 @@ func SyncWatchedTv(source, destination Host) error {
 	// For each show, enumerate all source and destination episodes
 	for _, s := range ss {
 		log.Printf("Processing show %q", s)
+		destShow, err := SearchShow(destination, s)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+		err = destShow.cacheImages(destination)
+		if err != nil {
+			log.Println(err)
+		}
+		dEps, err := allEpisodes(destination, destShow.ID)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
 		srcShow, err := SearchShow(source, s)
 		if err != nil {
 			log.Println(err)
@@ -118,16 +142,7 @@ func SyncWatchedTv(source, destination Host) error {
 			log.Println(err)
 			continue
 		}
-		destShow, err := SearchShow(destination, s)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-		dEps, err := allEpisodes(destination, destShow.ID)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
+
 		for _, e := range sEps {
 			// If the local show is marked as watched check if the remote episode is watched
 			log.Printf("- Checking %v - Season %v, Episode %v", srcShow.Name, e.Season, e.Episode)
@@ -221,4 +236,48 @@ func scrobble(server Host, eID int) error {
 	}
 
 	return nil
+}
+
+// cacheImage downloads an image from the specified server to the cache location
+func (s Show) cacheImages(server Host) error {
+	itemname := fmt.Sprintf("%s_thumb.jpg", s.Name)
+	fullpath := filepath.Join(cachePath, itemname)
+
+	// Check if file is already cached
+	if fs, err := os.Stat(fullpath); !os.IsNotExist(err) {
+		if expired(fs) == false {
+			return nil
+		}
+		log.Println("Cached image is expired, will refresh")
+	}
+
+	uri := CreateURI(server, strings.TrimPrefix(s.Thumbnail, "/"))
+	resp, err := apiRequest("GET", uri, server.Token, nil)
+	if err != nil {
+		return err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return fmt.Errorf("error reading response %v", err)
+	}
+
+	err = os.MkdirAll(cachePath, os.ModePerm)
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(fullpath, body, 777)
+	if err != nil {
+		return err
+	}
+	log.Printf("- Cached banner image to path %q", fullpath)
+	return nil
+}
+
+func expired(fs os.FileInfo) bool {
+	if fs.ModTime().After(time.Now().AddDate(0, 0, CacheLifetime)) {
+		return false
+	}
+	return true
 }

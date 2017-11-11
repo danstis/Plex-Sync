@@ -4,6 +4,8 @@ environment:
   GOPATH: c:\gopath
   CODACY_TOKEN:
     secure: yrLZn0Ij30M2DLejKY+7ulU3d86KrrOxl/+vaBXmFPCPotquPtTWyRWUE7yIhez3
+  COVERALLS_TOKEN:
+    secure: Bc2t/iVXULjddywzFj+F5RrWTlqVHVv4ikA+NV9LZMt69OQRaauWcMDhpjlZ5FN/
 
 install:
   - choco install gitversion.portable -pre -y
@@ -21,6 +23,7 @@ build_script:
 before_test:
   - go get -u github.com/haya14busa/goverage
   - go get -u github.com/schrej/godacov
+  - go get -u github.com/mattn/goveralls
 
 test_script:
   - goverage -v .\...
@@ -29,7 +32,8 @@ test_script:
 after_test:
   - dir *.out
   - echo %APPVEYOR_REPO_COMMIT%
-  - ps: Invoke-Expression -Command "godacov -t $env:CODACY_TOKEN -r coverage.out -c $env:APPVEYOR_REPO_COMMIT" -ErrorAction "SilentlyContinue"
+  - godacov -t %CODACY_TOKEN% -r .\coverage.out -c %APPVEYOR_REPO_COMMIT% || exit 0
+  - goveralls -coverprofile=coverage.out -service=appveyor || exit 0
   - ps: Move-Item ./config/config.toml.default ./config/config.toml
   - ps: Move-Item ./tvshows.txt.default ./tvshows.txt
   - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Move-Item -Destination $env:Temp -Force
