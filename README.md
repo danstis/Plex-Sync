@@ -35,6 +35,9 @@ MyPlex is used to enable communication with the Plex servers.
 	port = 32400 			# Port used to connect to your remote Plex server.
 	usessl = true			# Defines if SSL should be used to connect to the remote server.
 
+	[webui]
+	cacheLifetime = 5	        # Days before cached thumbnails are refreshed.
+
 	```
 1. Populate the tvshows.txt file with a list of shows to sync watched status for. The titles should match what is listed in Plex, for example:
 	```
