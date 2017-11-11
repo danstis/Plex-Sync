@@ -59,8 +59,10 @@
             {{if .Shows}}
             <p class="lead">Selected Shows:</p>
             {{range .Shows}}
-            <p>{{.}}</p>
-            <img src="/cache/show/{{.}}_banner.jpg" alt="{{.}}"> {{end}} {{end}}
+            <div class="showItem">
+                <img class="showThumb" src="/cache/show/{{.}}_thumb.jpg" alt="{{.}}">
+            </div>
+            {{end}} {{end}}
         </div>
 
     </div>
