@@ -1,5 +1,4 @@
 clone_folder: c:\gopath\src\github.com\danstis\Plex-Sync
-image: WMF 5
 
 environment:
   GOPATH: c:\gopath
