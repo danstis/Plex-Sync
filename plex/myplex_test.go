@@ -138,6 +138,16 @@ func Test_apiRequest(t *testing.T) {
 			wantBody:   "{ \"hello\": \"world\" }",
 			wantErr:    false,
 		},
+		{
+			name: "Bad URL",
+			args: args{
+				method: "GET",
+				url:    "http://badurl",
+				token:  "testtoken",
+				body:   nil,
+			},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -147,18 +157,20 @@ func Test_apiRequest(t *testing.T) {
 				return
 			}
 
-			if got.StatusCode != tt.wantStatus {
-				t.Errorf("apiRequest() response status = %v, want %v", got.StatusCode, tt.wantStatus)
-				return
-			}
+			if tt.wantErr != true {
+				if got.StatusCode != tt.wantStatus {
+					t.Errorf("apiRequest() response status = %v, want %v", got.StatusCode, tt.wantStatus)
+					return
+				}
 
-			defer got.Body.Close()
-			body, err := ioutil.ReadAll(got.Body)
-			if err != nil {
-				t.Fatal("Error reading response body")
-			}
-			if string(body) != tt.wantBody {
-				t.Errorf("apiRequest() body = %v, want %v", string(body), tt.wantBody)
+				defer got.Body.Close()
+				body, err := ioutil.ReadAll(got.Body)
+				if err != nil {
+					t.Fatal("Error reading response body")
+				}
+				if string(body) != tt.wantBody {
+					t.Errorf("apiRequest() body = %v, want %v", string(body), tt.wantBody)
+				}
 			}
 		})
 	}
