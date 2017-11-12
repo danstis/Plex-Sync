@@ -98,10 +98,7 @@ func cacheToken(token string) error {
 
 // RemoveCachedToken removes the cached tokenfile
 func RemoveCachedToken() error {
-	if err := os.Remove(tokenFile); err != nil {
-		return err
-	}
-	return nil
+	return os.Remove(tokenFile)
 }
 
 func addHeaders(r http.Request, token string) {
