@@ -93,3 +93,17 @@ func TestTokenRemoval(t *testing.T) {
 		t.Error("Error removing token file")
 	}
 }
+
+// Test missing token file
+func TestNewTokenfile(t *testing.T) {
+	want := ""
+	// Replace the tokenfile path for the duration of this test.
+	oldtokenfile := tokenFile
+	tokenFile = "testTokenFile"
+	defer func() { tokenFile = oldtokenfile }()
+
+	got := Token()
+	if got != want {
+		t.Errorf("Token() got %v want %v", got, want)
+	}
+}
