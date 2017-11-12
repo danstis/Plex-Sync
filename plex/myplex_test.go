@@ -1,7 +1,10 @@
 package plex
 
 import (
+	"io"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"testing"
 )
@@ -91,5 +94,84 @@ func TestTokenRemoval(t *testing.T) {
 
 	if err := RemoveCachedToken(); err != nil {
 		t.Error("Error removing token file")
+	}
+}
+
+// Test missing token file
+func TestNewTokenfile(t *testing.T) {
+	want := ""
+	// Replace the tokenfile path for the duration of this test.
+	oldtokenfile := tokenFile
+	tokenFile = "testTokenFile"
+	defer func() { tokenFile = oldtokenfile }()
+
+	got := Token()
+	if got != want {
+		t.Errorf("Token() got %v want %v", got, want)
+	}
+}
+
+// Test_apiRequest tests the apiRequest function
+func Test_apiRequest(t *testing.T) {
+	type args struct {
+		method string
+		url    string
+		token  string
+		body   io.Reader
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantStatus int
+		wantBody   string
+		wantErr    bool
+	}{
+		{
+			name: "Successful request",
+			args: args{
+				method: "GET",
+				url:    "http://www.mocky.io/v2/5a07ad672f0000ae0ee610f1",
+				token:  "testtoken",
+				body:   nil,
+			},
+			wantStatus: http.StatusOK,
+			wantBody:   "{ \"hello\": \"world\" }",
+			wantErr:    false,
+		},
+		{
+			name: "Bad URL",
+			args: args{
+				method: "GET",
+				url:    "http://badurl",
+				token:  "testtoken",
+				body:   nil,
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := apiRequest(tt.args.method, tt.args.url, tt.args.token, tt.args.body)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("apiRequest() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+			if tt.wantErr != true {
+				if got.StatusCode != tt.wantStatus {
+					t.Errorf("apiRequest() response status = %v, want %v", got.StatusCode, tt.wantStatus)
+					return
+				}
+
+				defer got.Body.Close()
+				body, err := ioutil.ReadAll(got.Body)
+				if err != nil {
+					t.Fatal("Error reading response body")
+				}
+				if string(body) != tt.wantBody {
+					t.Errorf("apiRequest() body = %v, want %v", string(body), tt.wantBody)
+				}
+			}
+		})
 	}
 }
