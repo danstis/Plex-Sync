@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 
 	"net/http"
 
@@ -19,7 +20,7 @@ type Credentials struct {
 }
 
 var (
-	tokenFile = "token"
+	tokenFile = path.Join(".cache", "token")
 )
 
 // Token requests a MyPlex authentication token from cache or from MyPlex.
