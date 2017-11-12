@@ -105,7 +105,7 @@ func addHeaders(r http.Request, token string) {
 	r.Header.Add("X-Plex-Client-Identifier", "0bc797da-2ddd-4ce5-946e-5b13e48f17bb")
 	r.Header.Add("X-Plex-Product", "Plex-Sync")
 	r.Header.Add("X-Plex-Device", "Plex-Sync")
-	r.Header.Add("X-Plex-Version", Version)
+	r.Header.Add("X-Plex-Version", ShortVersion)
 	r.Header.Add("X-Plex-Provides", "controller")
 	if token != "" {
 		r.Header.Add("X-Plex-Token", token)
