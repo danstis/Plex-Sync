@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -23,7 +22,7 @@ type PageData struct {
 
 var ss, _ = plex.SelectedShows()
 var v = PageData{
-	Version:     strings.Split(plex.Version, "-")[0],
+	Version:     plex.ShortVersion,
 	FullVersion: plex.Version,
 	Shows:       ss,
 }
