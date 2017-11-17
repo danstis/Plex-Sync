@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - ([#63](https://github.com/danstis/Plex-Sync/issues/63)) Add version number to console on startup.
 - ([#58](https://github.com/danstis/Plex-Sync/issues/58)) Changed text list of selected shows to thumbnail images from destination server.
 - ([#61](https://github.com/danstis/Plex-Sync/issues/61)) Modify build to control versioning.
+- ([#74](https://github.com/danstis/Plex-Sync/issues/74)) Moved tvshows.txt file to config folder.
 
 ## [v0.4.1]
 

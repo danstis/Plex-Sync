@@ -25,13 +25,15 @@ _testmain.go
 *.prof
 
 ## Other
-/debug
+*.log
+/.cache
+/.deploy.ps1
 /.vscode
 /config/config.toml
-/token
+/config/token
+/config/tvshows.txt
+/debug
 /exec.ps1
-/tvshows.txt
-*.log
 /logs
-/.deploy.ps1
-/.cache
+/token
+/tvshows.txt

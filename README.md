@@ -40,7 +40,7 @@ MyPlex is used to enable communication with the Plex servers.
     cacheLifetime = 5       # Days before cached thumbnails are refreshed.
 
     ```
-1. Populate the tvshows.txt file with a list of shows to sync watched status for. The titles should match what is listed in Plex, for example:
+1. Populate the /config/tvshows.txt file with a list of shows to sync watched status for. The titles should match what is listed in Plex, for example:
     ```txt
     Cops
     The Americans (2013)

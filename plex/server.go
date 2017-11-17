@@ -30,7 +30,7 @@ type Host struct {
 }
 
 var (
-	tvShowFile = "tvshows.txt"
+	tvShowFile = filepath.Join("config", "tvshows.txt")
 )
 
 // CreateURI assembles the URI for an API request
