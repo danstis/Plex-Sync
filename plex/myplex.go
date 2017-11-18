@@ -80,10 +80,7 @@ func TokenRequest(cred Credentials) error {
 	log.Println("Token received.")
 
 	err = cacheToken(record.AuthenticationToken)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func cacheToken(token string) error {
@@ -117,6 +114,9 @@ func addHeaders(r http.Request, token string) {
 func (h *Host) GetToken(t string) error {
 	// Create a new reqest object.
 	resp, err := apiRequest("GET", "https://plex.tv/pms/servers.xml", t, nil)
+	if err != nil {
+		return fmt.Errorf("error creating request: %v", err)
+	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {

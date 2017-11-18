@@ -244,7 +244,7 @@ func (s Show) cacheImages(server Host) error {
 
 	// Check if file is already cached
 	if fs, err := os.Stat(fullpath); !os.IsNotExist(err) {
-		if expired(fs) == false {
+		if !expired(fs) {
 			return nil
 		}
 		log.Println("Cached image is expired, will refresh")
@@ -266,7 +266,7 @@ func (s Show) cacheImages(server Host) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(fullpath, body, 777)
+	err = ioutil.WriteFile(fullpath, body, 0777)
 	if err != nil {
 		return err
 	}
@@ -275,8 +275,5 @@ func (s Show) cacheImages(server Host) error {
 }
 
 func expired(fs os.FileInfo) bool {
-	if fs.ModTime().After(time.Now().AddDate(0, 0, CacheLifetime)) {
-		return false
-	}
-	return true
+	return fs.ModTime().Before(time.Now().AddDate(0, 0, CacheLifetime))
 }
