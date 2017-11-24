@@ -3,21 +3,6 @@
         "gas": "gas -fmt=csv -exclude=G103,G104,G201,G202,G204,G301,G302 {path}/*.go:^(?P<path>.*?\\.go),(?P<line>\\d+),(?P<message>[^,]+,[^,]+,[^,]+)"
     },
     "Disable": ["aligncheck", "structcheck", "varcheck", "dupl", "goimports", "golint", "gotype", "lll", "vetshadow", "misspell"],
-    "Enable": [
-        "deadcode",
-        "dupl",
-        "goconst",
-        "gocyclo",
-        "golint",
-        "ineffassign",
-        "interfacer",
-        "maligned",
-        "megacheck",
-        "safesql",
-        "unconvert",
-        "vet",
-        "vetshadow",
-        "errcheck"
-    ],
+    "Enable": ["deadcode", "dupl", "goconst", "gocyclo", "golint", "ineffassign", "interfacer", "megacheck", "safesql", "unconvert", "vet", "vetshadow", "errcheck"],
     "Cyclo": 15
 }
