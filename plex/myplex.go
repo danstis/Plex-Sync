@@ -89,8 +89,14 @@ func cacheToken(token string) error {
 	if err != nil {
 		return fmt.Errorf("unable to create token file")
 	}
-	f.WriteString(token)
-	f.Close()
+	_, err = f.WriteString(token)
+	if err != nil {
+		return fmt.Errorf("unable to write to token file")
+	}
+	err = f.Close()
+	if err != nil {
+		return fmt.Errorf("unable to close token file: %v", err)
+	}
 	return nil
 }
 
