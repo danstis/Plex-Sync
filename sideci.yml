@@ -10,3 +10,6 @@ linter:
       tests: true
       errors: false
       fast: false
+      enable:
+        - errcheck
+        - misspell
