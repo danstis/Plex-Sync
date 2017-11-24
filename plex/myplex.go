@@ -61,7 +61,7 @@ func TokenRequest(cred Credentials) error {
 	if err != nil {
 		return fmt.Errorf("failed request to MyPlex servers")
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint: errcheck
 
 	if resp.StatusCode == http.StatusUnauthorized {
 		return fmt.Errorf(resp.Status)
@@ -80,10 +80,7 @@ func TokenRequest(cred Credentials) error {
 	log.Println("Token received.")
 
 	err = cacheToken(record.AuthenticationToken)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func cacheToken(token string) error {
@@ -92,8 +89,14 @@ func cacheToken(token string) error {
 	if err != nil {
 		return fmt.Errorf("unable to create token file")
 	}
-	f.WriteString(token)
-	f.Close()
+	_, err = f.WriteString(token)
+	if err != nil {
+		return fmt.Errorf("unable to write to token file")
+	}
+	err = f.Close()
+	if err != nil {
+		return fmt.Errorf("unable to close token file: %v", err)
+	}
 	return nil
 }
 
@@ -117,7 +120,10 @@ func addHeaders(r http.Request, token string) {
 func (h *Host) GetToken(t string) error {
 	// Create a new reqest object.
 	resp, err := apiRequest("GET", "https://plex.tv/pms/servers.xml", t, nil)
-	defer resp.Body.Close()
+	if err != nil {
+		return fmt.Errorf("error creating request: %v", err)
+	}
+	defer resp.Body.Close() // nolint: errcheck
 
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf(resp.Status)

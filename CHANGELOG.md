@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - ([#61](https://github.com/danstis/Plex-Sync/issues/61)) Modify build to control versioning.
 - ([#74](https://github.com/danstis/Plex-Sync/issues/74)) Moved tvshows.txt file to config folder.
 
+### Fixed
+
+- Cleanup code errors.
+
 ## [v0.4.1]
 
 ### Fixed

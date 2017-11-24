@@ -8,10 +8,10 @@ Please replace this line with a brief summary of your issue.
 
 ### Reproduction Steps
 
-  1. First step.
-  1. Second step.
+1. First step.
+1. Second step.
 
-### Desired Behavior
+### Desired Behaviour
 
 Please describe what you think should have happened.
 
@@ -27,5 +27,5 @@ Describe the feature and how it should work in detail.
 
 What are the minimum requirements to close this issue?
 
-- Item 1
-- Item 2
+* Item 1
+* Item 2

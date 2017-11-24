@@ -157,7 +157,7 @@ func Test_apiRequest(t *testing.T) {
 				return
 			}
 
-			if tt.wantErr != true {
+			if !tt.wantErr {
 				if got.StatusCode != tt.wantStatus {
 					t.Errorf("apiRequest() response status = %v, want %v", got.StatusCode, tt.wantStatus)
 					return

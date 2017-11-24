@@ -36,22 +36,34 @@ func refreshShows() {
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "index.html")))
 	refreshShows()
-	tmpl.Execute(w, v)
+	err := tmpl.Execute(w, v)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func settingsHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "settings", "settings.html")))
-	tmpl.Execute(w, v)
+	err := tmpl.Execute(w, v)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func tokenHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "settings", "promptCredentials.html")))
-	tmpl.Execute(w, v)
+	err := tmpl.Execute(w, v)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func logsHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "logs.html")))
-	tmpl.Execute(w, v)
+	err := tmpl.Execute(w, v)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func generalLogHeadHandler(w http.ResponseWriter, r *http.Request) {
