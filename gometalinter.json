@@ -9,7 +9,6 @@
         "goconst",
         "gocyclo",
         "golint",
-        "gotypex",
         "ineffassign",
         "interfacer",
         "maligned",
