@@ -148,6 +148,7 @@ func (h *Host) GetToken(t string) error {
 	return fmt.Errorf("no server found matching name %q", h.Name)
 }
 
+// codebeat:disable[TOO_MANY_IVARS]
 type myPlexServer struct {
 	Server []struct {
 		AccessToken    string `xml:"accessToken,attr"`
@@ -162,6 +163,8 @@ type myPlexServer struct {
 		Synced         string `xml:"synced,attr"`
 	}
 }
+
+// codebeat:enable[TOO_MANY_IVARS]
 
 func apiRequest(method, url, token string, body io.Reader) (*http.Response, error) {
 	req, err := http.NewRequest(method, url, body)
