@@ -2,22 +2,8 @@ body {
     padding-top: 55px;
 }
 
-.showItem {
-    margin: 5px;
-    float: left;
-    text-align: center;
-}
-
 .showThumb {
-    width: 200px;
-    height: 294px;
     text-align: center;
     font-weight: bold;
     font-size: larger;
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.missingThumb {
-    border: 1px solid black;
 }

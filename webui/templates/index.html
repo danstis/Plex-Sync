@@ -58,14 +58,16 @@
             <h2>Welcome to Plex-Sync</h2>
             {{if .Shows}}
             <p class="lead">Selected Shows:</p>
-            {{range .Shows}}
-            <div class="showItem">
-                <object class="showThumb" data="/cache/show/{{.}}_thumb.jpg" type="image/jpg">
-                    <div class="showThumb missingThumb">{{.}}</div>
-                </object>
-                <!-- <img class="showThumb" src="/cache/show/{{.}}_thumb.jpg" alt="{{.}}"> -->
+
+            <div class="row">
+                {{range .Shows}}
+                <div class="col-xs-3 col-md-2">
+                    <img class="img-responsive showThumb" src="/cache/show/{{.}}_thumb.jpg" alt="{{.}}">
+                </div>
+                {{end}}
             </div>
-            {{end}} {{end}}
+
+            {{end}}
         </div>
 
     </div>
