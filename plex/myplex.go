@@ -61,7 +61,7 @@ func TokenRequest(cred Credentials) error {
 	if err != nil {
 		return fmt.Errorf("failed request to MyPlex servers")
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint: errcheck
 
 	if resp.StatusCode == http.StatusUnauthorized {
 		return fmt.Errorf(resp.Status)
@@ -123,7 +123,7 @@ func (h *Host) GetToken(t string) error {
 	if err != nil {
 		return fmt.Errorf("error creating request: %v", err)
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint: errcheck
 
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf(resp.Status)

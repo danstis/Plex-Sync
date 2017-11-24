@@ -49,7 +49,7 @@ func SearchShow(server Host, title string) (Show, error) {
 	if err != nil {
 		return Show{}, fmt.Errorf("error getting episodes for show %q from server %q", title, server.Name)
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint: errcheck
 
 	if resp.StatusCode != http.StatusOK {
 		return Show{}, fmt.Errorf("unexpected HTTP Response %q", resp.Status)
@@ -88,7 +88,7 @@ type Show struct {
 	Banner       string `xml:"banner,attr"`
 }
 
-// ER contais episode results
+// ER contains episode results
 type ER struct {
 	XMLName xml.Name  `xml:"MediaContainer"`
 	Video   []Episode `xml:"Video"`
@@ -173,7 +173,7 @@ func SelectedShows() ([]string, error) {
 		return nil, fmt.Errorf("failed to open tvshows file %q", tvShowFile)
 	}
 
-	defer file.Close()
+	defer file.Close() // nolint: errcheck
 	var lines []string
 
 	scanner := bufio.NewScanner(file)
@@ -191,7 +191,7 @@ func allEpisodes(server Host, sID int) ([]Episode, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint: errcheck
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unexpected HTTP Response %q", resp.Status)
