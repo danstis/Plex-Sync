@@ -6,7 +6,6 @@ linter:
       cyclo-over: 15
       min-confidence: .80
       dupl-threshold: 50
-      severity: 'warning'
       vendor: true
       tests: true
       errors: false
