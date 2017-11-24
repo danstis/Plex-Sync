@@ -2,6 +2,7 @@ linter:
   gometalinter:
     import_path: github.com/danstis/Plex-Sync
     options:
+      config: gometalinter.json
       skip: config/
       cyclo-over: 15
       min-confidence: .80
@@ -17,3 +18,4 @@ linter:
   misspell:
     options:
       locale: UK
+      ignore: webui/static/css/main.css,.appveyor.yml
