@@ -37,3 +37,4 @@ _testmain.go
 /logs
 /token
 /tvshows.txt
+/vendor
