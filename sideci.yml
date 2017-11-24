@@ -12,9 +12,11 @@ linter:
       fast: false
       enable:
         - errcheck
-        - megacheck
         - dupl
         - deadcode
+        - gosimple
+        - staticcheck
+        - unused
 
   misspell:
     options:
