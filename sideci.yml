@@ -13,3 +13,7 @@ linter:
       enable:
         - errcheck
         - misspell
+
+  misspell:
+    options:
+      locale: UK
