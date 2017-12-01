@@ -26,7 +26,7 @@ before_test:
   - go get -u github.com/mattn/goveralls
 
 test_script:
-  - goverage -v .\...
+  - goverage -v .\plex\...
   - go tool cover -func coverage.out
 
 after_test:
