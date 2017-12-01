@@ -16,6 +16,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 *
 -->
 
+## [Unreleased]
+
+### Changed
+
+* Move config into own package
+
 ## [v0.5.0]
 
 ### Changed
