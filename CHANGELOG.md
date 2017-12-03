@@ -16,11 +16,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 *
 -->
 
-## [Unreleased]
+## [v1.5.1]
 
 ### Changed
 
-* Move config into own package
+* Move config into own package.
+
+## Fixed
+
+* ([#87](https://github.com/danstis/Plex-Sync/issues/87)) Update to return message if watched item has already been scrobbled on remote server.
 
 ## [v0.5.0]
 
