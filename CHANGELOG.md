@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 *
 -->
 
-## [v1.5.1]
+## [v0.5.1]
 
 ### Changed
 
@@ -109,7 +109,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 * App would attempt to sync even if a token was not obtained.
 * Spaces in TV Show names cause errors.
 
-[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.5.0...HEAD
+[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.5.1...HEAD
+[v0.5.1]: https://github.com/danstis/Plex-Sync/compare/v0.5.0...v0.5.1
 [v0.5.0]: https://github.com/danstis/Plex-Sync/compare/v0.4.1...v0.5.0
 [v0.4.1]: https://github.com/danstis/Plex-Sync/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/danstis/Plex-Sync/compare/v0.3.4...v0.4.0
