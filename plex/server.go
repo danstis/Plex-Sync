@@ -158,6 +158,8 @@ func SyncWatchedTv(source, destination Host) error {
 					continue
 				}
 				log.Printf("* Scrobbled on %q", destination.Name)
+			} else if destEp.ViewCount >= 1 {
+				log.Println("- Already scrobbled, skipping...")
 			} else {
 				log.Println("- Episode not yet watched, skipping...")
 			}
