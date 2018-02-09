@@ -1,0 +1,23 @@
+linter:
+  gometalinter:
+    import_path: github.com/danstis/Plex-Sync
+    options:
+      skip: config/
+      cyclo-over: 15
+      min-confidence: .80
+      dupl-threshold: 50
+      vendor: true
+      tests: true
+      errors: false
+      enable:
+        - errcheck
+        - dupl
+        - deadcode
+        - gosimple
+        - staticcheck
+        - unused
+
+  misspell:
+    options:
+      locale: UK
+      ignore: artifacts,artifact,center

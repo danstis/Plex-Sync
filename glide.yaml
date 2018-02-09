@@ -1,0 +1,12 @@
+package: github.com/danstis/Plex-Sync
+homepage: https://github.com/danstis/Plex-Sync
+license: MIT
+import:
+- package: github.com/gorilla/handlers
+  version: ^1.3.0
+- package: github.com/gorilla/mux
+  version: ^1.6.0
+- package: github.com/spf13/viper
+  version: ^1.0.0
+- package: gopkg.in/natefinch/lumberjack.v2
+  version: ^2.1.0
