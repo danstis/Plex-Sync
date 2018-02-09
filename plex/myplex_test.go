@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"testing"
 )
 
@@ -27,7 +28,7 @@ func TestInvalidTokenFile(t *testing.T) {
 func TestTokenFileRead(t *testing.T) {
 	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
+	tokenFile = path.Join(".cache", "testTokenFile")
 	defer func() { tokenFile = oldtokenfile }()
 
 	// Create a new temporary token file containing "ValidToken".
@@ -52,7 +53,7 @@ func TestTokenFileRead(t *testing.T) {
 func TestTokenGeneration(t *testing.T) {
 	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
+	tokenFile = path.Join(".cache", "testTokenFile")
 	defer func() { tokenFile = oldtokenfile }()
 
 	err := cacheToken("ValidToken")
@@ -81,7 +82,7 @@ func TestTokenGeneration(t *testing.T) {
 func TestTokenRemoval(t *testing.T) {
 	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
+	tokenFile = path.Join(".cache", "testTokenFile")
 	defer func() { tokenFile = oldtokenfile }()
 
 	// Create a new temporary token file containing "ValidToken".
@@ -102,7 +103,7 @@ func TestNewTokenfile(t *testing.T) {
 	want := ""
 	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
+	tokenFile = path.Join(".cache", "testTokenFile")
 	defer func() { tokenFile = oldtokenfile }()
 
 	got := Token()
