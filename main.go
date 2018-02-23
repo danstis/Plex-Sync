@@ -10,14 +10,27 @@ import (
 	"net/http"
 
 	"github.com/danstis/Plex-Sync/config"
+	"github.com/danstis/Plex-Sync/models"
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/danstis/Plex-Sync/webui"
 	"github.com/gorilla/handlers"
+	"github.com/jinzhu/gorm"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func main() {
 	log.Printf("Plex-Sync v%v", plex.Version)
+
+	db, err := gorm.Open("sqlite3", "config/Plex-Sync.db")
+	if err != nil {
+		log.Printf("ERROR: %v", err)
+	}
+
+	defer db.Close()
+
+	models.Init(db)
+	var settings models.Settings
+	log.Printf("%v", db.First(&settings, 1))
 
 	plex.CacheLifetime = config.Settings.Webui.CacheLifetime
 
