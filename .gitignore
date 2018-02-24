@@ -40,3 +40,4 @@ _testmain.go
 /tvshows.txt
 /vendor
 /vendor.orig
+config/Plex-Sync.db
