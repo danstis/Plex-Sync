@@ -5,6 +5,8 @@ import (
 	"path"
 	"testing"
 	"time"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestCreateURI(t *testing.T) {
@@ -35,6 +37,28 @@ func TestCreateURI(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestURLCreation(t *testing.T) {
+
+	Convey("When asked to generate an HTTP URL", t, func() {
+		uri := CreateURI(Host{Name: "Test SSL", Hostname: "localhost", Port: 2121, Ssl: true}, "test")
+
+		Convey("An HTTP URL should be generated", func() {
+			So(uri, ShouldEqual, "https://localhost:2121/test")
+		})
+
+	})
+
+	Convey("When asked to generate an HTTPS URL", t, func() {
+		uri := CreateURI(Host{Name: "Test HTTP", Hostname: "servername", Port: 1515, Ssl: false}, "new")
+
+		Convey("An HTTPS URL should be generated", func() {
+			So(uri, ShouldEqual, "http://servername:1515/new")
+		})
+
+	})
+
 }
 
 func Test_expired(t *testing.T) {
