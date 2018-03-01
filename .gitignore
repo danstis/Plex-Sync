@@ -38,3 +38,4 @@ _testmain.go
 /token
 /tvshows.txt
 /vendor
+config/Plex-Sync.db
