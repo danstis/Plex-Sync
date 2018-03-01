@@ -9,36 +9,6 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestCreateURI(t *testing.T) {
-	type args struct {
-		server Host
-		path   string
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		{
-			name: "Test SSL",
-			args: args{server: Host{Name: "Test SSL", Hostname: "localhost", Port: 2121, Ssl: true}, path: "test"},
-			want: "https://localhost:2121/test",
-		},
-		{
-			name: "Test HTTP",
-			args: args{server: Host{Name: "Test HTTP", Hostname: "servername", Port: 1515, Ssl: false}, path: "new"},
-			want: "http://servername:1515/new",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := CreateURI(tt.args.server, tt.args.path); got != tt.want {
-				t.Errorf("CreateURI() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestURLCreation(t *testing.T) {
 
 	Convey("When asked to generate an HTTP URL", t, func() {
