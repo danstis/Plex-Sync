@@ -2,18 +2,16 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
-	"os"
 	"time"
 
 	"net/http"
 
 	"github.com/danstis/Plex-Sync/config"
+	"github.com/danstis/Plex-Sync/logger"
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/danstis/Plex-Sync/webui"
 	"github.com/gorilla/handlers"
-	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func main() {
@@ -23,10 +21,10 @@ func main() {
 
 	r := webui.NewRouter()
 
-	loggedRouter := handlers.LoggingHandler(createLogger(config.Settings.General.WebserverLogfile), r)
+	loggedRouter := handlers.LoggingHandler(logger.CreateLogger(config.Settings.General.WebserverLogfile), r)
 	go http.ListenAndServe(fmt.Sprintf(":%v", config.Settings.General.WebserverPort), loggedRouter)
 	log.Printf("Started webserver http://localhost:%v", config.Settings.General.WebserverPort)
-	log.SetOutput(createLogger(config.Settings.General.Logfile))
+	log.SetOutput(logger.CreateLogger(config.Settings.General.Logfile))
 
 	for {
 		token := plex.Token()
@@ -42,13 +40,4 @@ func main() {
 		log.Printf("Sleeping for %v...", config.Settings.General.SyncInterval)
 		time.Sleep(config.Settings.General.SyncInterval)
 	}
-}
-
-func createLogger(filename string) io.Writer {
-	return io.MultiWriter(&lumberjack.Logger{
-		Filename:   filename,
-		MaxSize:    config.Settings.General.MaxLogSize, // megabytes
-		MaxBackups: config.Settings.General.MaxLogCount,
-		MaxAge:     config.Settings.General.MaxLogAge, //days
-	}, os.Stdout)
 }
