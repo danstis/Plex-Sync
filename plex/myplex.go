@@ -83,7 +83,17 @@ func TokenRequest(cred Credentials) error {
 	return err
 }
 
+func tokenDir(tokenPath string) string {
+	dir, _ := path.Split(tokenPath)
+	return dir
+}
+
 func cacheToken(token string) error {
+	if tokenDir(tokenFile) != "" {
+		if err := os.MkdirAll(tokenDir(tokenFile), 0755); err != nil {
+			return fmt.Errorf("unable to create cache folder: %v", err)
+		}
+	}
 	// Write token to file.
 	f, err := os.Create(tokenFile)
 	if err != nil {
@@ -148,6 +158,7 @@ func (h *Host) GetToken(t string) error {
 	return fmt.Errorf("no server found matching name %q", h.Name)
 }
 
+// codebeat:disable[TOO_MANY_IVARS]
 type myPlexServer struct {
 	Server []struct {
 		AccessToken    string `xml:"accessToken,attr"`
@@ -162,6 +173,8 @@ type myPlexServer struct {
 		Synced         string `xml:"synced,attr"`
 	}
 }
+
+// codebeat:enable[TOO_MANY_IVARS]
 
 func apiRequest(method, url, token string, body io.Reader) (*http.Response, error) {
 	req, err := http.NewRequest(method, url, body)
