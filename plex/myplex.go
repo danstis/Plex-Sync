@@ -83,7 +83,17 @@ func TokenRequest(cred Credentials) error {
 	return err
 }
 
+func tokenDir(tokenPath string) string {
+	dir, _ := path.Split(tokenPath)
+	return dir
+}
+
 func cacheToken(token string) error {
+	if tokenDir(tokenFile) != "" {
+		if err := os.MkdirAll(tokenDir(tokenFile), 0755); err != nil {
+			return fmt.Errorf("unable to create cache folder: %v", err)
+		}
+	}
 	// Write token to file.
 	f, err := os.Create(tokenFile)
 	if err != nil {

@@ -47,7 +47,7 @@ func SearchShow(server Host, title string) (Show, error) {
 	// log.Printf("Performing REST request to %q", uri)
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
-		return Show{}, fmt.Errorf("error getting episodes for show %q from server %q", title, server.Name)
+		return Show{}, fmt.Errorf("error getting episodes for show %q from server %q: %v", title, server.Name, err)
 	}
 	defer resp.Body.Close() // nolint: errcheck
 
@@ -158,6 +158,8 @@ func SyncWatchedTv(source, destination Host) error {
 					continue
 				}
 				log.Printf("* Scrobbled on %q", destination.Name)
+			} else if destEp.ViewCount >= 1 {
+				log.Println("- Already scrobbled, skipping...")
 			} else {
 				log.Println("- Episode not yet watched, skipping...")
 			}
