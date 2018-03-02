@@ -43,5 +43,5 @@
 
 [[constraint]]
   name = "github.com/jinzhu/gorm"
-  version = "1.0.0"
+  version = "^1.0.0"
 
