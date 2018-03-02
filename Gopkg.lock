@@ -49,7 +49,10 @@
 
 [[projects]]
   name = "github.com/jinzhu/gorm"
-  packages = [".","dialects/sqlite"]
+  packages = [
+    ".",
+    "dialects/sqlite"
+  ]
   revision = "5174cc5c242a728b435ea2be8a2f7f998e15429b"
   version = "v1.0"
 
@@ -153,7 +156,6 @@
   name = "golang.org/x/text"
   packages = [
     "internal/gen",
-    "internal/testtext",
     "internal/triegen",
     "internal/ucd",
     "transform",
@@ -177,6 +179,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "1ea91e220103efd1187ffd3b410a7f71fc87c4fa7b812929f76ebfb024f08e8e"
+  inputs-digest = "ab6a8b0f2295bb11a4c5f62913d9cad3dcb33318a8f120bf4cbf0a60709bf0ca"
   solver-name = "gps-cdcl"
   solver-version = 1
