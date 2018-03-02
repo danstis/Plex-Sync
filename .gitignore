@@ -29,6 +29,7 @@ _testmain.go
 /.cache
 /.deploy.ps1
 /.vscode
+/.deploy
 /config/config.toml
 /config/token
 /config/tvshows.txt

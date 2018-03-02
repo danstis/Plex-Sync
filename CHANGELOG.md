@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 * New|Changed|Fixed - ([#1](https://github.com/danstis/rmstale/issues/1)) Description
 -->
 
+## [Unreleased]
+
+* Changed - Refactor logging to new logger package.
+
 ## [v0.5.2]
 
 * Fixed - ([#89](https://github.com/danstis/rmstale/issues/89)) Token file not generated if cache folder does not exist.
