@@ -7,7 +7,6 @@ import (
 
 	"net/http"
 
-	"github.com/danstis/Plex-Sync/config"
 	"github.com/danstis/Plex-Sync/logger"
 	"github.com/danstis/Plex-Sync/models"
 	"github.com/danstis/Plex-Sync/plex"
@@ -27,30 +26,32 @@ func main() {
 	defer db.Close()
 
 	models.Init(db)
-	var settings models.Settings
-	log.Printf("%v", db.First(&settings, 1))
+	settings, err := models.GetSettings(db)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	plex.CacheLifetime = config.Settings.Webui.CacheLifetime
+	plex.CacheLifetime = settings.Webui.CacheLifetime
 
 	r := webui.NewRouter()
 
-	loggedRouter := handlers.LoggingHandler(logger.CreateLogger(config.Settings.General.WebserverLogfile), r)
-	go http.ListenAndServe(fmt.Sprintf(":%v", config.Settings.General.WebserverPort), loggedRouter)
-	log.Printf("Started webserver http://localhost:%v", config.Settings.General.WebserverPort)
-	log.SetOutput(logger.CreateLogger(config.Settings.General.Logfile))
+	loggedRouter := handlers.LoggingHandler(logger.CreateLogger(settings.General.WebserverLogfile), r)
+	go http.ListenAndServe(fmt.Sprintf(":%v", settings.General.WebserverPort), loggedRouter)
+	log.Printf("Started webserver http://localhost:%v", settings.General.WebserverPort)
+	log.SetOutput(logger.CreateLogger(settings.General.Logfile))
 
 	for {
 		token := plex.Token()
 		if token != "" {
-			if err := config.Settings.LocalServer.GetToken(token); err != nil {
+			if err := settings.LocalServer.GetToken(token); err != nil {
 				log.Printf("ERROR: %v", err)
 			}
-			if err := config.Settings.RemoteServer.GetToken(token); err != nil {
+			if err := settings.RemoteServer.GetToken(token); err != nil {
 				log.Printf("ERROR: %v", err)
 			}
-			plex.SyncWatchedTv(config.Settings.LocalServer, config.Settings.RemoteServer)
+			plex.SyncWatchedTv(settings.LocalServer, settings.RemoteServer)
 		}
-		log.Printf("Sleeping for %v...", config.Settings.General.SyncInterval)
-		time.Sleep(config.Settings.General.SyncInterval)
+		log.Printf("Sleeping for %v...", settings.General.SyncInterval)
+		time.Sleep(settings.General.SyncInterval)
 	}
 }
