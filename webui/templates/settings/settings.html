@@ -54,23 +54,203 @@
 
     <div class="container">
 
-        <div>
+        <div class="row">
             <h1>Settings</h1>
 
-            <ul class="list-group col-sm-6">
-                <li class="list-group-item">
-                    <a href="/settings/token">Generate New Token</a>
-                </li>
-                <li class="list-group-item">
-                    <a href="/token/remove">Remove Cached Token</a>
-                </li>
+            <div class="row">
 
-                <li class="list-group-item disabled">
-                    Plex-Sync v{{.FullVersion}}
-                </li>
-            </ul>
+                <div class="col-sm-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">General</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <p>
+                                        <a class="btn btn-default" href="/settings/token" role="button">Generate New Token</a>
+                                        <a class="btn btn-danger" href="/token/remove" role="button">Remove Cached Token</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="port" class="col-sm-3 control-label">Web Server Port</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="port" placeholder="Web Server Port">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="syncInterval" class="col-sm-3 control-label">Sync Interval</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="syncInterval" placeholder="Server Sync Interval">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="logFile" class="col-sm-3 control-label">Log File</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="logFile" placeholder="Path to Log File">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="webLogFile" class="col-sm-3 control-label">Web Server Log File</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="webLogFile" placeholder="Path to web server log file">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="logSize" class="col-sm-3 control-label">Max Log Size</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="logSize" placeholder="Maximum log size in MB">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="logCount" class="col-sm-3 control-label">Max Log Count</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="logCount" placeholder="Maximum log count">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="logAge" class="col-sm-3 control-label">Max Log Age</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="logAge" placeholder="Maximum log age">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cacheLifetime" class="col-sm-3 control-label">Cache Lifetime</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="cacheLifetime" placeholder="Time in days before cache items expire">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-9">
+                                                <button type="submit" class="btn btn-default">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Local Server</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="localserverName" class="col-sm-3 control-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="localserverName" placeholder="As displayed in Plex">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="localserverHostname" class="col-sm-3 control-label">Hostname</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="localserverHostname" placeholder="DNS Name or IP">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="localserverPort" class="col-sm-3 control-label">Plex Port</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="localserverPort" placeholder="Port that Plex listens on">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="localserverSSL" class="col-sm-3 control-label">Use SSL</label>
+                                            <div class="col-sm-9">
+                                                <input type="checkbox" id="localserverSSL">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-9">
+                                                <button type="submit" class="btn btn-default">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Remote Server</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="remoteserverName" class="col-sm-3 control-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="remoteserverName" placeholder="As displayed in Plex">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="remoteserverHostname" class="col-sm-3 control-label">Hostname</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="remoteserverHostname" placeholder="DNS Name or IP">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="remoteserverPort" class="col-sm-3 control-label">Plex Port</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="remoteserverPort" placeholder="Port that Plex listens on">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="remoteserverSSL" class="col-sm-3 control-label">Use SSL</label>
+                                            <div class="col-sm-9">
+                                                <input type="checkbox" id="remoteserverSSL">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-9">
+                                                <button type="submit" class="btn btn-default">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
+        <div class="row">
+            <div class="well well-sm">Plex-Sync v{{.FullVersion}}</div>
+        </div>
+
 
     </div>
     <!-- /.container -->
