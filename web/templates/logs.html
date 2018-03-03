@@ -100,7 +100,7 @@
             $("#webinterface").addClass("active");
         }
         jQuery(document).bind("ready", function () {
-            jQuery('#logcontent').logViewer({ logUrl: "/logs/" + logfile, refreshtimeout: 5000 });
+            jQuery('#logcontent').logViewer({ logUrl: "/api/log/" + logfile, refreshtimeout: 5000 });
         });
         $("#general").on("click", function () { window.location.reload() });
         $("#webinterface").on("click", function () { window.location.reload() });

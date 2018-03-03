@@ -18,13 +18,11 @@ type Settings struct {
 
 type General struct {
 	gorm.Model
-	SyncInterval     time.Duration
-	WebserverPort    int
-	Logfile          string
-	WebserverLogfile string
-	MaxLogSize       int
-	MaxLogCount      int
-	MaxLogAge        int
+	SyncInterval  time.Duration
+	WebserverPort int
+	MaxLogSize    int
+	MaxLogCount   int
+	MaxLogAge     int
 }
 
 type Webui struct {
@@ -44,13 +42,11 @@ func GetSettings(db *gorm.DB) (Settings, error) {
 func defaults() Settings {
 	s := Settings{
 		General: General{
-			SyncInterval:     600 * time.Second,
-			WebserverPort:    8085,
-			Logfile:          "logs/plex-sync.log",
-			WebserverLogfile: "logs/plex-sync-webserver.log",
-			MaxLogSize:       20,
-			MaxLogCount:      5,
-			MaxLogAge:        1,
+			SyncInterval:  600 * time.Second,
+			WebserverPort: 8085,
+			MaxLogSize:    20,
+			MaxLogCount:   5,
+			MaxLogAge:     1,
 		},
 		LocalServer:  plex.Host{},
 		RemoteServer: plex.Host{},

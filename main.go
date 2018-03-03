@@ -35,10 +35,10 @@ func main() {
 
 	r := web.NewRouter()
 
-	loggedRouter := handlers.LoggingHandler(logger.CreateLogger(settings.General.WebserverLogfile, settings.General.MaxLogSize, settings.General.MaxLogCount, settings.General.MaxLogAge), r)
+	loggedRouter := handlers.LoggingHandler(logger.CreateLogger("logs/plex-sync-webserver.log", settings.General.MaxLogSize, settings.General.MaxLogCount, settings.General.MaxLogAge), r)
 	go http.ListenAndServe(fmt.Sprintf(":%v", settings.General.WebserverPort), loggedRouter)
 	log.Printf("Started webserver http://localhost:%v", settings.General.WebserverPort)
-	log.SetOutput(logger.CreateLogger(settings.General.Logfile, settings.General.MaxLogSize, settings.General.MaxLogCount, settings.General.MaxLogAge))
+	log.SetOutput(logger.CreateLogger("logs/plex-sync.log", settings.General.MaxLogSize, settings.General.MaxLogCount, settings.General.MaxLogAge))
 
 	for {
 		token := plex.Token()

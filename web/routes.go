@@ -28,6 +28,13 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(route.HandlerFunc)
 	}
+	for _, route := range apiRoutes {
+		router.
+			Methods(route.Method).
+			Path(route.Pattern).
+			Name(route.Name).
+			Handler(route.HandlerFunc)
+	}
 	static := http.StripPrefix("/static/", http.FileServer(http.Dir("./web/static/")))
 	cache := http.StripPrefix("/cache/", http.FileServer(http.Dir("./.cache/")))
 	router.PathPrefix("/static/").Handler(static)
@@ -87,5 +94,11 @@ var apiRoutes = routes{
 		"GET",
 		"/api/log/{logfile}",
 		apiLogGet,
+	},
+	route{
+		"ApiTokenDelete",
+		"DELETE",
+		"/api/token",
+		apiTokenDelete,
 	},
 }
