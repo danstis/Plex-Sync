@@ -10,49 +10,37 @@ import (
 
 type Settings struct {
 	gorm.Model
-	General      General
-	LocalServer  plex.Host
-	RemoteServer plex.Host
-	Webui        Webui
-}
-
-type General struct {
-	gorm.Model
-	SyncInterval  time.Duration
-	WebserverPort int
-	MaxLogSize    int
-	MaxLogCount   int
-	MaxLogAge     int
-}
-
-type Webui struct {
-	gorm.Model
-	CacheLifetime int
+	CacheLifetime  int
+	MaxLogAge      int
+	MaxLogCount    int
+	MaxLogSize     int
+	SyncInterval   time.Duration
+	WebserverPort  int
+	LocalServer    plex.Host
+	LocalServerID  uint
+	RemoteServer   plex.Host
+	RemoteServerID uint
 }
 
 //GetSettings returns the settings record from the DB
 func GetSettings(db *gorm.DB) (Settings, error) {
 	var s Settings
-	if db.First(&s, 1).RecordNotFound() {
+	if db.Set("gorm:auto_preload", true).First(&s, 1).RecordNotFound() {
 		return defaults(), nil
 	}
-	return s, db.First(&s, 1).Error
+	return s, db.Set("gorm:auto_preload", true).First(&s, 1).Error
 }
 
 func defaults() Settings {
 	s := Settings{
-		General: General{
-			SyncInterval:  600 * time.Second,
-			WebserverPort: 8085,
-			MaxLogSize:    20,
-			MaxLogCount:   5,
-			MaxLogAge:     1,
-		},
-		LocalServer:  plex.Host{},
-		RemoteServer: plex.Host{},
-		Webui: Webui{
-			CacheLifetime: 5,
-		},
+		SyncInterval:  600 * time.Second,
+		WebserverPort: 8085,
+		MaxLogSize:    20,
+		MaxLogCount:   5,
+		MaxLogAge:     1,
+		CacheLifetime: 5,
+		LocalServer:   plex.Host{},
+		RemoteServer:  plex.Host{},
 	}
 	return s
 }

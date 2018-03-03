@@ -101,4 +101,16 @@ var apiRoutes = routes{
 		"/api/token",
 		apiTokenDelete,
 	},
+	route{
+		"ApiSettingsGet",
+		"GET",
+		"/api/settings",
+		apiSettingsGet,
+	},
+	route{
+		"ApiSettingsPost",
+		"POST",
+		"/api/settings",
+		apiSettingsCreate,
+	},
 }

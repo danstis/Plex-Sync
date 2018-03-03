@@ -7,6 +7,7 @@ import (
 
 	"net/http"
 
+	"github.com/danstis/Plex-Sync/database"
 	"github.com/danstis/Plex-Sync/logger"
 	"github.com/danstis/Plex-Sync/models"
 	"github.com/danstis/Plex-Sync/plex"
@@ -18,27 +19,28 @@ import (
 func main() {
 	log.Printf("Plex-Sync v%v", plex.Version)
 
-	db, err := gorm.Open("sqlite3", "config/Plex-Sync.db")
+	var err error
+	database.Conn, err = gorm.Open("sqlite3", "config/Plex-Sync.db")
 	if err != nil {
 		log.Printf("ERROR: %v", err)
 	}
 
-	defer db.Close()
+	defer database.Conn.Close()
 
-	models.Init(db)
-	settings, err := models.GetSettings(db)
+	models.Init(database.Conn)
+	settings, err := models.GetSettings(database.Conn)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	plex.CacheLifetime = settings.Webui.CacheLifetime
+	plex.CacheLifetime = settings.CacheLifetime
 
 	r := web.NewRouter()
 
-	loggedRouter := handlers.LoggingHandler(logger.CreateLogger("logs/plex-sync-webserver.log", settings.General.MaxLogSize, settings.General.MaxLogCount, settings.General.MaxLogAge), r)
-	go http.ListenAndServe(fmt.Sprintf(":%v", settings.General.WebserverPort), loggedRouter)
-	log.Printf("Started webserver http://localhost:%v", settings.General.WebserverPort)
-	log.SetOutput(logger.CreateLogger("logs/plex-sync.log", settings.General.MaxLogSize, settings.General.MaxLogCount, settings.General.MaxLogAge))
+	loggedRouter := handlers.LoggingHandler(logger.CreateLogger("logs/plex-sync-webserver.log", settings.MaxLogSize, settings.MaxLogCount, settings.MaxLogAge), r)
+	go http.ListenAndServe(fmt.Sprintf(":%v", settings.WebserverPort), loggedRouter)
+	log.Printf("Started webserver http://localhost:%v", settings.WebserverPort)
+	log.SetOutput(logger.CreateLogger("logs/plex-sync.log", settings.MaxLogSize, settings.MaxLogCount, settings.MaxLogAge))
 
 	for {
 		token := plex.Token()
@@ -51,7 +53,7 @@ func main() {
 			}
 			plex.SyncWatchedTv(settings.LocalServer, settings.RemoteServer)
 		}
-		log.Printf("Sleeping for %v...", settings.General.SyncInterval)
-		time.Sleep(settings.General.SyncInterval)
+		log.Printf("Sleeping for %v...", settings.SyncInterval)
+		time.Sleep(settings.SyncInterval)
 	}
 }
