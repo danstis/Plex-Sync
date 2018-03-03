@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	"github.com/danstis/Plex-Sync/plex"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
@@ -10,8 +11,8 @@ import (
 type Settings struct {
 	gorm.Model
 	General      General
-	LocalServer  Server
-	RemoteServer Server
+	LocalServer  plex.Host
+	RemoteServer plex.Host
 	Webui        Webui
 }
 
@@ -31,15 +32,6 @@ type Webui struct {
 	CacheLifetime int
 }
 
-type Server struct {
-	gorm.Model
-	Name     string
-	Hostname string
-	Port     int
-	Ssl      bool
-	Token    string
-}
-
 //GetSettings returns the settings record from the DB
 func GetSettings(db *gorm.DB) (Settings, error) {
 	var s Settings
@@ -52,7 +44,7 @@ func GetSettings(db *gorm.DB) (Settings, error) {
 func defaults() Settings {
 	s := Settings{
 		General: General{
-			SyncInterval:     600,
+			SyncInterval:     600 * time.Second,
 			WebserverPort:    8085,
 			Logfile:          "logs/plex-sync.log",
 			WebserverLogfile: "logs/plex-sync-webserver.log",
@@ -60,8 +52,8 @@ func defaults() Settings {
 			MaxLogCount:      5,
 			MaxLogAge:        1,
 		},
-		LocalServer:  Server{},
-		RemoteServer: Server{},
+		LocalServer:  plex.Host{},
+		RemoteServer: plex.Host{},
 		Webui: Webui{
 			CacheLifetime: 5,
 		},
