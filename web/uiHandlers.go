@@ -31,7 +31,7 @@ func refreshShows() {
 
 // RootHandler returns the default page.
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "index.html")))
+	tmpl := template.Must(template.ParseFiles(path.Join("web", "templates", "index.html")))
 	refreshShows()
 	err := tmpl.Execute(w, v)
 	if err != nil {
@@ -40,7 +40,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func settingsHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "settings", "settings.html")))
+	tmpl := template.Must(template.ParseFiles(path.Join("web", "templates", "settings", "settings.html")))
 	err := tmpl.Execute(w, v)
 	if err != nil {
 		log.Println(err)
@@ -48,7 +48,7 @@ func settingsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func tokenHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "settings", "promptCredentials.html")))
+	tmpl := template.Must(template.ParseFiles(path.Join("web", "templates", "settings", "promptCredentials.html")))
 	err := tmpl.Execute(w, v)
 	if err != nil {
 		log.Println(err)
@@ -56,7 +56,7 @@ func tokenHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func logsHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(path.Join("webui", "templates", "logs.html")))
+	tmpl := template.Must(template.ParseFiles(path.Join("web", "templates", "logs.html")))
 	err := tmpl.Execute(w, v)
 	if err != nil {
 		log.Println(err)
