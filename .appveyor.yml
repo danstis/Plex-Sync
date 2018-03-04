@@ -15,9 +15,9 @@ install:
   - set PATH=%GOPATH%\bin;c:\go\bin;c:\MinGW\bin;%PATH%
   - C:\MinGW\msys\1.0\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
   - go version
-  - refreshenv
+  - dir c:\gopath\bin
   # - go get -v -t -d .\...
-  - dep ensure
+  - c:\gopath\bin\dep ensure
 
 before_build:
   - gitversion /l console /output buildserver
