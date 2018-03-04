@@ -7,13 +7,17 @@ environment:
   COVERALLS_TOKEN:
     secure: Bc2t/iVXULjddywzFj+F5RrWTlqVHVv4ikA+NV9LZMt69OQRaauWcMDhpjlZ5FN/
 
+cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
+
 install:
   - choco install gitversion.portable -pre -y
   - choco install mingw -y
-  - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
+  - set PATH=%GOPATH%\bin;c:\go\bin;c:\MinGW;%PATH%
+  - ps: dir c:\MinGW -recurse
   - echo %GOPATH%
   - go version
-  - go get -v -t -d .\...
+  # - go get -v -t -d .\...
+  - dep ensure
 
 before_build:
   - gitversion /l console /output buildserver
