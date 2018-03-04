@@ -13,8 +13,8 @@ install:
   - choco install gitversion.portable -pre -y
   - choco install msys2 -y
   - mkdir %GOPATH%\bin
-  - set PATH=%GOPATH%\bin;c:\go\bin;c:\MinGW\bin;%PATH%
-  - C:\tools\msys64\usr\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
+  - set PATH=%GOPATH%\bin;c:\go\bin;C:\tools\mingw64\bin;%PATH%
+  - C:\Tools\msys64\1.0\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
   - go version
   - ps: if(Test-Path "c:\gopath\bin\dep"){Rename-Item -Path "c:\gopath\bin\dep" -NewName "dep.exe"}
 
