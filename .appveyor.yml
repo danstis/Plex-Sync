@@ -9,6 +9,7 @@ environment:
 
 install:
   - choco install gitversion.portable -pre -y
+  - choco install mingw -y
   - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
   - echo %GOPATH%
   - go version
