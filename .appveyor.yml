@@ -11,9 +11,7 @@ cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
 
 install:
   - choco install gitversion.portable -pre -y
-  - choco install mingw -y
-  - set PATH=%GOPATH%\bin;c:\go\bin;c:\MinGW;%PATH%
-  - ps: dir c:\MinGW -recurse
+  - set PATH=%GOPATH%\bin;c:\go\bin;c:\MinGW\bin;%PATH%
   - echo %GOPATH%
   - go version
   # - go get -v -t -d .\...
