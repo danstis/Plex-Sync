@@ -12,8 +12,7 @@ cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
 install:
   - choco install gitversion.portable -pre -y
   - set PATH=%GOPATH%\bin;c:\go\bin;c:\MinGW\bin;%PATH%
-  - ps: dir C:\MinGW\ -Recurse -Filter sh.*
-  - ps: curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  - C:\MinGW\msys\1.0\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
   - echo %GOPATH%
   - go version
   # - go get -v -t -d .\...
