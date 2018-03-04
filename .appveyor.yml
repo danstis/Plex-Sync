@@ -11,15 +11,15 @@ cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
 
 install:
   - choco install gitversion.portable -pre -y
+  - choco install msys2 -y
   - mkdir %GOPATH%\bin
   - set PATH=%GOPATH%\bin;c:\go\bin;c:\MinGW\bin;%PATH%
-  - C:\MinGW\msys\1.0\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
+  - C:\tools\msys64\usr\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
   - go version
   - ps: if(Test-Path "c:\gopath\bin\dep"){Rename-Item -Path "c:\gopath\bin\dep" -NewName "dep.exe"}
-  # - go get -v -t -d .\...
-  - c:\gopath\bin\dep ensure
 
 before_build:
+  - c:\gopath\bin\dep ensure
   - gitversion /l console /output buildserver
 
 build_script:
