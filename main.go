@@ -27,8 +27,8 @@ func main() {
 	defer database.Conn.Close()
 
 	models.Init(database.Conn)
-	settings, err := models.GetSettings(database.Conn)
-	if err != nil {
+	var settings models.Settings
+	if err := settings.Load(); err != nil {
 		log.Fatal(err)
 	}
 

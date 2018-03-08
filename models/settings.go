@@ -23,33 +23,21 @@ type Settings struct {
 	RemoteServerID uint
 }
 
-//GetSettings returns the settings record from the DB
-func GetSettings(db *gorm.DB) (Settings, error) {
-	var s Settings
-	if db.Set("gorm:auto_preload", true).First(&s, 1).RecordNotFound() {
-		return defaults(), nil
-	}
-	return s, db.Set("gorm:auto_preload", true).First(&s, 1).Error
-}
-
-func defaults() Settings {
-	s := Settings{
-		SyncInterval:  600,
-		WebserverPort: 8085,
-		MaxLogSize:    20,
-		MaxLogCount:   5,
-		MaxLogAge:     1,
-		CacheLifetime: 5,
-		LocalServer:   plex.Host{},
-		RemoteServer:  plex.Host{},
-	}
-	return s
-}
-
 func (s *Settings) Save() error {
 	return database.Conn.Save(&s).Error
 }
 
 func (s *Settings) Load() error {
+	if database.Conn.Set("gorm:auto_preload", true).First(&s, 1).RecordNotFound() {
+		s.SyncInterval = 600
+		s.WebserverPort = 8085
+		s.MaxLogSize = 20
+		s.MaxLogCount = 5
+		s.MaxLogAge = 1
+		s.CacheLifetime = 5
+		s.LocalServer = plex.Host{}
+		s.RemoteServer = plex.Host{}
+		return nil
+	}
 	return database.Conn.Set("gorm:auto_preload", true).First(&s, 1).Error
 }
