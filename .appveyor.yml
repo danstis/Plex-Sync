@@ -40,7 +40,7 @@ after_test:
   - godacov -t %CODACY_TOKEN% -r .\coverage.out -c %APPVEYOR_REPO_COMMIT% || exit 0
   - goveralls -coverprofile=coverage.out -service=appveyor || exit 0
   - ps: Move-Item ./config/tvshows.txt.default ./config/tvshows.txt
-  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Remove-Item -Force
+  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Remove-Item -Recurse -Force
   - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Remove-Item -Force
   - 7z a Plex-Sync.zip %APPVEYOR_BUILD_FOLDER%
   - ps: dir -Recurse
