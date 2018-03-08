@@ -12,7 +12,6 @@ cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
 install:
   - choco install gitversion.portable -pre -y
   - rm C:\Tools\GitVersion\GitVersion.exe
-  # - choco install msys2 -y
   - mkdir %GOPATH%\bin
   - set PATH=%GOPATH%\bin;c:\go\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%
   - C:\MinGW\msys\1.0\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
@@ -24,7 +23,7 @@ before_build:
   - gitversion /l console /output buildserver
 
 build_script:
-  - ps: go build -race -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$env:GitVersion_SemVer" main.go
+  - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$env:GitVersion_SemVer" main.go
 
 before_test:
   - go get -u github.com/haya14busa/goverage
