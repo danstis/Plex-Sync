@@ -1,10 +1,10 @@
 assembly-versioning-scheme: None
 mode: Mainline
-increment: Inherit
-branches: {}
-ignore:
-  sha: []
 major-version-bump-message: '\+semver:\s?(breaking|major)'
 minor-version-bump-message: '\+semver:\s?(feature|minor)'
 patch-version-bump-message: '\+semver:\s?(fix|patch)'
 no-bump-message: '\+semver:\s?(none|skip)'
+branches: {}
+ignore:
+  sha: []
+increment: Inherit
