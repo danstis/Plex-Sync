@@ -7,9 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"time"
 
-	"github.com/danstis/Plex-Sync/database"
 	"github.com/danstis/Plex-Sync/models"
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/gorilla/mux"
@@ -55,7 +53,7 @@ func apiSettingsGet(w http.ResponseWriter, r *http.Request) {
 	var s models.Settings
 	var err error
 
-	if err = database.Conn.Set("gorm:auto_preload", true).First(&s, 1).Error; err != nil {
+	if err = s.Load(); err != nil {
 		log.Printf("Error getting settings from DB: %v\n", err)
 		w.WriteHeader(http.StatusFailedDependency)
 		return
@@ -72,14 +70,15 @@ func apiSettingsGet(w http.ResponseWriter, r *http.Request) {
 
 func apiSettingsCreate(w http.ResponseWriter, r *http.Request) {
 	var s models.Settings
-	database.Conn.Set("gorm:auto_preload", true).First(&s, 1)
+	if err := s.Load(); err != nil {
+		log.Printf("Error reading settings from DB: %v\n", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	json.NewDecoder(r.Body).Decode(&s)
 
-	s.SyncInterval = s.SyncInterval * time.Second
-
-	err := database.Conn.Save(&s).Error
-	if err != nil {
+	if err := s.Save(); err != nil {
 		log.Printf("Error writing settings to DB: %v\n", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return

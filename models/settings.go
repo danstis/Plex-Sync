@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	"github.com/danstis/Plex-Sync/database"
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
@@ -33,7 +34,7 @@ func GetSettings(db *gorm.DB) (Settings, error) {
 
 func defaults() Settings {
 	s := Settings{
-		SyncInterval:  600 * time.Second,
+		SyncInterval:  600,
 		WebserverPort: 8085,
 		MaxLogSize:    20,
 		MaxLogCount:   5,
@@ -43,4 +44,12 @@ func defaults() Settings {
 		RemoteServer:  plex.Host{},
 	}
 	return s
+}
+
+func (s *Settings) Save() error {
+	return database.Conn.Save(&s).Error
+}
+
+func (s *Settings) Load() error {
+	return database.Conn.Set("gorm:auto_preload", true).First(&s, 1).Error
 }

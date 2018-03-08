@@ -24,7 +24,6 @@ func main() {
 	if err != nil {
 		log.Printf("ERROR: %v", err)
 	}
-
 	defer database.Conn.Close()
 
 	models.Init(database.Conn)
@@ -53,7 +52,7 @@ func main() {
 			}
 			plex.SyncWatchedTv(settings.LocalServer, settings.RemoteServer)
 		}
-		log.Printf("Sleeping for %v...", settings.SyncInterval)
-		time.Sleep(settings.SyncInterval)
+		log.Printf("Sleeping for %v...", settings.SyncInterval*time.Second)
+		time.Sleep(settings.SyncInterval * time.Second)
 	}
 }
