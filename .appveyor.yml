@@ -9,6 +9,9 @@ environment:
 
 cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
 
+init:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 install:
   - choco install gitversion.portable -pre -y
   - choco install msys2 -y
