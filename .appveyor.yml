@@ -9,9 +9,6 @@ environment:
 
 cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
 
-init:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 install:
   - choco install gitversion.portable -pre -y
   - choco install msys2 -y
@@ -48,6 +45,9 @@ after_test:
   - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Move-Item -Destination $env:Temp -Force
   - 7z a Plex-Sync.zip %APPVEYOR_BUILD_FOLDER%
   - ps: dir -Recurse
+
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 artifacts:
   - path: Plex-Sync.zip
