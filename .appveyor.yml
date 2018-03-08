@@ -39,15 +39,14 @@ after_test:
   - echo %APPVEYOR_REPO_COMMIT%
   - godacov -t %CODACY_TOKEN% -r .\coverage.out -c %APPVEYOR_REPO_COMMIT% || exit 0
   - goveralls -coverprofile=coverage.out -service=appveyor || exit 0
-  - ps: Move-Item ./config/config.toml.default ./config/config.toml
   - ps: Move-Item ./config/tvshows.txt.default ./config/tvshows.txt
   - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Move-Item -Destination $env:Temp -Force
   - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Move-Item -Destination $env:Temp -Force
   - 7z a Plex-Sync.zip %APPVEYOR_BUILD_FOLDER%
   - ps: dir -Recurse
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 artifacts:
   - path: Plex-Sync.zip
