@@ -11,6 +11,7 @@ cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
 
 install:
   - choco install gitversion.portable -pre -y
+  - rm C:\Tools\GitVersion\GitVersion.exe
   - choco install msys2 -y
   - mkdir %GOPATH%\bin
   - set PATH=%GOPATH%\bin;c:\go\bin;C:\tools\mingw64\bin;%PATH%
