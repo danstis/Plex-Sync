@@ -14,7 +14,8 @@ import (
 )
 
 const (
-	JSON_CONTENT_TYPE = "application/json; charset=utf-8"
+	// JSONContentType is a helper to easily set the content type
+	JSONContentType = "application/json; charset=utf-8"
 )
 
 func apiLogHead(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +65,7 @@ func apiSettingsGet(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusFailedDependency)
 		return
 	}
-	w.Header().Set("Content-Type", JSON_CONTENT_TYPE)
+	w.Header().Set("Content-Type", JSONContentType)
 	fmt.Fprintf(w, string(jv))
 }
 
@@ -83,7 +84,7 @@ func apiSettingsCreate(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", JSON_CONTENT_TYPE)
+	w.Header().Set("Content-Type", JSONContentType)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&s)
 }
@@ -97,7 +98,7 @@ func apiVersionGet(w http.ResponseWriter, r *http.Request) {
 		ShortVersion: plex.ShortVersion,
 		Fullversion:  plex.Version,
 	}
-	w.Header().Set("Content-Type", JSON_CONTENT_TYPE)
+	w.Header().Set("Content-Type", JSONContentType)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&v)
 }
