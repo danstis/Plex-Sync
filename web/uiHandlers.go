@@ -12,16 +12,12 @@ import (
 
 // PageData defines a struct to store the current version information.
 type PageData struct {
-	Version     string
-	FullVersion string
-	Shows       []string
+	Shows []string
 }
 
 var ss, _ = plex.SelectedShows()
 var v = PageData{
-	Version:     plex.ShortVersion,
-	FullVersion: plex.Version,
-	Shows:       ss,
+	Shows: ss,
 }
 
 // refreshShows updates the PageData with the latest shows.
@@ -40,27 +36,15 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func settingsHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(path.Join("web", "templates", "settings", "settings.html")))
-	err := tmpl.Execute(w, v)
-	if err != nil {
-		log.Println(err)
-	}
+	http.ServeFile(w, r, path.Join("web", "templates", "settings", "settings.html"))
 }
 
 func tokenHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(path.Join("web", "templates", "settings", "promptCredentials.html")))
-	err := tmpl.Execute(w, v)
-	if err != nil {
-		log.Println(err)
-	}
+	http.ServeFile(w, r, path.Join("web", "templates", "settings", "promptCredentials.html"))
 }
 
 func logsHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(path.Join("web", "templates", "logs.html")))
-	err := tmpl.Execute(w, v)
-	if err != nil {
-		log.Println(err)
-	}
+	http.ServeFile(w, r, path.Join("web", "templates", "logs.html"))
 }
 
 func tokenRequestHandler(w http.ResponseWriter, r *http.Request) {

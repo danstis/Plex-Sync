@@ -87,3 +87,17 @@ func apiSettingsCreate(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&s)
 }
+
+func apiVersionGet(w http.ResponseWriter, r *http.Request) {
+	type version struct {
+		ShortVersion string `json:"shortVersion"`
+		Fullversion  string `json:"fullVersion"`
+	}
+	v := version{
+		ShortVersion: plex.ShortVersion,
+		Fullversion:  plex.Version,
+	}
+	w.Header().Set("Content-Type", JSON_CONTENT_TYPE)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(&v)
+}

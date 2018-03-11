@@ -113,4 +113,10 @@ var apiRoutes = routes{
 		"/api/settings",
 		apiSettingsCreate,
 	},
+	route{
+		"ApiVersionGet",
+		"GET",
+		"/api/version",
+		apiVersionGet,
+	},
 }
