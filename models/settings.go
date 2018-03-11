@@ -6,9 +6,11 @@ import (
 	"github.com/danstis/Plex-Sync/database"
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/jinzhu/gorm"
+	// The sqlite DB driver
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
+// Settings stores the application settings
 type Settings struct {
 	gorm.Model
 	CacheLifetime  int
@@ -23,10 +25,12 @@ type Settings struct {
 	RemoteServerID uint
 }
 
+// Save updates the settings in the Database
 func (s *Settings) Save() error {
 	return database.Conn.Save(&s).Error
 }
 
+// Load retreves the settings from the Database
 func (s *Settings) Load() error {
 	if database.Conn.Set("gorm:auto_preload", true).First(&s, 1).RecordNotFound() {
 		s.SyncInterval = 600
