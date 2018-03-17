@@ -7,18 +7,23 @@ environment:
   COVERALLS_TOKEN:
     secure: Bc2t/iVXULjddywzFj+F5RrWTlqVHVv4ikA+NV9LZMt69OQRaauWcMDhpjlZ5FN/
 
+cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
+
 install:
   - choco install gitversion.portable -pre -y
-  - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
-  - echo %GOPATH%
+  - rm C:\Tools\GitVersion\GitVersion.exe
+  - mkdir %GOPATH%\bin
+  - set PATH=%GOPATH%\bin;c:\go\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%
+  - C:\MinGW\msys\1.0\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
   - go version
-  - go get -v -t -d .\...
+  - ps: if(Test-Path "c:\gopath\bin\dep"){Rename-Item -Path "c:\gopath\bin\dep" -NewName "dep.exe"}
 
 before_build:
+  - c:\gopath\bin\dep ensure
   - gitversion /l console /output buildserver
 
 build_script:
-  - ps: go build -race -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$env:GitVersion_SemVer" main.go
+  - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$env:GitVersion_SemVer" main.go
 
 before_test:
   - go get -u github.com/haya14busa/goverage
@@ -34,12 +39,14 @@ after_test:
   - echo %APPVEYOR_REPO_COMMIT%
   - godacov -t %CODACY_TOKEN% -r .\coverage.out -c %APPVEYOR_REPO_COMMIT% || exit 0
   - goveralls -coverprofile=coverage.out -service=appveyor || exit 0
-  - ps: Move-Item ./config/config.toml.default ./config/config.toml
   - ps: Move-Item ./config/tvshows.txt.default ./config/tvshows.txt
-  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Move-Item -Destination $env:Temp -Force
-  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Move-Item -Destination $env:Temp -Force
+  - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Remove-Item -Recurse -Force
+  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Remove-Item -Force
   - 7z a Plex-Sync.zip %APPVEYOR_BUILD_FOLDER%
   - ps: dir -Recurse
+
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 artifacts:
   - path: Plex-Sync.zip
