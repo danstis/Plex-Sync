@@ -102,3 +102,15 @@ func apiVersionGet(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&v)
 }
+
+func apiShowsGet(w http.ResponseWriter, r *http.Request) {
+	ss, err := plex.SelectedShows()
+	if err != nil {
+		log.Printf("Error getting selected shows: %v\n", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", JSONContentType)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(&ss)
+}
