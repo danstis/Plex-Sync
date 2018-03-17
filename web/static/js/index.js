@@ -1,3 +1,4 @@
+/* global angular */
 var app = angular.module("Plex-Sync", []);
 
 app.controller("indexImages", function($scope, $http){
@@ -5,4 +6,4 @@ app.controller("indexImages", function($scope, $http){
     .then(function(response) {
         $scope.records = response.data;
     });
-})
+});
