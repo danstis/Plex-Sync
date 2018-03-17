@@ -2,8 +2,6 @@ package web
 
 import (
 	"fmt"
-	"html/template"
-	"log"
 	"net/http"
 	"path"
 
@@ -15,24 +13,9 @@ type PageData struct {
 	Shows []string
 }
 
-var ss, _ = plex.SelectedShows()
-var v = PageData{
-	Shows: ss,
-}
-
-// refreshShows updates the PageData with the latest shows.
-func refreshShows() {
-	v.Shows, _ = plex.SelectedShows()
-}
-
 // RootHandler returns the default page.
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(path.Join("web", "templates", "index.html")))
-	refreshShows()
-	err := tmpl.Execute(w, v)
-	if err != nil {
-		log.Println(err)
-	}
+	http.ServeFile(w, r, path.Join("web", "templates", "index.html"))
 }
 
 func settingsHandler(w http.ResponseWriter, r *http.Request) {

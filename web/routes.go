@@ -119,4 +119,10 @@ var apiRoutes = routes{
 		"/api/version",
 		apiVersionGet,
 	},
+	route{
+		"ApiShowsGet",
+		"GET",
+		"/api/shows",
+		apiShowsGet,
+	},
 }

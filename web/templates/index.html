@@ -54,20 +54,16 @@
 
     <div class="container">
 
-        <div>
+        <div ng-app="Plex-Sync" ng-controller="indexImages">
             <h2>Welcome to Plex-Sync</h2>
-            {{if .Shows}}
             <p class="lead">Selected Shows:</p>
 
             <div class="row">
-                {{range .Shows}}
-                <div class="col-xs-3 col-md-2">
-                    <img class="img-responsive showThumb" src="/cache/show/{{.}}_thumb.jpg" alt="{{.}}">
+                <div class="col-xs-3 col-md-2" ng-repeat="show in records">
+                    <img class="img-responsive showThumb" src="/cache/show/{{show}}_thumb.jpg" alt="{{show}}">
                 </div>
-                {{end}}
             </div>
 
-            {{end}}
         </div>
 
     </div>
@@ -76,7 +72,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="/static/js/default.js"></script>
+    <script src="/static/js/index.js"></script>
 </body>
 
 </html>
