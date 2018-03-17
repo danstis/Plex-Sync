@@ -30,17 +30,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand">Plex-Sync v{{.Version}}</a>
+                <a class="navbar-brand" id="shortVersion">Plex-Sync v0.0.0</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li class="active">
                         <a href="/">Home</a>
                     </li>
                     <li>
                         <a href="/logs">Logs</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="/settings">Settings</a>
                     </li>
                     <li>
@@ -55,21 +55,8 @@
     <div class="container">
 
         <div>
-            <h1>Settings</h1>
-
-            <ul class="list-group col-sm-6">
-                <li class="list-group-item">
-                    <a href="/settings/token">Generate New Token</a>
-                </li>
-                <li class="list-group-item">
-                    <a href="/token/remove">Remove Cached Token</a>
-                </li>
-
-                <li class="list-group-item disabled">
-                    Plex-Sync v{{.FullVersion}}
-                </li>
-            </ul>
-
+            <h1>Plex-Sync</h1>
+            <p class="lead">Some text in here...</p>
         </div>
 
     </div>
@@ -78,6 +65,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+    <script src="/static/js/default.js"></script>
 </body>
 
 </html>

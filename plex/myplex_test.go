@@ -9,20 +9,6 @@ import (
 	"testing"
 )
 
-// Test the failure to create a token file.
-func TestInvalidTokenFile(t *testing.T) {
-	// Replace the tokenfile path for the duration of this test.
-	oldtokenfile := tokenFile
-	tokenFile = "zzz:/invalidPath/tokenfile"
-	defer func() { tokenFile = oldtokenfile }()
-
-	// Check if the token function returns the value from the test token file.
-	err := cacheToken("test")
-	if err == nil {
-		t.Error("Was able to create invalid token file")
-	}
-}
-
 // Test reading of the token from a temporary token file.
 func TestTokenFileRead(t *testing.T) {
 	// Replace the tokenfile path for the duration of this test.
