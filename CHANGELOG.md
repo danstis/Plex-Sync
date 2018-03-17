@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 *   Fixed|New|Changed - ([#1](https://github.com/danstis/rmstale/issues/1)) Description
 -->
 
-## [Unreleased]
+## [v0.6.0]
 
 *   Fixed - ([#105](https://github.com/danstis/rmstale/issues/105)) Caching of thumbnail images.
 *   New - Create API for web interface calls.
@@ -83,7 +83,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 *   Fixed - App would attempt to sync even if a token was not obtained.
 *   Fixed - Spaces in TV Show names cause errors.
 
-[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.5.2...HEAD
+[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.6.0...HEAD
+[v0.6.0]: https://github.com/danstis/Plex-Sync/compare/v0.5.2...v0.6.0
 [v0.5.2]: https://github.com/danstis/Plex-Sync/compare/v0.5.1...v0.5.2
 [v0.5.1]: https://github.com/danstis/Plex-Sync/compare/v0.5.0...v0.5.1
 [v0.5.0]: https://github.com/danstis/Plex-Sync/compare/v0.4.1...v0.5.0
