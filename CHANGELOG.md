@@ -11,7 +11,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+* Changed - ([#70](https://github.com/danstis/rmstale/issues/70)) Move settings into Database.
 * Changed - Refactor logging to new logger package.
+* Changed - ([#57](https://github.com/danstis/rmstale/issues/57)) Update web interface settings page to enable population of all settings.
+* New - Create API for web interface calls.
 
 ## [v0.5.2]
 
