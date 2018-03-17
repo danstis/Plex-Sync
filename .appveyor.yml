@@ -43,7 +43,6 @@ after_test:
   - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Remove-Item -Recurse -Force
   - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Remove-Item -Force
   - 7z a Plex-Sync.zip %APPVEYOR_BUILD_FOLDER%
-  - ps: dir -Recurse
 
 # on_finish:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
