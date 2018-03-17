@@ -39,8 +39,8 @@ func (s *Settings) Load() error {
 		s.MaxLogCount = 5
 		s.MaxLogAge = 1
 		s.CacheLifetime = 5
-		s.LocalServer = plex.Host{}
-		s.RemoteServer = plex.Host{}
+		s.LocalServer = plex.Host{Port: 32400}
+		s.RemoteServer = plex.Host{Port: 32400}
 		return nil
 	}
 	return database.Conn.Set("gorm:auto_preload", true).First(&s, 1).Error
