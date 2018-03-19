@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 *   Changed - Refactor logging to new logger package.
 *   Changed - ([#57](https://github.com/danstis/rmstale/issues/57)) Update web interface settings page to enable population of all settings.
 *   Changed - Index images retreved from API.
+*   Changed - ([#95](https://github.com/danstis/rmstale/issues/95)) Update error messages to make more sense.
+*   Changed - ([#109](https://github.com/danstis/rmstale/issues/109)) Remove config file from Readme file.
 
 ## [v0.5.2]
 
