@@ -1,6 +1,12 @@
 /* global angular */
 var PSapp = angular.module("Plex-Sync", []);
 
+PSapp.controller("versionInfo", function($scope, $http) {
+    $http.get("/api/version").then(function(response) {
+        $scope.version = response.data;
+    });
+});
+
 PSapp.controller("indexImages", function($scope, $http) {
     $http.get("/api/shows").then(function(response) {
         $scope.records = response.data;
