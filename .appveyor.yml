@@ -53,12 +53,12 @@ artifacts:
 
 deploy:
   release: v$(GitVersion_SemVer)
-  description: 'Release notes TBA'
+  description: 'Please check the ([Changelog](https://github.com/danstis/Plex-Sync/blob/master/CHANGELOG.md)) for change details.'
   provider: GitHub
   auth_token:
     secure: Yl/4x5Z5ys7ZvWZayu3S2Sh6rj5GMF/IKtXeuYIlfjdojJJC5sp3S8s35Dnzdcca # GitHub Token
   artifact: Plex-Sync
-  draft: true
+  draft: false
   prerelease: false
   on:
     appveyor_repo_tag: true        # deploy on tag push only
