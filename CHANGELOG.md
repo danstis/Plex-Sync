@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [v0.6.0]
 
 *   Fixed - ([#105](https://github.com/danstis/rmstale/issues/105)) Caching of thumbnail images.
+*   Fixed - ([#104](https://github.com/danstis/rmstale/issues/104)) HTTPS setting not populating.
 *   New - Create API for web interface calls.
 *   Changed - ([#70](https://github.com/danstis/rmstale/issues/70)) Move settings into Database.
 *   Changed - Refactor logging to new logger package.
