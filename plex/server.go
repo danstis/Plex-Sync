@@ -13,6 +13,8 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/jinzhu/gorm"
 )
 
 // CacheLifetime controls when a cached image will be refreshed in days
@@ -22,6 +24,7 @@ var cachePath = filepath.Join(".cache", "show")
 
 // Host defines the data to be stored for server objects
 type Host struct {
+	gorm.Model
 	Name     string
 	Hostname string
 	Port     int
@@ -221,7 +224,7 @@ func findEpisode(eps []Episode, s, e int) (Episode, error) {
 		}
 	}
 
-	return Episode{}, fmt.Errorf("could not find episode in array")
+	return Episode{}, fmt.Errorf("could not find episode on destination server")
 }
 
 // scrobble marks an episode as watched

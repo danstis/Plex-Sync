@@ -30,13 +30,14 @@
   version = "^1.6.0"
 
 [[constraint]]
-  name = "github.com/spf13/viper"
-  version = "^1.0.0"
-
-[[constraint]]
   name = "gopkg.in/natefinch/lumberjack.v2"
   version = "^2.1.0"
 
 [[constraint]]
   name = "github.com/smartystreets/goconvey"
   version = "^1.6.3"
+
+[[constraint]]
+  name = "github.com/jinzhu/gorm"
+  version = "^1.0.0"
+

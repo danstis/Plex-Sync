@@ -17,9 +17,10 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 </head>
 
-<body>
+<body ng-app="Plex-Sync">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -30,17 +31,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand">Plex-Sync v{{.Version}}</a>
+                <a class="navbar-brand" ng-controller="versionInfo" ng-cloak="">Plex-Sync v{{version.shortVersion}}</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li class="active">
                         <a href="/">Home</a>
                     </li>
                     <li>
                         <a href="/logs">Logs</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="/settings">Settings</a>
                     </li>
                     <li>
@@ -54,22 +55,9 @@
 
     <div class="container">
 
-        <div class="col-md-6">
-
-            <form action="/token/request" method="POST" role="form">
-                <legend>Request new token</legend>
-
-                <div class="form-group">
-                    <label for="username">MyPlex Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="MyPlex Username">
-
-                    <label for="password">MyPlex Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-
+        <div>
+            <h1>Plex-Sync</h1>
+            <p class="lead">Some text in here...</p>
         </div>
 
     </div>
@@ -78,6 +66,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+    <script src="/static/js/PSapp.js"></script>
 </body>
 
 </html>

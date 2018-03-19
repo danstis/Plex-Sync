@@ -1,4 +1,4 @@
-package webui
+package web
 
 import (
 	"net/http"
@@ -21,14 +21,21 @@ type routes []route
 func NewRouter() *mux.Router {
 
 	router := mux.NewRouter()
-	for _, route := range uiroutes {
+	for _, route := range uiRoutes {
 		router.
 			Methods(route.Method).
 			Path(route.Pattern).
 			Name(route.Name).
 			Handler(route.HandlerFunc)
 	}
-	static := http.StripPrefix("/static/", http.FileServer(http.Dir("./webui/static/")))
+	for _, route := range apiRoutes {
+		router.
+			Methods(route.Method).
+			Path(route.Pattern).
+			Name(route.Name).
+			Handler(route.HandlerFunc)
+	}
+	static := http.StripPrefix("/static/", http.FileServer(http.Dir("./web/static/")))
 	cache := http.StripPrefix("/cache/", http.FileServer(http.Dir("./.cache/")))
 	router.PathPrefix("/static/").Handler(static)
 	router.PathPrefix("/cache/").Handler(cache)
@@ -36,7 +43,7 @@ func NewRouter() *mux.Router {
 	return router
 }
 
-var uiroutes = routes{
+var uiRoutes = routes{
 	route{
 		"Home",
 		"GET",
@@ -73,16 +80,49 @@ var uiroutes = routes{
 		"/logs",
 		logsHandler,
 	},
+}
+
+var apiRoutes = routes{
 	route{
-		"GeneralLogHead",
+		"ApiLogHead",
 		"HEAD",
-		"/logs/{logfile}",
-		generalLogHeadHandler,
+		"/api/log/{logfile}",
+		apiLogHead,
 	},
 	route{
-		"GeneralLog",
+		"ApiLogGet",
 		"GET",
-		"/logs/{logfile}",
-		generalLogHandler,
+		"/api/log/{logfile}",
+		apiLogGet,
+	},
+	route{
+		"ApiTokenDelete",
+		"DELETE",
+		"/api/token",
+		apiTokenDelete,
+	},
+	route{
+		"ApiSettingsGet",
+		"GET",
+		"/api/settings",
+		apiSettingsGet,
+	},
+	route{
+		"ApiSettingsPost",
+		"POST",
+		"/api/settings",
+		apiSettingsCreate,
+	},
+	route{
+		"ApiVersionGet",
+		"GET",
+		"/api/version",
+		apiVersionGet,
+	},
+	route{
+		"ApiShowsGet",
+		"GET",
+		"/api/shows",
+		apiShowsGet,
 	},
 }
