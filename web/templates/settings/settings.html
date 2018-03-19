@@ -31,7 +31,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" id="shortVersion">Plex-Sync v0.0.0</a>
+                <a class="navbar-brand" ng-controller="versionInfo" ng-cloak="">Plex-Sync v{{version.shortVersion}}</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -248,7 +248,7 @@
 
         </div>
         <div class="row">
-            <div class="well well-sm" id="fullVersion">Plex-Sync v0.0.0-default</div>
+            <div class="well well-sm" ng-controller="versionInfo" ng-cloak="">Plex-Sync v{{version.fullVersion}}</div>
         </div>
 
 
@@ -258,9 +258,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-    <script src="/static/js/default.js"></script>
     <script src="/static/js/PSapp.js"></script>
-
 </body>
 
 </html>
