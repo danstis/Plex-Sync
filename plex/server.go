@@ -224,7 +224,7 @@ func findEpisode(eps []Episode, s, e int) (Episode, error) {
 		}
 	}
 
-	return Episode{}, fmt.Errorf("could not find episode in array")
+	return Episode{}, fmt.Errorf("could not find episode on destination server")
 }
 
 // scrobble marks an episode as watched

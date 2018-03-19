@@ -155,7 +155,7 @@ func (h *Host) GetToken(t string) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("no server found matching name %q", h.Name)
+	return fmt.Errorf("no server found matching name %q, ensure the server name matches what is listed in Plex", h.Name)
 }
 
 // codebeat:disable[TOO_MANY_IVARS]
