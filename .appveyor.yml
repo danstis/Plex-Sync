@@ -21,9 +21,11 @@ install:
 before_build:
   - c:\gopath\bin\dep ensure
   - gitversion /l console /output buildserver
+  - go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 
 build_script:
-  - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$env:GitVersion_SemVer" main.go
+  - ps: goversioninfo -64 -product-version="$env:GitVersion_SemVer" -ver-major="$env:GitVersion_Major" -ver-minor="$env:GitVersion_Minor" -ver-patch="$env:GitVersion_Patch" -product-ver-major="$env:GitVersion_Major" -product-ver-minor="$env:GitVersion_Minor" -product-ver-patch="$env:GitVersion_Patch"
+  - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$env:GitVersion_SemVer"
 
 before_test:
   - go get -u github.com/haya14busa/goverage
@@ -41,7 +43,7 @@ after_test:
   - goveralls -coverprofile=coverage.out -service=appveyor || exit 0
   - ps: Move-Item ./config/tvshows.txt.default ./config/tvshows.txt
   - ps: Get-ChildItem -Directory -Include ".*","plex","Plex-Sync" -Recurse -Force | Remove-Item -Recurse -Force
-  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html" -Recurse -Force | Remove-Item -Force
+  - ps: Get-ChildItem -Include "coverage.out",".*","*.go","_template.html","resource.syso" -Recurse -Force | Remove-Item -Force
   - 7z a Plex-Sync.zip %APPVEYOR_BUILD_FOLDER%
 
 # on_finish:
