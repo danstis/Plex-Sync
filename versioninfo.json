@@ -1,0 +1,10 @@
+{
+    "StringFileInfo": {
+        "CompanyName": "",
+        "FileDescription": "Plex-Sync is a synchronisation tool for Plex",
+        "LegalCopyright": "",
+        "OriginalFilename": "Plex-Sync.exe",
+        "ProductName": "Plex-Sync"
+    },
+    "IconPath": "Icon.ico"
+}
