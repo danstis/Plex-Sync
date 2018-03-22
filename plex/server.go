@@ -194,23 +194,23 @@ func allEpisodes(server Host, sID int) ([]Episode, error) {
 	uri := CreateURI(server, fmt.Sprintf("library/metadata/%v/allLeaves", sID))
 	resp, err := apiRequest("GET", uri, server.Token, nil)
 	if err != nil {
-		return nil, err
+		return []Episode{}, err
 	}
 	defer resp.Body.Close() // nolint: errcheck
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected HTTP Response %q", resp.Status)
+		return []Episode{}, fmt.Errorf("unexpected HTTP Response %q", resp.Status)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("error reading response %v", err)
+		return []Episode{}, fmt.Errorf("error reading response %v", err)
 	}
 
 	results := ER{}
 
 	err = xml.Unmarshal(body, &results)
 	if err != nil {
-		return nil, fmt.Errorf("error parsing xml response: %v", err)
+		return []Episode{}, fmt.Errorf("error parsing xml response: %v", err)
 	}
 
 	return results.Video, nil
@@ -236,7 +236,7 @@ func scrobble(server Host, eID int) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unexpected HTTP Response %q", resp.Status)
+		return fmt.Errorf("unexpected HTTP Response: %v", resp.Status)
 	}
 
 	return nil
