@@ -236,7 +236,7 @@ func scrobble(server Host, eID int) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("unexpected HTTP Response %q", resp.Status)
+		return fmt.Errorf("unexpected HTTP Response: %v", resp.Status)
 	}
 
 	return nil
