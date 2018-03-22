@@ -123,15 +123,68 @@ func TestGettingShowEpisodes(t *testing.T) {
 		Convey("The correct episode details should be returned", func() {
 			So(result, ShouldResemble, expected)
 		})
+
+		Convey("And asked to select an existsing episode", func() {
+			ep, err := findEpisode(result, 1, 1)
+			if err != nil {
+				t.Errorf("failed to get single episode from all eisodes: %v", err)
+			}
+			expectedEp := Episode{ID: 128, Name: "Episode1", Episode: 1, Season: 1, ViewCount: 1, LastWatched: 1519792250}
+
+			Convey("The correct episode is returned", func() {
+				So(ep, ShouldResemble, expectedEp)
+			})
+		})
+
+		Convey("And asked to select a non-existsing episode", func() {
+			ep, err := findEpisode(result, 2, 8)
+			expectedEp := Episode{}
+
+			Convey("An empty Episode and an error is returned", func() {
+				So(ep, ShouldResemble, expectedEp)
+				So(err, ShouldResemble, fmt.Errorf("could not find episode on destination server"))
+			})
+		})
 	})
 
-	Convey("When searching for a non existing show", t, func() {
+	Convey("When searching for a non-existing show", t, func() {
 		result, err := allEpisodes(host, 000)
 		expected := []Episode{}
 
 		Convey("An empty show and an error should be returned", func() {
 			So(result, ShouldResemble, expected)
 			So(err, ShouldResemble, fmt.Errorf("error parsing xml response: %v", "EOF"))
+		})
+	})
+}
+
+func TestMediaScrobbling(t *testing.T) {
+	ts := startTestServer()
+	defer ts.Close()
+	port, err := strconv.Atoi(strings.Split(ts.URL, ":")[2])
+	if err != nil {
+		t.Errorf("failed to start test server")
+	}
+	host := Host{
+		Name:     "TestServer",
+		Hostname: "127.0.0.1",
+		Port:     port,
+		Ssl:      false,
+	}
+
+	Convey("When attempting to scobble an existing episode", t, func() {
+		err := scrobble(host, 125)
+
+		Convey("No error should be raised", func() {
+			So(err, ShouldBeNil)
+		})
+	})
+
+	Convey("When attempting to scobble a non-existing episode", t, func() {
+		err := scrobble(host, 666)
+
+		Convey("An error should be raised", func() {
+			So(err, ShouldResemble, fmt.Errorf("unexpected HTTP Response: 500 Internal Server Error"))
 		})
 	})
 }
@@ -192,6 +245,14 @@ func startTestServer() *httptest.Server {
                         </Media>
                     </Video>
                 </MediaContainer>`)
+
+			// 125 is the test for a successful scrobble
+		case "/:/scrobble?key=125&identifier=com.plexapp.plugins.library":
+			w.WriteHeader(http.StatusOK)
+
+			// 666 is the test for a failed scrobble
+		case "/:/scrobble?key=666&identifier=com.plexapp.plugins.library":
+			w.WriteHeader(http.StatusInternalServerError)
 		}
 
 	}))
