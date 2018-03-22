@@ -280,5 +280,5 @@ func (s Show) cacheImages(server Host) error {
 }
 
 func expired(fs os.FileInfo) bool {
-	return fs.ModTime().Before(time.Now().AddDate(0, 0, CacheLifetime))
+	return fs.ModTime().Before(time.Now().AddDate(0, 0, CacheLifetime*-1))
 }

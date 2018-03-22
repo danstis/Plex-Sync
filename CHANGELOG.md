@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 *   Fixed|New|Changed - ([#1](https://github.com/danstis/rmstale/issues/1)) Description
 -->
 
+## [Unreleased]
+
+*   Fixed - ([#106](https://github.com/danstis/rmstale/issues/106)) Resolve issue with cache files.
+
 ## [v0.7.0]
 
 *   New - ([#110](https://github.com/danstis/rmstale/issues/110)) Add exe details and Icon for windows executable.
