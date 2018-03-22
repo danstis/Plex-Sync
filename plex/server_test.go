@@ -29,7 +29,7 @@ func TestURLCreation(t *testing.T) {
 }
 
 func TestCachedFileExpiry(t *testing.T) {
-	CacheLifetime = -5
+	CacheLifetime = 5
 
 	Convey("Given a file created yesterday", t, func() {
 		newFile := tempfile(t, "newfile", -1)
