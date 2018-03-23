@@ -10,7 +10,7 @@ MyPlex is used to enable communication with the Plex servers.
 
 ## Usage Instructions
 
-1.  Download the package from the releases section [here](https://github.com/danstis/Plex-Sync/releases).
+1.  Download the package from the [releases section](https://github.com/danstis/Plex-Sync/releases/latest).
 1.  Extract to a local folder.
 1.  Populate the .\config\tvshows.txt file with a list of shows to sync watched status for. The titles should match what is listed in Plex, for example:
     ```txt
@@ -18,6 +18,7 @@ MyPlex is used to enable communication with the Plex servers.
     The Americans (2013)
     ```
 1.  Run the Plex-Sync.exe file. _NOTE: If running on newer versions of Windows, you will need to allow the file to run when Smart Screen blocks it._
+1.  Open the web interface on the default port 8085 [http://localhost:8085](http://localhost:8085)
 1.  Browse to the settings tab to generate a new token, as well as configure your servers and application settings.
 
 ## Development
