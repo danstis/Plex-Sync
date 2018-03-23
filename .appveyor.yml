@@ -24,7 +24,7 @@ before_build:
   - go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 
 build_script:
-  - ps: goversioninfo -64 -product-version="$env:GitVersion_SemVer" -ver-major="$env:GitVersion_Major" -ver-minor="$env:GitVersion_Minor" -ver-patch="$env:GitVersion_Patch"
+  # - ps: goversioninfo -64 -product-version="$env:GitVersion_SemVer" -ver-major="$env:GitVersion_Major" -ver-minor="$env:GitVersion_Minor" -ver-patch="$env:GitVersion_Patch"
   - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$env:GitVersion_SemVer"
 
 before_test:
