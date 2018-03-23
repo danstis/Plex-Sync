@@ -24,8 +24,8 @@ before_build:
   - go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 
 build_script:
-  # - ps: goversioninfo -64 -product-version="$env:GitVersion_SemVer" -ver-major="$env:GitVersion_Major" -ver-minor="$env:GitVersion_Minor" -ver-patch="$env:GitVersion_Patch"
-  - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$env:GitVersion_SemVer"
+  - ps: goversioninfo -64 -product-version="$env:GitVersion_SemVer" -ver-major="$env:GitVersion_Major" -ver-minor="$env:GitVersion_Minor" -ver-patch="$env:GitVersion_Patch"
+  - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$($env:GitVersion_SemVer)"
 
 before_test:
   - go get -u github.com/haya14busa/goverage
@@ -48,8 +48,8 @@ after_test:
   - ps: Get-ChildItem -Path .\package\ -Include "_template.html","*.go" -Recurse -Force | Remove-Item -Force
   - 7z a Plex-Sync.zip %APPVEYOR_BUILD_FOLDER%\package\*
 
-# on_finish:
-#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 artifacts:
   - path: Plex-Sync.zip
