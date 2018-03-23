@@ -25,7 +25,7 @@ before_build:
 
 build_script:
   - ps: goversioninfo -64 -product-version="$env:GitVersion_SemVer" -ver-major="$env:GitVersion_Major" -ver-minor="$env:GitVersion_Minor" -ver-patch="$env:GitVersion_Patch"
-  - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$($env:GitVersion_SemVer)"
+  - ps: go build -ldflags "-X github.com/danstis/Plex-Sync/plex.Version=$($env:GitVersion_SemVer)" github.com/danstis/Plex-Sync
 
 before_test:
   - go get -u github.com/haya14busa/goverage
