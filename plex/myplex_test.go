@@ -7,10 +7,64 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
+func TestTokenCache(t *testing.T) {
+	oldtokenfile := tokenFile
+	tokenFile = "testTokenFile"
+	defer func() { tokenFile = oldtokenfile }()
+
+	Convey("given a token to cache", t, func() {
+		err := cacheToken("ValidToken")
+
+		Convey("the token file should be generated", func() {
+            So(err, ShouldBeNil)
+            // check file existance
+		})
+
+		Convey("the test token should be able to be read", func(){
+            So(err, ShouldBeNil)
+            // check value from file
+        })
+
+	})
+
+	Convey("given an empty token file", t, func() {
+
+		Convey("an empty string should be returned", nil)
+
+	})
+
+	Convey("when instructed to remove the token file", t, func() {
+
+		Convey("the file should be removed", nil)
+
+	})
+
+}
+
+func TestMyPlexToken(t *testing.T) {
+
+	Convey("when attempting to authenticate to MyPlex with valid credentials", t, func() {
+
+		Convey("the returned token should be cached", nil)
+
+		Convey("no error should be returned", nil)
+
+	})
+
+	Convey("when attempting to authenticate to MyPlex with invalid credentials", t, func() {
+
+		Convey("an error should be returned", nil)
+
+	})
+
+}
+
 // Test reading of the token from a temporary token file.
-func TestTokenFileRead(t *testing.T) {
+func TestTokenFileReadOLD(t *testing.T) {
 	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
 	tokenFile = "testTokenFile"
@@ -35,7 +89,7 @@ func TestTokenFileRead(t *testing.T) {
 }
 
 // Test getting a new token with a valid username and password, then writing it to file.
-func TestTokenGeneration(t *testing.T) {
+func TestTokenGenerationOLD(t *testing.T) {
 	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
 	tokenFile = "testTokenFile"
@@ -64,7 +118,7 @@ func TestTokenGeneration(t *testing.T) {
 }
 
 // Test removing a new token file.
-func TestTokenRemoval(t *testing.T) {
+func TestTokenRemovalOLD(t *testing.T) {
 	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
 	tokenFile = "testTokenFile"
@@ -84,7 +138,7 @@ func TestTokenRemoval(t *testing.T) {
 }
 
 // Test missing token file
-func TestNewTokenfile(t *testing.T) {
+func TestNewTokenfileOLD(t *testing.T) {
 	want := ""
 	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
@@ -97,7 +151,7 @@ func TestNewTokenfile(t *testing.T) {
 	}
 }
 
-func TestMyPlexToken(t *testing.T) {
+func TestMyPlexTokenOLD(t *testing.T) {
 
 	ts := startMyPlexTestServer()
 	defer ts.Close()
