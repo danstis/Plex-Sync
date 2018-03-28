@@ -27,7 +27,7 @@ var (
 func Token() string {
 	token, err := ioutil.ReadFile(tokenFile)
 	if err != nil {
-		// File does not exist. Get credentials and write token to file.
+		// File does not exist.
 		log.Println("Cached token does not exist, request a new token in the Web Interface (Settings -> Request New Token).")
 		return ""
 	}
@@ -37,6 +37,10 @@ func Token() string {
 
 // TokenRequest requests a new token from MyPlex
 func TokenRequest(cred Credentials) error {
+	return tokenRequest(cred, "https://plex.tv/users/sign_in.xml")
+}
+
+func tokenRequest(cred Credentials, url string) error {
 	type xmlUser struct {
 		Email               string `xml:"email"`
 		Username            string `xml:"username"`
@@ -44,7 +48,7 @@ func TokenRequest(cred Credentials) error {
 	}
 
 	// Create a new reqest object.
-	req, err := http.NewRequest("POST", "https://plex.tv/users/sign_in.xml", nil)
+	req, err := http.NewRequest("POST", url, nil)
 	if err != nil {
 		return fmt.Errorf("failed to create new request")
 	}
@@ -79,8 +83,7 @@ func TokenRequest(cred Credentials) error {
 	}
 	log.Println("Token received.")
 
-	err = cacheToken(record.AuthenticationToken)
-	return err
+	return cacheToken(record.AuthenticationToken)
 }
 
 func tokenDir(tokenPath string) string {
@@ -100,12 +103,9 @@ func cacheToken(token string) error {
 		return fmt.Errorf("unable to create token file")
 	}
 	_, err = f.WriteString(token)
+	defer f.Close()
 	if err != nil {
 		return fmt.Errorf("unable to write to token file")
-	}
-	err = f.Close()
-	if err != nil {
-		return fmt.Errorf("unable to close token file: %v", err)
 	}
 	return nil
 }
@@ -186,8 +186,8 @@ func apiRequest(method, url, token string, body io.Reader) (*http.Response, erro
 	// Create the HTTP Client
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("failed request to MyPlex servers, %v", err)
+	if err != nil || resp.StatusCode >= 400 {
+		return nil, fmt.Errorf("failed request to MyPlex servers, status code %v, error: %v", resp.StatusCode, err)
 	}
 	return resp, nil
 }

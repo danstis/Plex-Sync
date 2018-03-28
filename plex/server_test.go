@@ -184,7 +184,7 @@ func TestMediaScrobbling(t *testing.T) {
 		err := scrobble(host, 666)
 
 		Convey("An error should be raised", func() {
-			So(err, ShouldResemble, fmt.Errorf("unexpected HTTP Response: 500 Internal Server Error"))
+			So(err, ShouldResemble, fmt.Errorf("failed request to MyPlex servers, status code %v, error: %v", 500, nil))
 		})
 	})
 }
