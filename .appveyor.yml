@@ -41,7 +41,7 @@ after_test:
   - godacov -t %CODACY_TOKEN% -r .\coverage.out -c %APPVEYOR_REPO_COMMIT% || exit 0
   - ps: |
       Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
-      bash codecov.sh -f coverage.out
+      bash codecov.sh
   - ps: mkdir ".\package\config",".\package\logs"
   - ps: Copy-Item .\config\tvshows.txt.default .\package\config\tvshows.txt
   - ps: Copy-Item .\web .\package -Recurse -Force
