@@ -27,7 +27,7 @@ var (
 func Token() string {
 	token, err := ioutil.ReadFile(tokenFile)
 	if err != nil {
-		// File does not exist. Get credentials and write token to file.
+		// File does not exist.
 		log.Println("Cached token does not exist, request a new token in the Web Interface (Settings -> Request New Token).")
 		return ""
 	}
@@ -103,12 +103,9 @@ func cacheToken(token string) error {
 		return fmt.Errorf("unable to create token file")
 	}
 	_, err = f.WriteString(token)
+	defer f.Close()
 	if err != nil {
 		return fmt.Errorf("unable to write to token file")
-	}
-	err = f.Close()
-	if err != nil {
-		return fmt.Errorf("unable to close token file: %v", err)
 	}
 	return nil
 }
