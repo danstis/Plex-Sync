@@ -2,10 +2,10 @@ package plex
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -13,163 +13,97 @@ import (
 
 func TestTokenCache(t *testing.T) {
 	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
+	tokenFile = path.Join(os.TempDir(), "mockTokenFile")
 	defer func() { tokenFile = oldtokenfile }()
 
-	Convey("given a token to cache", t, func() {
-		err := cacheToken("ValidToken")
+	Convey("with a missing token file", t, func() {
+		os.Remove(tokenFile) // Start with no tokenfile
 
-		Convey("the token file should be generated", func() {
-            So(err, ShouldBeNil)
-            // check file existance
+		Convey("when asked to retreve the token", func() {
+			token := Token()
+
+			Convey("the token should be an empty string", func() {
+				So(token, ShouldEqual, "")
+			})
 		})
 
-		Convey("the test token should be able to be read", func(){
-            So(err, ShouldBeNil)
-            // check value from file
-        })
+		Convey("given a token to cache", func() {
+			err := cacheToken("ValidToken")
+
+			Convey("the token file should be generated", func() {
+				So(err, ShouldBeNil)
+				So(exists(tokenFile), ShouldBeTrue)
+			})
+
+			Convey("the test token should be able to be read", func() {
+				So(err, ShouldBeNil)
+				So(Token(), ShouldEqual, "ValidToken")
+			})
+
+		})
 
 	})
 
 	Convey("given an empty token file", t, func() {
+		f, err := os.Create(tokenFile)
+		if err != nil {
+			t.Fatal("Unable to create empty token file.")
+		}
+		f.Close()
 
-		Convey("an empty string should be returned", nil)
+		Convey("an empty string should be returned", func() {
+			So(Token(), ShouldEqual, "")
+		})
 
 	})
 
-	Convey("when instructed to remove the token file", t, func() {
+	Convey("when instructed to remove an existing token file", t, func() {
+		// populate the token file for this test
+		if err := cacheToken("ValidToken"); err != nil {
+			t.Fatalf("unable to create token file: %v", err)
+		}
 
-		Convey("the file should be removed", nil)
+		err := RemoveCachedToken()
+
+		Convey("the file should be removed", func() {
+			So(err, ShouldBeNil)
+			So(exists(tokenFile), ShouldBeFalse)
+		})
 
 	})
 
 }
 
 func TestMyPlexToken(t *testing.T) {
-
-	Convey("when attempting to authenticate to MyPlex with valid credentials", t, func() {
-
-		Convey("the returned token should be cached", nil)
-
-		Convey("no error should be returned", nil)
-
-	})
-
-	Convey("when attempting to authenticate to MyPlex with invalid credentials", t, func() {
-
-		Convey("an error should be returned", nil)
-
-	})
-
-}
-
-// Test reading of the token from a temporary token file.
-func TestTokenFileReadOLD(t *testing.T) {
-	// Replace the tokenfile path for the duration of this test.
 	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
-	defer func() { tokenFile = oldtokenfile }()
-
-	// Create a new temporary token file containing "ValidToken".
-	f, err := os.Create(tokenFile)
-	if err != nil {
-		t.Fatal("Unable to create token file.")
-	}
-	f.WriteString("ValidToken")
-
-	// Check if the token function returns the value from the test token file.
-	token := Token()
-	if token != "ValidToken" {
-		t.Error("Tokenfile does not contain 'ValidToken'")
-	}
-
-	// Cleanup the temporary token file.
-	f.Close()
-	os.Remove(f.Name())
-}
-
-// Test getting a new token with a valid username and password, then writing it to file.
-func TestTokenGenerationOLD(t *testing.T) {
-	// Replace the tokenfile path for the duration of this test.
-	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
-	defer func() { tokenFile = oldtokenfile }()
-
-	err := cacheToken("ValidToken")
-	if err != nil {
-		t.Error("Unable to generate tokenfile")
-	}
-
-	// Check if the token function returns the value from the test token file.
-	token := Token()
-	if token != "ValidToken" {
-		t.Error("Generated token does not contain 'ValidToken'")
-	}
-
-	// Cleanup the temporary token file.
-	f, err := os.Open(tokenFile)
-	if err != nil {
-		log.Println(err)
-	}
-	f.Close()
-	if err := os.Remove(f.Name()); err != nil {
-		log.Printf("Error removing file: %s", err)
-	}
-}
-
-// Test removing a new token file.
-func TestTokenRemovalOLD(t *testing.T) {
-	// Replace the tokenfile path for the duration of this test.
-	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
-	defer func() { tokenFile = oldtokenfile }()
-
-	// Create a new temporary token file containing "ValidToken".
-	f, err := os.Create(tokenFile)
-	if err != nil {
-		t.Fatal("Unable to create token file.")
-	}
-	f.WriteString("ValidToken")
-	f.Close()
-
-	if err := RemoveCachedToken(); err != nil {
-		t.Error("Error removing token file")
-	}
-}
-
-// Test missing token file
-func TestNewTokenfileOLD(t *testing.T) {
-	want := ""
-	// Replace the tokenfile path for the duration of this test.
-	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
-	defer func() { tokenFile = oldtokenfile }()
-
-	got := Token()
-	if got != want {
-		t.Errorf("Token() got %v want %v", got, want)
-	}
-}
-
-func TestMyPlexTokenOLD(t *testing.T) {
+	tokenFile = path.Join(os.TempDir(), "mockTokenFile")
+	defer func() {
+		tokenFile = oldtokenfile
+		os.Remove(tokenFile)
+	}()
 
 	ts := startMyPlexTestServer()
 	defer ts.Close()
 
-	// Replace the tokenfile path for the duration of this test.
-	oldtokenfile := tokenFile
-	tokenFile = "testTokenFile"
-	defer func() {
-		os.Remove(tokenFile)
-		tokenFile = oldtokenfile
-	}()
+	Convey("when attempting to authenticate to MyPlex with valid credentials", t, func() {
+		err := tokenRequest(Credentials{}, ts.URL+"/users/goodSign_in.xml")
 
-	if tokenRequest(Credentials{}, ts.URL+"/users/goodSign_in.xml") != nil {
-		t.Errorf("Testing a good signin failed")
-	}
-	if tokenRequest(Credentials{}, ts.URL+"/users/badSign_in.xml") == nil {
-		t.Errorf("Testing a bad signin did not result in an Error")
-	}
+		Convey("the returned token should be cached", func() {
+			So(err, ShouldBeNil)
+			So(Token(), ShouldEqual, "GoodToken")
+		})
+
+	})
+
+	Convey("when attempting to authenticate to MyPlex with invalid credentials", t, func() {
+		err := tokenRequest(Credentials{}, ts.URL+"/users/badSign_in.xml")
+
+		Convey("an error should be returned", func() {
+			So(err, ShouldResemble, fmt.Errorf("401 Unauthorized"))
+		})
+
+	})
+
 }
 
 func startMyPlexTestServer() *httptest.Server {
@@ -199,4 +133,11 @@ func startMyPlexTestServer() *httptest.Server {
 	}))
 
 	return s
+}
+
+func exists(fn string) bool {
+	if _, err := os.Stat(fn); err == nil {
+		return true
+	}
+	return false
 }
