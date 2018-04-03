@@ -116,8 +116,8 @@ func TestGettingShowEpisodes(t *testing.T) {
 			t.Errorf("unable to get show episodes: %v", err)
 		}
 		expected := []Episode{
-			Episode{ID: 128, Name: "Episode1", Episode: 1, Season: 1, ViewCount: 1, LastWatched: 1519792250},
-			Episode{ID: 125, Name: "Episode2", Episode: 2, Season: 1, ViewCount: 0, LastWatched: 0},
+			{ID: 128, Name: "Episode1", Episode: 1, Season: 1, ViewCount: 1, LastWatched: 1519792250},
+			{ID: 125, Name: "Episode2", Episode: 2, Season: 1, ViewCount: 0, LastWatched: 0},
 		}
 
 		Convey("The correct episode details should be returned", func() {
