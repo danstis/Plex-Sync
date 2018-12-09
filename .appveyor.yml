@@ -9,7 +9,7 @@ environment:
     secure: Bc2t/iVXULjddywzFj+F5RrWTlqVHVv4ikA+NV9LZMt69OQRaauWcMDhpjlZ5FN/
 
 install:
-  - choco install gitversion.portable -pre -y
+  - choco install gitversion.portable -y
   - rm C:\Tools\GitVersion\GitVersion.exe
   - mkdir %GOPATH%\bin
   - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
