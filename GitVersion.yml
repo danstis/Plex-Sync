@@ -1,9 +1,9 @@
 assembly-versioning-scheme: None
 mode: Mainline
-major-version-bump-message: '\+semver:\s?(breaking|major)'
-minor-version-bump-message: '\+semver:\s?(feature|minor)'
-patch-version-bump-message: '\+semver:\s?(fix|patch)'
-no-bump-message: '\+semver:\s?(none|skip)'
+major-version-bump-message: '(\+semver:\s?(breaking|major)|Major:\s?)'
+minor-version-bump-message: '(\+semver:\s?(feature|minor)|Feature:\s?|Minor:\s?)'
+patch-version-bump-message: '(\+semver:\s?(fix|patch)|Patch:\s?)'
+no-bump-message: '(\+semver:\s?(none|skip)|NOCI:\s?)'
 branches: {}
 ignore:
   sha: []

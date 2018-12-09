@@ -8,7 +8,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/danstis/Plex-Sync/models"
+	"github.com/danstis/Plex-Sync/config"
 	"github.com/danstis/Plex-Sync/plex"
 	"github.com/gorilla/mux"
 )
@@ -51,11 +51,9 @@ func apiTokenDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func apiSettingsGet(w http.ResponseWriter, r *http.Request) {
-	var s models.Settings
-	var err error
-
-	if err = s.Load(); err != nil {
-		log.Printf("Error getting settings from DB: %v\n", err)
+	s, err := config.GetConfig()
+	if err != nil {
+		log.Printf("Error getting settings from config file: %v\n", err)
 		w.WriteHeader(http.StatusFailedDependency)
 		return
 	}
@@ -70,17 +68,17 @@ func apiSettingsGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func apiSettingsCreate(w http.ResponseWriter, r *http.Request) {
-	var s models.Settings
-	if err := s.Load(); err != nil {
-		log.Printf("Error reading settings from DB: %v\n", err)
-		w.WriteHeader(http.StatusInternalServerError)
+	s, err := config.GetConfig()
+	if err != nil {
+		log.Printf("Error getting settings from config file: %v\n", err)
+		w.WriteHeader(http.StatusFailedDependency)
 		return
 	}
 
 	json.NewDecoder(r.Body).Decode(&s)
 
-	if err := s.Save(); err != nil {
-		log.Printf("Error writing settings to DB: %v\n", err)
+	if err := config.UpdateConfig(s); err != nil {
+		log.Printf("Error writing settings to config file: %v\n", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

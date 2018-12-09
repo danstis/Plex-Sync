@@ -26,7 +26,8 @@ PSapp.controller("settings", function($scope, $http) {
                 $scope.statusLevel = "alert-success";
             },
             // Failure
-            function(errMsg) {
+            function(error) {
+                var errMsg = error.message || "Internal Server Error";
                 $scope.statusMessage = "Error updating settings: " + errMsg;
                 $scope.statusLevel = "alert-warning";
             }
