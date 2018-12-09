@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 *   Fixed|New|Changed - ([#1](https://github.com/danstis/Plex-Sync/issues/1)) Description
 -->
 
-## [Unreleased]
+## [v0.8.0]
 
 -   New - ([#102](https://github.com/danstis/Plex-Sync/issues/102)) Add missing image.
 -   Changed - ([#120](https://github.com/danstis/Plex-Sync/issues/120)) Move configuration to TOML config file.
@@ -104,7 +104,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 -   Fixed - App would attempt to sync even if a token was not obtained.
 -   Fixed - Spaces in TV Show names cause errors.
 
-[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.7.2...HEAD
+[unreleased]: https://github.com/danstis/Plex-Sync/compare/v0.8.0...HEAD
+[v0.8.0]: https://github.com/danstis/Plex-Sync/compare/v0.7.2...v0.8.0
 [v0.7.2]: https://github.com/danstis/Plex-Sync/compare/v0.7.1...v0.7.2
 [v0.7.1]: https://github.com/danstis/Plex-Sync/compare/v0.7.0...v0.7.1
 [v0.7.0]: https://github.com/danstis/Plex-Sync/compare/v0.6.0...v0.7.0
