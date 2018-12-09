@@ -38,7 +38,7 @@ func GetConfig() (Settings, error) {
 	_, err := toml.DecodeFile(configFile, &s)
 	if os.IsNotExist(err) {
 		s := Settings{
-			WebServerPort: 8080,
+			WebServerPort: 8085,
 			Logging: logging{
 				MaxLogSize:  5,
 				MaxLogCount: 1,
