@@ -11,7 +11,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+-   New - ([#102](https://github.com/danstis/Plex-Sync/issues/102)) Add missing image.
 -   Changed - ([#120](https://github.com/danstis/Plex-Sync/issues/120)) Move configuration to TOML config file.
+-   Changed - ([#103](https://github.com/danstis/Plex-Sync/issues/103)) Modify show layout.
 
 ## [v0.7.2]
 
