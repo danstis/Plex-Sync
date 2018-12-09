@@ -18,6 +18,7 @@ install:
 before_build:
   - gitversion /output buildserver
   - go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
+  - go get
 
 build_script:
   - ps: goversioninfo -64 -product-version="$env:GitVersion_SemVer" -ver-major="$env:GitVersion_Major" -ver-minor="$env:GitVersion_Minor" -ver-patch="$env:GitVersion_Patch"
@@ -28,6 +29,7 @@ before_test:
   - go get -u github.com/schrej/godacov
 
 test_script:
+  - go vet ./...
   - goverage -v .\plex\...
   - go tool cover -func coverage.out
 
