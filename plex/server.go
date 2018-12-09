@@ -13,8 +13,6 @@ import (
 	"sort"
 	"strings"
 	"time"
-
-	"github.com/jinzhu/gorm"
 )
 
 // CacheLifetime controls when a cached image will be refreshed in days
@@ -24,7 +22,6 @@ var cachePath = filepath.Join(".cache", "show")
 
 // Host defines the data to be stored for server objects
 type Host struct {
-	gorm.Model
 	Name     string
 	Hostname string
 	Port     int
