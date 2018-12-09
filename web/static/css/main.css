@@ -2,8 +2,11 @@ body {
     padding-top: 55px;
 }
 
-.showThumb {
-    text-align: center;
-    font-weight: bold;
-    font-size: larger;
+.series-poster {
+    min-width: 56px;
+    max-width: 100%;
+}
+
+.series-item {
+    padding-bottom: 30px;
 }
