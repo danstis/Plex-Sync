@@ -2,24 +2,20 @@ clone_folder: c:\gopath\src\github.com\danstis\Plex-Sync
 
 environment:
   GOPATH: c:\gopath
+  GO111MODULE: on
   CODACY_TOKEN:
     secure: yrLZn0Ij30M2DLejKY+7ulU3d86KrrOxl/+vaBXmFPCPotquPtTWyRWUE7yIhez3
   COVERALLS_TOKEN:
     secure: Bc2t/iVXULjddywzFj+F5RrWTlqVHVv4ikA+NV9LZMt69OQRaauWcMDhpjlZ5FN/
 
-cache: c:\gopath\src\github.com\danstis\Plex-Sync\vendor
-
 install:
   - choco install gitversion.portable -pre -y
   - rm C:\Tools\GitVersion\GitVersion.exe
   - mkdir %GOPATH%\bin
-  - set PATH=%GOPATH%\bin;c:\go\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%
-  - C:\MinGW\msys\1.0\bin\sh.exe -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
+  - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
   - go version
-  - ps: if(Test-Path "c:\gopath\bin\dep"){Rename-Item -Path "c:\gopath\bin\dep" -NewName "dep.exe"}
 
 before_build:
-  - c:\gopath\bin\dep ensure
   - gitversion /output buildserver
   - go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 
@@ -59,7 +55,7 @@ artifacts:
 
 deploy:
   release: v$(GitVersion_SemVer)
-  description: 'Please check the [Changelog](https://github.com/danstis/Plex-Sync/blob/master/CHANGELOG.md) for change details.'
+  description: "Please check the [Changelog](https://github.com/danstis/Plex-Sync/blob/master/CHANGELOG.md) for change details."
   provider: GitHub
   auth_token:
     secure: Yl/4x5Z5ys7ZvWZayu3S2Sh6rj5GMF/IKtXeuYIlfjdojJJC5sp3S8s35Dnzdcca # GitHub Token
@@ -67,4 +63,4 @@ deploy:
   draft: false
   prerelease: false
   on:
-    appveyor_repo_tag: true        # deploy on tag push only
+    appveyor_repo_tag: true # deploy on tag push only
