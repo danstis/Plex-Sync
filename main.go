@@ -32,6 +32,11 @@ func main() {
 	log.Printf("Started webserver http://localhost:%v", settings.WebServerPort)
 	log.SetOutput(logger.CreateLogger("logs/plex-sync.log", settings.Logging.MaxLogSize, settings.Logging.MaxLogCount, settings.Logging.MaxLogAge))
 
+	for settings.LocalServer.Hostname == "" || settings.RemoteServer.Hostname == "" {
+		log.Printf("No local or remote server defined. Please populate the server settings in the WebInterface.")
+		time.Sleep(time.Duration(settings.SyncInterval) * time.Second)
+	}
+
 	for {
 		token := plex.Token()
 		if token != "" {

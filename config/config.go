@@ -40,9 +40,11 @@ func GetConfig() (Settings, error) {
 		s := Settings{
 			WebServerPort: 8085,
 			Logging: logging{
-				MaxLogSize:  5,
-				MaxLogCount: 1,
-				MaxLogAge:   30,
+				Logfile:          "logs/plex-sync.log",
+				Webserverlogfile: "logs/plex-sync-webserver.log",
+				MaxLogSize:       5,
+				MaxLogCount:      30,
+				MaxLogAge:        1,
 			},
 			LocalServer:   plex.Host{},
 			RemoteServer:  plex.Host{},
