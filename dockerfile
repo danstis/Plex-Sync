@@ -23,3 +23,6 @@ COPY --from=builder /go/src/plex-sync/web/templates/ ./templates/
 EXPOSE 8123/tcp
 
 CMD ["./plex-sync"]
+
+
+# docker build --rm -t danstis/plex-sync . && docker run -it --rm -p 8123:8123 -v "plexsync/config:/root/config" -v "plexsync/logs:/root/logs" danstis/plex-sync
