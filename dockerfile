@@ -4,6 +4,8 @@ FROM golang:1.11 AS builder
 WORKDIR /go/src/plex-sync
 COPY . .
 
+ENV GO111MODULE=on
+
 RUN go build -v ./...
 
 # Create the final container
