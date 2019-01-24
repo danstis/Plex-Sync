@@ -1,0 +1,24 @@
+WebServerPort = 8123
+CacheLifetime = 5
+SyncInterval = 3600
+
+[logging]
+  Logfile = "logs/plex-sync.log"
+  Webserverlogfile = "logs/plex-sync-webserver.log"
+  MaxLogSize = 1
+  MaxLogCount = 2
+  MaxLogAge = 1
+
+[localserver]
+  Name = "" # Server name as it appears on https://plex.tv
+  Hostname = "" # Fully qualified hostname to access this server. This could be the IP address or hostname of the server.
+  Port = 32400
+  Ssl = false
+  Token = ""
+
+[remoteserver]
+  Name = "" # Server name as it appears on https://plex.tv
+  Hostname = "" # Fully qualified hostname to access this server. This could be the IP address or hostname of the server.
+  Port = 32400
+  Ssl = false
+  Token = ""
