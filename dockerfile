@@ -6,18 +6,20 @@ COPY . .
 
 ENV GO111MODULE=on
 
-RUN go build -v ./...
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o plex-sync .
 
 # Create the final container
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates curl
 
-WORKDIR /app
-COPY --from=builder /go/src/plex-sync/Plex-Sync /app/Plex-Sync
-COPY --from=builder /go/src/plex-sync/README.md /app/Plex-Sync/README.md
-COPY --from=builder /go/src/plex-sync/config/config.toml.default /app/Plex-Sync/config/config.toml
-COPY --from=builder /go/src/plex-sync/config/tvshows.txt.default /app/Plex-Sync/config/tvshows.txt
-COPY --from=builder /go/src/plex-sync/web/static /app/Plex-Sync/web/static
-COPY --from=builder /go/src/plex-sync/web/templates /app/Plex-Sync/web/templates
+WORKDIR /root/
+COPY --from=builder /go/src/plex-sync/plex-sync .
+COPY --from=builder /go/src/plex-sync/README.md .
+COPY --from=builder /go/src/plex-sync/config/config.toml.default ./config/config.toml
+COPY --from=builder /go/src/plex-sync/config/tvshows.txt.default ./config/tvshows.txt
+COPY --from=builder /go/src/plex-sync/web/static/ ./web/static/
+COPY --from=builder /go/src/plex-sync/web/templates/ ./templates/
 
-CMD ["/app/Plex-Sync"]
+EXPOSE 8123/tcp
+
+CMD ["./plex-sync"]
