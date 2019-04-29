@@ -18,7 +18,7 @@ COPY ./README.md .
 COPY ./config/config.toml.default ./config/config.toml
 COPY ./config/tvshows.txt.default ./config/tvshows.txt
 COPY ./web/static/ ./web/static/
-COPY ./web/templates/ ./templates/
+COPY ./web/templates/ ./web/templates/
 
 EXPOSE 8123/tcp
 
