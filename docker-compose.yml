@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  server:
+    build: .
+    image: danstis/plex-sync:latest
+    ports:
+      - 8123:8123
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - plexsync_config:/plex-sync/config
+      - plexsync_logs:/plex-sync/logs
+
+volumes:
+  plexsync_config:
+  plexsync_logs:
