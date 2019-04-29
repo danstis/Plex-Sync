@@ -43,3 +43,6 @@ To fix a bug or add an enhancement:
 If you find a bug, or want this tool to do something that it currently does not, please raise an issue [here](https://github.com/danstis/Plex-Sync/issues).
 
 Please be detailed in the issue body.
+
+Optionally raise a feature request on feathub to allow voting:
+[![Feature Requests](http://feathub.com/danstis/Plex-Sync?format=svg)](http://feathub.com/danstis/Plex-Sync)
