@@ -12,7 +12,9 @@ services:
     volumes:
       - plexsync_config:/plex-sync/config
       - plexsync_logs:/plex-sync/logs
+      - plexsync_cache:/plex-sync/.cache
 
 volumes:
   plexsync_config:
   plexsync_logs:
+  plexsync_cache:
