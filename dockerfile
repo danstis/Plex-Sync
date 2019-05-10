@@ -22,7 +22,7 @@ COPY ./web/templates/ ./web/templates/
 
 EXPOSE 8123/tcp
 
-CMD ["./plex-sync"]
+ENTRYPOINT ["./plex-sync"]
 
 
 # docker build --rm -t danstis/plex-sync . && docker run -it --rm -p 8123:8123 -v "/tmp/plexsync/config:/root/config" -v "/tmp/plexsync/logs:/root/logs" danstis/plex-sync
